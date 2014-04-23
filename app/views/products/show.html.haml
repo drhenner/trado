@@ -100,14 +100,19 @@
       .span12
         %ul#myTab.nav.nav-tabs
           %li.active
-            %a{"data-toggle" => "tab", href: "#tab-1"} Details
+            %a{"data-toggle" => "tab", href: "#tab-1"} Description
           %li
-            %a{"data-toggle" => "tab", href: "#tab-2"} SHIPPING DETAILS
+            %a{"data-toggle" => "tab", href: "#tab-2"} Specification
+          %li
+            %a{"data-toggle" => "tab", href: "#tab-3"} Shipping details
         .tab-content
           #tab-1.fade.in.tab-pane.active
             %h3 Product Description
             %p=raw @product.description
-          #tab-2.fade.tab-pane
+          #tab-2.fade.in.tab-pane.active
+            %h3 Product specification
+            %p=raw @product.specification
+          #tab-3.fade.tab-pane
             %p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
             %p
               %img.img-polaroid{alt: "", src: "http://www.tfingi.com/repo/royal-mail.png"}/

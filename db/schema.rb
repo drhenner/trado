@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20140419021124) do
     t.boolean  "featured"
     t.boolean  "active",            :default => true
     t.text     "short_description"
+    t.text     "specification"
     t.boolean  "single"
   end
 
