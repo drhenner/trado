@@ -49,7 +49,7 @@ end
 namespace :assets do
     desc "Install Bower dependencies"
     task :bower, :roles => :app do
-      run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake bower:install"
+      run "cd /home/gimsonrobotics/current && sudo bower install --allow-root"
     end 
     desc "Compile assets"
     task :compile, :roles => :app do

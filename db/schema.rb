@@ -267,6 +267,7 @@ ActiveRecord::Schema.define(:version => 20140419021124) do
     t.decimal  "thickness",           :precision => 8, :scale => 2
     t.string   "attribute_value"
     t.integer  "attribute_type_id"
+    t.integer  "accessory_id"
     t.boolean  "active",                                            :default => true
   end
 
