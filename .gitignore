@@ -5,3 +5,5 @@ tmp
 vendor/cache/*
 tmp/cache/*
 vendor/assets/components
+
+public/assets
