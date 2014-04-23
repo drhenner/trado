@@ -43,17 +43,17 @@ end
 namespace :database do
   desc "Migrate the database"
   task :migrate, :roles => :app do
-     run "cd /home/gimsonrobotics/current && bundle exec rake db:migrate"
+     run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
   end
 end
 namespace :assets do
     desc "Compile assets"
     task :compile, :roles => :app do
-        run "cd /home/gimsonrobotics/current && bundle exec rake assets:precompile"
+        run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
     end
     desc "Generate sitemap"
     task :refresh_sitemaps do
-      run "cd #{latest_release} && RAILS_ENV=#{rails_env} rake sitemap:refresh"
+      run "cd #{latest_release} && RAILS_ENV=#{rails_env} bundle exec rake sitemap:refresh"
     end
 end
 namespace :rollbar do
