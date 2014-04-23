@@ -78,6 +78,9 @@ gem 'wicked'
 
 gem 'foreman',   '~> 0.61.0'
 
+# RTE
+gem 'redactor-rails'
+
 # Transaction handler
 gem 'activemerchant'
 
