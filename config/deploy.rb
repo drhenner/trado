@@ -41,10 +41,10 @@ namespace :configure do
   end
 end
 namespace :database do
-  desc "Migrate the database"
-  task :migrate, :roles => :app do
-     run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
-  end
+    desc "Migrate the database"
+    task :migrate, :roles => :app do
+      run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
+    end
 end
 namespace :assets do
     desc "Install Bower dependencies"
