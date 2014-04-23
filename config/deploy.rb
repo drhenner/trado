@@ -43,7 +43,7 @@ end
 namespace :database do
   desc "Migrate the database"
   task :migrate, :roles => :app do
-     run "cd /home/gimsonrobotics/current && bundle exec rake:db:migrate"
+     run "cd /home/gimsonrobotics/current && bundle exec rake db:migrate"
   end
 end
 namespace :assets do
