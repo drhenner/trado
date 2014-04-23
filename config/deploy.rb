@@ -1,7 +1,7 @@
 set :application, 'gimson_robotics'
 set :user, 'root'
 set :scm, 'git'
-set :repository, 'git@github.com:Jellyfishboy/trado.git'
+set :repository, 'git@github.com:Jellyfishboy/gimson-robotics.git'
 set :scm_verbose, true
 set :domain, '141.0.175.166'
 set :deploy_to, '/home/gimsonrobotics/'
@@ -40,6 +40,12 @@ namespace :configure do
     run "yes | cp /home/configs/database.yml /home/gimsonrobotics/current/config"
   end
 end
+namespace :database do
+  desc "Migrate the database"
+  task :migrate, :roles => :app do
+     run "cd /home/gimsonrobotics/current && bundle exec rake:db:migrate"
+  end
+end
 namespace :assets do
     desc "Compile assets"
     task :compile, :roles => :app do
@@ -66,7 +72,8 @@ default_run_options[:pty] = true
 
 after :deploy, 'configure:application'
 after 'configure:application', 'configure:database'
-after 'configure:database', 'assets:compile'
+after 'configure:database', 'database:migrate'
+after 'database:migrate', 'assets:compile'
 after 'assets:compile', 'assets:refresh_sitemaps'
 after 'assets:refresh_sitemaps', 'rollbar:notify'
 after 'rollbar:notify', 'unicorn:restart'
