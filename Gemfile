@@ -88,9 +88,6 @@ gem 'activemerchant'
 gem 'devise'
 gem 'cancan'
 
-# RTE
-gem 'redactor-rails'
-
 # Friendly URLs
 gem 'friendly_id', '~> 4.0.10'
 
