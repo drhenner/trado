@@ -14,6 +14,7 @@
 #  description              :text
 #  short_description        :text
 #  meta_description         :string(255)
+#  specification            :text
 #  weighting                :integer 
 #  sku                      :string(255)
 #  featured                 :boolean 
@@ -26,8 +27,8 @@
 class Product < ActiveRecord::Base
 
   attr_accessible :name, :meta_description, :description, :weighting, :sku, :part_number, 
-  :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, :featured,
-  :short_description, :related_ids, :single
+  :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
+  :featured, :short_description, :related_ids, :specification, :single
 
   validates :name, :meta_description, :description, 
   :part_number, :sku, :weighting, :category_id,               :presence => true
@@ -37,6 +38,7 @@ class Product < ActiveRecord::Base
   validates :skus,                                            :tier => true, :on => :save
   validates :short_description,                               :length => { :maximum => 100, :message => :too_long }                                                         
   validate :single_product
+
 
   has_many :searches
   has_many :skus,                                             :dependent => :delete_all

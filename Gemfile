@@ -78,12 +78,18 @@ gem 'wicked'
 
 gem 'foreman',   '~> 0.61.0'
 
+# RTE
+gem 'redactor-rails'
+
 # Transaction handler
 gem 'activemerchant'
 
 # Authenication
 gem 'devise'
 gem 'cancan'
+
+# RTE
+gem 'redactor-rails'
 
 # Friendly URLs
 gem 'friendly_id', '~> 4.0.10'
@@ -107,4 +113,4 @@ gem 'global'
 gem 'whenever', :require => false
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
+gem 'bcrypt-ruby', :require => 'bcrypt'

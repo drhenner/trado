@@ -1,11 +1,11 @@
 set :application, 'gimson_robotics'
 set :user, 'root'
 set :scm, 'git'
-set :repository, 'git@github.com:Jellyfishboy/trado.git'
+set :repository, 'git@github.com:Jellyfishboy/gimson-robotics.git'
 set :scm_verbose, true
 set :domain, '141.0.175.166'
 set :deploy_to, '/home/gimsonrobotics/'
-set :branch, 'master'
+set :branch, 'gimsonrobotics'
 
 server domain, :app, :web, :db, :primary => true
 
@@ -41,10 +41,10 @@ namespace :configure do
   end
 end
 namespace :database do
-  desc "Migrate the database"
-  task :migrate, :roles => :app do
-    run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
-  end
+    desc "Migrate the database"
+    task :migrate, :roles => :app do
+      run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
+    end
 end
 namespace :assets do
     desc "Install Bower dependencies"

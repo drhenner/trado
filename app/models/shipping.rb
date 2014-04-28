@@ -27,8 +27,8 @@ class Shipping < ActiveRecord::Base
   has_many :orders,                                     :dependent => :restrict
 
   validates :name, :price, :description,                :presence => true
-  validates :name,                                      :uniqueness => { :scope => :active }, :length => {:minimum => 10, :message => :too_short}
-  validates :description,                               :length => { :maximum => 180, :message => :too_long }
+  validates :name,                                      :uniqueness => { :scope => :active }, :length => {:minimum => 10, :message => :too_short }
+  validates :description,                               :length => { :maximum => 200, :message => :too_long }
   validates :price,                                     :format => { :with => /^(\$)?(\d+)(\.|,)?\d{0,2}?$/ }
 
   # Sets the related record's active field as false

@@ -182,6 +182,7 @@ ActiveRecord::Schema.define(:version => 20140426195738) do
     t.boolean  "featured"
     t.boolean  "active",            :default => true
     t.text     "short_description"
+    t.text     "specification"
     t.boolean  "single"
   end
 
@@ -197,6 +198,23 @@ ActiveRecord::Schema.define(:version => 20140426195738) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "redactor_assets", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "data_file_name",                  :null => false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    :limit => 30
+    t.string   "type",              :limit => 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "redactor_assets", ["assetable_type", "assetable_id"], :name => "idx_redactor_assetable"
+  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_redactor_assetable_type"
 
   create_table "related_products", :id => false, :force => true do |t|
     t.integer "product_id"
@@ -249,6 +267,7 @@ ActiveRecord::Schema.define(:version => 20140426195738) do
     t.decimal  "thickness",           :precision => 8, :scale => 2
     t.string   "attribute_value"
     t.integer  "attribute_type_id"
+    t.integer  "accessory_id"
     t.boolean  "active",                                            :default => true
   end
 

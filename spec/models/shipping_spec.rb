@@ -18,7 +18,7 @@ describe Shipping do
     it { expect(subject).to validate_uniqueness_of(:name) }
 
     it { expect(subject).to ensure_length_of(:name).is_at_least(10) }
-    it { expect(subject).to ensure_length_of(:description).is_at_most(180) }
+    it { expect(subject).to ensure_length_of(:description).is_at_most(200) }
 
     describe "When a used shipping is updated or deleted" do
         let(:shipping) { create(:shipping, active: true) }

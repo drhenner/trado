@@ -25,9 +25,7 @@ class Country < ActiveRecord::Base
   has_one :country_tax,                         class_name: 'CountryTax', :dependent => :destroy
   has_one :tax,                                 :through => :country_tax, :source => :tax_rate
 
-
-  validates :name, :iso,                        :uniqueness => true, :presence => true
-  validates :language,                          :presence => true
+  validates :name,                        :uniqueness => true, :presence => true
 
   after_save :reset_tax
 
