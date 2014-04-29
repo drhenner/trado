@@ -27,6 +27,8 @@ describe Product do
     it { expect(subject).to validate_uniqueness_of(:sku).scoped_to(:active) }
     it { expect(subject).to validate_uniqueness_of(:part_number).scoped_to(:active) }
 
+    it { expect(subject).to validate_numericality_of(:part_number).is_greater_than_or_equal_to(1).only_integer } 
+
     it { expect(subject).to ensure_length_of(:name).is_at_least(10) }
     it { expect(subject).to ensure_length_of(:meta_description).is_at_least(10) }
     it { expect(subject).to ensure_length_of(:description).is_at_least(20) }
@@ -74,12 +76,14 @@ describe Product do
         end
     end
 
-    describe "Setting a product as a single product" do
+    # describe "Setting a product as a single product" do
+    #     let(:product) { create(:product_skus, single: true) }
+    #     context "when the product has more than one SKUs" do
 
-        context "when the product has more than one SKUs" do
-
-            it "should produce an error"
-        end
-    end
+    #         it "should produce an error" do
+    #             expect(product).to_not be_valid
+    #         end
+    #     end
+    # end
     
 end

@@ -110,4 +110,4 @@ gem 'global'
 gem 'whenever', :require => false
 
 # To use ActiveModel has_secure_password
-gem 'bcrypt-ruby', git: 'https://github.com/codahale/bcrypt-ruby.git', :require => 'bcrypt'
+gem 'bcrypt-ruby', :require => 'bcrypt'

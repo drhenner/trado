@@ -36,7 +36,8 @@ class Product < ActiveRecord::Base
   validates :name, :meta_description,                         :length => {:minimum => 10, :message => :too_short }
   validates :description,                                     :length => {:minimum => 20, :message => :too_short }
   validates :skus,                                            :tier => true, :on => :save
-  validates :short_description,                               :length => { :maximum => 100, :message => :too_long }                                                         
+  validates :short_description,                               :length => { :maximum => 100, :message => :too_long }
+  validates :part_number,                                     :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }                                                         
   validate :single_product
 
 
@@ -59,7 +60,7 @@ class Product < ActiveRecord::Base
   accepts_nested_attributes_for :tags
   accepts_nested_attributes_for :skus
 
-  searchkick word_start: [:name, :sku, :tags], conversions: "conversions"
+  searchkick word_start: [:name, :part_number, :sku], conversions: "conversions"
 
   default_scope order('weighting DESC')
 

@@ -109,7 +109,16 @@ class Orders::BuildController < ApplicationController
       flash[:error] = "You do not have permission to amend this order."
       redirect_to root_url
     else
-      response = EXPRESS_GATEWAY.setup_purchase(Payatron4000::price_in_pennies(session[:total]), Payatron4000::Paypal.express_setup_options(@order, steps, current_cart, session, request.remote_ip, order_build_url(:order_id => @order.id, :id => steps.last), order_build_url(:order_id => @order.id, :id => 'payment')))
+      response = EXPRESS_GATEWAY.setup_purchase(Payatron4000::price_in_pennies(session[:total]), 
+                                                Payatron4000::Paypal.express_setup_options( @order, 
+                                                                                            steps, 
+                                                                                            current_cart, 
+                                                                                            session, 
+                                                                                            request.remote_ip, 
+                                                                                            order_build_url(:order_id => @order.id, :id => steps.last), 
+                                                                                            order_build_url(:order_id => @order.id, :id => 'payment')
+                                                )
+      )
       redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
     end
   end
@@ -120,31 +129,41 @@ class Orders::BuildController < ApplicationController
       flash[:error] = "You do not have permission to amend this order."
       redirect_to root_url
     else
-      response = EXPRESS_GATEWAY.purchase(Payatron4000::price_in_pennies(session[:total]), Payatron4000::Paypal.express_purchase_options(@order, session))
-      binding.pry
-      if response.success
-        @order.add_cart_items_from_cart(current_cart)
+      response = EXPRESS_GATEWAY.purchase(Payatron4000::price_in_pennies(session[:total]), 
+                                          Payatron4000::Paypal.express_purchase_options(@order, 
+                                                                                        session
+                                          )
+      )
+      @order.add_cart_items_from_cart(current_cart)
+      if response.success?
         Cart.destroy(session[:cart_id])
         session[:cart_id] = nil
         begin 
           Payatron4000::Paypal.successful(response, @order)
-          @order.successful_order(response)
         rescue Exception => e
-            Rollbar.report_exception(e)
+          Rollbar.report_exception(e)
         end
         if response.params['PaymentInfo']['PaymentStatus'] == "Pending"
-          StoreMailer.Orders.pending(@order).deliver
+          OrderMailer.pending(@order).deliver
         else
-          StoreMailer.Orders.received(@order).deliver
+          OrderMailer.received(@order).deliver
         end
-        redirect_to success_order_build_url(:order_id => @order.id, :id => steps.last, :transaction_id => response.params['PaymentInfo']['TransactionID'])
+        redirect_to success_order_build_url(:order_id => @order.id, 
+                                            :id => steps.last, 
+                                            :transaction_id => response.params['PaymentInfo']['TransactionID']
+        )
       else
         begin
-          Payatron4000::Paypal.failed(response, @order)
+          Payatron4000::Paypal.failed(response, @order, session)
         rescue Exception => e
-            Rollbar.report_exception(e)
+          Rollbar.report_exception(e)
         end
-        redirect_to failure_order_build_url(:order_id => @order.id, :id => steps.last, :response => response.message, :error_code => response.params["error_codes"], :correlation_id => response.params['correlation_id'])
+        redirect_to failure_order_build_url(:order_id => @order.id, 
+                                            :id => steps.last, 
+                                            :response => response.message, 
+                                            :error_code => response.params["error_codes"], 
+                                            :correlation_id => response.params['correlation_id']
+        )
       end
     end
   end

@@ -12,13 +12,16 @@ module Payatron4000
             (price*100).round
         end
 
-        # Updates the stock after a purchase has been completed
+        # Creates a new stock level record for each order item SKU, adding the order id to the description
+        # Also updates the related SKU's stock value
         #
         # @return [Payatron4000::stock_update]
         # @parameter [hash object]
         def stock_update order
             order.order_items.each do |item|
               sku = Sku.find(item.sku_id)
+              description = item.order_item_accessory.nil? ? "Order ##{order.id}" : "Order ##{order.id} (+ #{item.order_item_accessory.accessory.name})"
+              StockLevel.create(:description => description, :adjustment => "-#{item.quantity}", :sku_id => item.sku_id)
               sku.update_column(:stock, sku.stock-item.quantity)
             end
         end

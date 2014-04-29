@@ -33,8 +33,8 @@ class Order < ActiveRecord::Base
   has_one :transaction,                                                 :dependent => :destroy
 
   belongs_to :shipping
-  belongs_to :ship_address,                                             class_name: 'Address'
-  belongs_to :bill_address,                                             class_name: 'Address'
+  belongs_to :ship_address,                                             class_name: 'Address', :dependent => :destroy
+  belongs_to :bill_address,                                             class_name: 'Address', :dependent => :destroy
 
   validates :email,                                                     :presence => { :message => 'is required' }, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, :if => :active_or_shipping?
   validates :shipping_id,                                               :presence => { :message => 'Shipping option is required'}, :if => :active_or_shipping?                                                                                                                  
@@ -60,7 +60,7 @@ class Order < ActiveRecord::Base
     session[:sub_total] = session[:tax] = session[:total] = nil
     session[:sub_total] = cart.total_price + self.shipping.price
     session[:tax] = (session[:sub_total]*current_tax_rate) + (self.shipping.price*current_tax_rate)
-    session[:total] = session[:sub_total]+session[:tax]+self.shipping.price
+    session[:total] = session[:sub_total] + session[:tax]
   end
 
   # Calculate the relevant shipping tier for an order, taking into account length, thickness and weight of the total order
@@ -83,7 +83,7 @@ class Order < ActiveRecord::Base
   # @return [array]
   def delayed_shipping
     if self.shipping_date_changed? && self.shipping_date_was
-      StoreMailer.Shippings.delayed(self).deliver
+      ShippingMailer.delayed(self).deliver
     end
   end
 
@@ -93,7 +93,7 @@ class Order < ActiveRecord::Base
   def ship_order_today
     if self.shipping_date.to_date == Date.today
       self.update_column(:shipping_status, "Dispatched")
-      StoreMailer.Shippings.complete(self).deliver
+      ShippingMailer.complete(self).deliver
     end
   end
 

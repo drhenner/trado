@@ -43,7 +43,7 @@
                 %span.btn.btn-danger Out of Stock
             %div.gross_price= "#{gross_price @skus.first.price} inc. #{Store::settings.tax_name}".html_safe
         .product-description
-          %p= @product.short_description
+          %p= raw @product.short_description
           %hr/
           / ==========
           / ==========
@@ -111,7 +111,7 @@
             %p=raw @product.description
           #tab-2.fade.in.tab-pane.active
             %h3 Product specification
-            %p=raw @product.specification
+            %p= raw @product.specification
           #tab-3.fade.tab-pane
             %p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
             %p
@@ -161,7 +161,6 @@
                   %h4.title
                     %span= format_currency product.skus.first.price
                   %h5.no-margin= truncate product.name, :length => 35
-                %p.desc= truncate product.short_description
           / /product
 #notify_me_form
   - unless @skus.first.stock > 0
