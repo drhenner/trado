@@ -48,6 +48,8 @@ $(document).ready ->
   calculate_tax()
   form_JSON_errors()
 
+  $(".redactor").redactor minHeight: 310
+
   $('.order_shipping').click ->
     order = $(@).attr 'id'
     $.get '/admin/orders/' + order + '/shipping'

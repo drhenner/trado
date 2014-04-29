@@ -1,9 +1,18 @@
 //= require soca
-//= require redactor-rails
 //= require normalize-css/normalize
 //= require bootstrap-datepicker/css/datepicker3
 //= require animations
+//= require redactor-rails
 
 #errors.json {
     display: none;
+}
+#redactor_modal_header {
+    height:auto;
+    width:auto;
+    position: static;
+    background: #f5f5f5;
+}
+.redactor_toolbar {
+    overflow:inherit !important;
 }
