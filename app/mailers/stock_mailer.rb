@@ -1,4 +1,6 @@
 class StockMailer < ActionMailer::Base
+    helper :application, :product
+    layout 'email'
     default :from => "Tom Dallimore <tom.alan.dallimore@googlemail.com>"
 
     # Deliver an email detailing a collection of products which are low on stock to the administrator
@@ -6,7 +8,7 @@ class StockMailer < ActionMailer::Base
     # @parameter [array]
     def low products
         @restock = products
-
+        
         mail(to: 'tom.alan.dallimore@googlemail.com', 
              subject: 'Gimson Robotics Restock Warning',
              template_path: 'mailer/stock',
@@ -20,9 +22,9 @@ class StockMailer < ActionMailer::Base
     # @parameter [object], [string]
     def notification sku, email
         @sku = sku
-
+        @email = email
         mail(to: email, 
-             subject: "#{@sku.product.name} is now in stock!",
+             subject: "Stock reminder for #{@sku.product.name}",
              template_path: 'mailer/stock',
              template_name: 'notification'
         )

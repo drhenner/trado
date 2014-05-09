@@ -23,9 +23,7 @@ group :development do
     gem 'bullet'
     gem 'haml'
     gem 'metric_fu'
-    platforms :ruby do
-      gem 'capistrano-unicorn', :require => false
-    end
+    gem 'capistrano-unicorn', :require => false, :platforms => :ruby
 end
 
 group :test do
@@ -41,6 +39,7 @@ group :test do
   gem 'guard-spork'
   # Testing postgresql on Travis CI
   gem 'pg'
+  gem 'email_spec'
 end
 
 group :development, :test do
@@ -60,9 +59,7 @@ group :assets do
   gem 'asset_sync'
 end
 
-platforms :ruby do
-  gem 'unicorn'
-end
+gem 'unicorn', :platforms => :ruby
 
 # AJAX file upload
 gem 'remotipart', '~> 1.2'
@@ -74,8 +71,9 @@ gem 'newrelic_rpm'
 # Search
 gem 'searchkick'
 
+# Misc
+gem 'global'
 gem 'wicked'
-
 gem 'foreman',   '~> 0.61.0'
 
 # RTE
@@ -100,11 +98,11 @@ gem 'unf' # Dependency for fog
 # Administration
 gem 'rails_admin'
 
+# Email preview
+gem 'rails_email_preview', '~> 0.2.19'
+
 # Sitemap
 gem 'sitemap_generator'
-
-# Global
-gem 'global'
 
 # Processing
 gem 'whenever', :require => false
