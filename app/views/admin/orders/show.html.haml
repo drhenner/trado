@@ -103,33 +103,40 @@
         %tr
           %td.align-right.border-top{colspan: "4"}
             %b Subtotal:
-          %td.border-top= format_currency @order.transaction.net_amount
+          %td.border-top= format_currency @order.net_amount
         %tr
           %td.align-right{colspan: "4"}
             %b Tax:
-          %td= format_currency @order.transaction.tax_amount
+          %td= format_currency @order.tax_amount
         %tr.focused
           %td.align-right{colspan: "4"}
             %b Total:
-          %td= format_currency @order.transaction.gross_amount
+          %td= format_currency @order.gross_amount
     .widget-sub-heading
       %h3 Transactions
     %table.table.table-striped.table-bordered.table-hover
       %thead
         %tr
-          %th Transaction ID
-          %th Transaction type
+          %th Transaction Type
+          %th Payment type
+          %th PayPal ID
           %th Payment status
           %th Fee
           %th Net amount
           %th Gross amount
           %th Last updated
+          %th
       %tbody
-        %tr
-          %td= link_to @order.transaction.transaction_id, "#{Global.paypal.transaction_link}#{@order.transaction.transaction_id}", :target => '_blank'
-          %td= @order.transaction.transaction_type 
-          %td= payment_status @order.transaction.payment_status
-          %td= format_currency @order.transaction.fee
-          %td= format_currency @order.transaction.net_amount
-          %td= format_currency @order.transaction.gross_amount
-          %td.align-left= @order.updated_at.strftime('%B %-d, %Y, %I:%M %P')
+        - @order.transactions.each do |transaction|
+          %tr{:id => "transaction_#{transaction.id}" }
+            %td= transaction.transaction_type
+            %td= transaction.payment_type 
+            %td= link_to transaction.paypal_id, "#{Global.paypal.transaction_link}#{transaction.paypal_id}", :target => '_blank' if transaction.paypal_id
+            %td= payment_status transaction.payment_status
+            %td= format_currency transaction.fee
+            %td= format_currency transaction.net_amount
+            %td= format_currency transaction.gross_amount
+            %td.align-left= transaction.updated_at.strftime('%B %-d, %Y, %I:%M %P')
+            - if transaction.payment_status == 'Pending' && transaction.payment_type != 'express-checkout'
+              = table_commands transaction, nil, nil, nil, 3
+#transaction-modal

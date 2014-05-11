@@ -6,7 +6,7 @@ describe Order do
 
     # ActiveRecord relations
     it { expect(subject).to have_many(:order_items).dependent(:delete_all) }
-    it { expect(subject).to have_one(:transaction).dependent(:destroy) }
+    it { expect(subject).to have_many(:transactions).dependent(:delete_all) }
     it { expect(subject).to belong_to(:shipping) }
     it { expect(subject).to belong_to(:ship_address).class_name('Address').dependent(:destroy) }
     it { expect(subject).to belong_to(:bill_address).class_name('Address').dependent(:destroy) }
@@ -26,7 +26,7 @@ describe Order do
 
         it "should build an order_item from the cart_item data" do
             expect { 
-                order.add_cart_items_from_cart(cart)
+                order.transfer(cart)
             }.to change(OrderItem, :count).by(4)
         end
 
@@ -34,7 +34,7 @@ describe Order do
             
             it "should create an order_item_accessory for the associated order_item" do
                 expect {
-                    order.add_cart_items_from_cart(cart)
+                    order.transfer(cart)
                 }.to change(OrderItemAccessory, :count).by(3)
             end
         end

@@ -2,11 +2,15 @@ module Payatron4000
 
     class Paypal
 
-        def self.express_setup_options(order, steps, cart, session, ip_address, return_url, cancel_url)
+        # Creates the payment information object for PayPal to parse in the login step
+        #
+        # @parameter [hash object, array, hash object, string, string, string]
+        # @return [hash object]
+        def self.express_setup_options order, steps, cart, ip_address, return_url, cancel_url
             {
-              :subtotal          => Payatron4000::price_in_pennies(session[:sub_total] - order.shipping.price),
-              :shipping          => Payatron4000::price_in_pennies(order.shipping.price),
-              :tax               => Payatron4000::price_in_pennies(session[:tax]),
+              :subtotal          => Payatron4000::singularize_price(order.net_amount - order.shipping.price),
+              :shipping          => Payatron4000::singularize_price(order.shipping.price),
+              :tax               => Payatron4000::singularize_price(order.tax_amount),
               :handling          => 0,
               :order_id          => order.id,
               :items             => Payatron4000::Paypal.express_items(cart),
@@ -17,11 +21,15 @@ module Payatron4000
             }
         end
 
-        def self.express_purchase_options(order, session)
+        # Creates the payment information object for PayPal to parse in the confirmation step and complete the purchase
+        #
+        # @parameter [hash object]
+        # @return [hash object]
+        def self.express_purchase_options order
             {
-              :subtotal          => Payatron4000::price_in_pennies(session[:sub_total] - order.shipping.price),
-              :shipping          => Payatron4000::price_in_pennies(order.shipping.price),
-              :tax               => Payatron4000::price_in_pennies(session[:tax]),
+              :subtotal          => Payatron4000::singularize_price(order.net_amount - order.shipping.price),
+              :shipping          => Payatron4000::singularize_price(order.shipping.price),
+              :tax               => Payatron4000::singularize_price(order.tax_amount),
               :handling          => 0,
               :token             => order.express_token,
               :payer_id          => order.express_payer_id,
@@ -29,54 +37,99 @@ module Payatron4000
             }
         end
 
-        def self.express_items(cart)
+        # Creates an aray of items which represent cart_items
+        # This is passed into the express_setup_options method
+        #
+        # @return [array]
+        def self.express_items cart
             cart.cart_items.collect do |item|
                 {
                     :name => item.sku.product.name,
                     :description => "#{item.sku.attribute_value}#{item.sku.attribute_type.measurement unless item.sku.attribute_type.measurement.nil? }",
-                    :amount => Payatron4000::price_in_pennies(item.price), 
+                    :amount => Payatron4000::singularize_price(item.price), 
                     :quantity => item.quantity 
                 }
             end
         end
 
-        # assign paypal token to order after user logs into their account
-        def self.assign_paypal_token(token, payer_id, session, order)
+        # Assign PayPal token to order after user logs into their account
+        #
+        # @parameter [string, integer, hash object, hsh object]
+        def self.assign_paypal_token token, payer_id, session, order
             details = EXPRESS_GATEWAY.details_for(token)
             order.update_attributes(:express_token => token, :express_payer_id => payer_id)
             order.save!
             session[:paypal_email] = details.params["payer"]
         end
 
-        # Successful order
-        def self.successful(response, order)
-            # Create transaction
+        # Completes the order process by communicating with PayPal; receives a response and in turn creates the relevant transaction records,
+        # sends a confirmation email and redirects the user
+        #
+        # @parameter [hash object, hash object, array]
+        def self.complete order, session, steps
+          response = EXPRESS_GATEWAY.purchase(Payatron4000::singularize_price(order.gross_amount), 
+                                              Payatron4000::Paypal.express_purchase_options(order)
+          )
+          if response.success?
+            begin 
+              Payatron4000::Paypal.successful(response, order)
+              Payatron4000::destroy_cart(session)
+            rescue Exception => e
+              Rollbar.report_exception(e)
+            end
+            order.reload
+            Payatron4000::confirmation_email(order, order.transactions.last.payment_status)
+            redirect_to Rails.application.routes.url_helpers.success_order_build_url(  :order_id => order.id, 
+                                                                                       :id => steps.last
+            )
+          else
+            begin
+              Payatron4000::Paypal.failed(response, order)
+            rescue Exception => e
+              Rollbar.report_exception(e)
+            end
+            redirect_to Rails.application.routes.url_helpers.failure_order_build_url( :order_id => order.id, 
+                                                                                      :id => steps.last, 
+                                                                                      :response => response.message, 
+                                                                                      :error_code => response.params["error_codes"]
+            )
+          end
+        end
+
+        # Upon successfully completing an order with a PayPal payment option a new transaction record is created, stock is updated for the relevant SKU
+        # and order status attribute set to active
+        #
+        # @parameter [object, hash object]
+        def self.successful response, order
             Transaction.create( :fee => response.params['PaymentInfo']['FeeAmount'], 
                                 :gross_amount => response.params['PaymentInfo']['GrossAmount'], 
                                 :order_id => order.id, 
                                 :payment_status => response.params['PaymentInfo']['PaymentStatus'], 
-                                :payment_type => 'Credit', 
+                                :transaction_type => 'Credit', 
                                 :tax_amount => response.params['PaymentInfo']['TaxAmount'], 
-                                :transaction_id => response.params['PaymentInfo']['TransactionID'], 
-                                :transaction_type => response.params['PaymentInfo']['TransactionType'],
-                                :net_amount => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d - order.shipping.price,
-                                :status_reason => response.params['PaymentInfo']['PendingReason'])
+                                :paypal_id => response.params['PaymentInfo']['TransactionID'], 
+                                :payment_type => response.params['PaymentInfo']['TransactionType'],
+                                :net_amount => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d,
+                                :status_reason => response.params['PaymentInfo']['PendingReason']
+            )
             Payatron4000::stock_update(order)
-            # Set order status to active
             order.update_column(:status, 'active')
         end
 
-        # Failed order
-        def self.failed(response, order, session)
+        
+        # When an order has failed to complete, a new transaction record is created with a logged status reason
+        #
+        # @parameter [object, hash object]
+        def self.failed response, order
             Transaction.create( :fee => 0, 
-                                :gross_amount => session[:total], 
+                                :gross_amount => order.gross_amount, 
                                 :order_id => order.id, 
                                 :payment_status => 'Failed', 
-                                :payment_type => '', 
-                                :tax_amount => session[:tax], 
-                                :transaction_id => '', 
-                                :transaction_type => '',
-                                :net_amount => session[:sub_total],
+                                :transaction_type => 'Credit', 
+                                :tax_amount => order.tax_amount, 
+                                :paypal_id => '', 
+                                :payment_type => 'express-checkout',
+                                :net_amount => order.net_amount,
                                 :status_reason => response.message)
             order.update_column(:status, 'active')
         end
