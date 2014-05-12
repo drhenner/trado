@@ -37,32 +37,6 @@
       / = Header =
       / ==========
       %header#header
-        .darker-row
-          .container
-            .row
-              .span4
-                .higher-line
-              .span8
-                .topmost-line
-                  .lang-currency
-                    .dropdown.js-selectable-dropdown
-                      %a.selected{"data-toggle" => "dropdown", href: "#"}
-                        %span.js-change-text
-                          %i.famfamfam-flag-gb
-                          English (EN)
-                        %b.caret
-                      %ul.dropdown-menu.js-possibilities{"aria-labelledby" => "dLabel", role: "menu"}
-                        %li
-                          %a{href: "#"}
-                            %i.famfamfam-flag-gb
-                            English (EN)
-                    .dropdown.js-selectable-dropdown
-                      %a.selected{"data-toggle" => "dropdown", href: "#"}
-                        %span.js-change-text GBP (£)
-                        %b.caret
-                      %ul.dropdown-menu.js-possibilities{"aria-labelledby" => "dLabel", role: "menu"}
-                        %li
-                          %a{href: "#"} GBP (£)
         .container
           .row
             / ==========
@@ -70,33 +44,7 @@
             / ==========
             .span7
               = link_to root_path, :class => 'brand' do
-                = image_tag 'webmarket/logo.png', :height => 48, :width => 48, :alt => Store::settings.name
-                %span.pacifico= Store::settings.name
-                %span.tagline The linear actuator and electric motor specialist
-            / ==========
-            / = Social Icons =
-            / ==========
-            .span5
-              .top-right
-                .icons
-                  %a{href: "http://www.facebook.com/ProteusNet"}
-                    %span.zocial-facebook
-                  %a{href: "skype:primozcigler?call"}
-                    %span.zocial-skype
-                  %a{href: "https://twitter.com/proteusnetcom"}
-                    %span.zocial-twitter
-                  %a{href: "http://eepurl.com/xFPYD"}
-                    %span.zocial-rss
-                  %a{href: "#"}
-                    %span.zocial-wordpress
-                  %a{href: "#"}
-                    %span.zocial-android
-                  %a{href: "#"}
-                    %span.zocial-html5
-                  %a{href: "#"}
-                    %span.zocial-windows
-                  %a{href: "#"}
-                    %span.zocial-apple
+                = image_tag 'gimson-robotics_logo.jpg', :alt => Store::settings.name
       / ==========
       / = Main Menu / navbar =
       / ==========
@@ -150,17 +98,11 @@
         .foot-light
           .container
             .row
-              .span4
+              .span8
                 %h2.pacifico
                   = Store::settings.name
                   = image_tag "webmarket/webmarket.png", :alt => Store::settings.name
                 %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt vestibulum risus et gravida. Etiam vel augue ligula, blandit malesuada nisi. Quisque a augue nisi. Nullam interdum convallis
-              .span4
-                .main-titles.lined
-                  %h3.title Facebook
-                .bordered
-                  .fill-iframe
-                    .fb-like-box{"data-colorscheme" => "dark", "data-header" => "false", "data-height" => "200", "data-href" => "https://www.facebook.com/ProteusNet", "data-show-border" => "false", "data-show-faces" => "true", "data-stream" => "false", "data-width" => "292"}
               .span4
                 .main-titles.lined
                   %h3.title
@@ -180,87 +122,6 @@
                       #mce-success-response.response{style: "display:none"}
                 / End mc_embed_signup
         / /upper footer
-        / ==========
-        / = Middle footer =
-        / ==========
-        .foot-dark
-          .container
-            .row
-              / ==========
-              / = Menu 1 =
-              / ==========
-              .span3
-                .main-titles.lined
-                  %h3.title
-                    Products
-                %ul.nav.bold
-                  %li
-                    %a{href: "#"} Home
-                  %li
-                    %a{href: "#"} Pages
-                  %li
-                    %a{href: "#"} About Us
-                  %li
-                    %a{href: "#"} Shortcodes
-                  %li
-                    %a{href: "#"} Gallery
-                  %li
-                    %a{href: "#"} Contact Us
-              / ==========
-              / = Menu 2 =
-              / ==========
-              .span3
-                .main-titles.lined
-                  %h3.title
-                    Support
-                %ul.nav
-                  %li
-                    %a{href: "#"} Lorem Ipsum Dolor Sit
-                  %li
-                    %a{href: "#"} Amet Webmarket Signup
-                  %li
-                    %a{href: "#"} Brands
-                  %li
-                    %a{href: "#"} Latest Tweets Sometging
-                  %li
-                    %a{href: "#"} Ipsum Sit Lorem Amet
-              / ==========
-              / = Menu 3 =
-              / ==========
-              .span3
-                .main-titles.lined
-                  %h3.title
-                    General
-                %ul.nav
-                  %li
-                    %a{href: "#"} Lorem Ipsum Dolor Sit
-                  %li
-                    %a{href: "#"} Amet Webmarket Signup
-                  %li
-                    %a{href: "#"} Brands
-                  %li
-                    %a{href: "#"} Latest Tweets Sometging
-                  %li
-                    %a{href: "#"} Ipsum Sit Lorem Amet
-              / ==========
-              / = Menu 4 =
-              / ==========
-              .span3
-                .main-titles.lined
-                  %h3.title
-                    Contact
-                %ul.nav
-                  %li
-                    %a{href: "#"} Lorem Ipsum Dolor Sit
-                  %li
-                    %a{href: "#"} Amet Webmarket Signup
-                  %li
-                    %a{href: "#"} Brands
-                  %li
-                    %a{href: "#"} Latest Tweets Sometging
-                  %li
-                    %a{href: "#"} Ipsum Sit Lorem Amet
-        / /middle footer
         / ==========
         / = Bottom Footer =
         / ==========
