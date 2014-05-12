@@ -323,6 +323,7 @@ ActiveRecord::Schema.define(:version => 20140512081310) do
   create_table "transactions", :force => true do |t|
     t.string   "paypal_id"
     t.string   "transaction_type"
+    t.string   "payment_type"
     t.decimal  "fee",              :precision => 8, :scale => 2
     t.string   "payment_status"
     t.integer  "order_id"
@@ -332,7 +333,6 @@ ActiveRecord::Schema.define(:version => 20140512081310) do
     t.datetime "updated_at",                                     :null => false
     t.decimal  "net_amount",       :precision => 8, :scale => 2
     t.string   "status_reason"
-    t.string   "payment_type"
   end
 
   create_table "users", :force => true do |t|
