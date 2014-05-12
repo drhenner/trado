@@ -1,0 +1,40 @@
+body {
+    font-family: 'Arial', 'Helvetica', 'sans-serif', cursive;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+}
+h3 {
+    font-family: 'Arial', 'Helvetica', 'sans-serif', cursive;
+}
+// .navbar {
+//     font-family: 'Arial', 'Helvetica', 'sans-serif', cursive;
+//         .nav {
+//             text-transform: none;
+//             font-weight: normal;
+//         }
+// }
+footer  {
+    .nav li {
+        display:inline-block;
+        margin:0 0 0 11px;
+
+            &:first-child {
+                margin:0;
+            }
+            &:last-child {
+                margin:0 0 0 11px;
+                a:after {
+                    border-right:none;
+                }
+            }
+            a:after {
+                content: "";
+                border-right: 1px solid #666666;
+                margin-left: 10px;
+                height: 1px;
+            }
+    }
+    .main-titles.lined:after {
+        width:180px;
+    }
+}

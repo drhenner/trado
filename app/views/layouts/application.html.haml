@@ -42,9 +42,14 @@
             / ==========
             / = Logo =
             / ==========
-            .span7
+            .span6
               = link_to root_path, :class => 'brand' do
                 = image_tag 'gimson-robotics_logo.jpg', :alt => Store::settings.name
+            .span6
+              %ul
+                %li= link_to 'About', about_path
+                %li= link_to 'Contact us', contact_path
+
       / ==========
       / = Main Menu / navbar =
       / ==========
@@ -62,15 +67,9 @@
                 / ==========
                 .nav-collapse.collapse
                   %ul#mainNavigation.nav
-                    %li{ :class => active_page?('store', 'index') }
-                      %a.title{href: root_path, title: "Home"} Home
                     - category_list.each do |category|
                       %li{ :class => active_category?(category.slug) }
                         = link_to category.name, category
-                    %li{ :class => active_page?('store', 'about') }
-                      %a.title{href: about_path, title: "About us"} About us
-                    %li{ :class => active_page?('store', 'contact') }
-                      %a.title{href: contact_path, title: "Contact us"} Contact us
                   / ==========
                   / = Search form =
                   / ==========
@@ -99,27 +98,24 @@
           .container
             .row
               .span8
-                %h2.pacifico
-                  = Store::settings.name
-                  = image_tag "webmarket/webmarket.png", :alt => Store::settings.name
-                %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Aliquam tincidunt vestibulum risus et gravida. Etiam vel augue ligula, blandit malesuada nisi. Quisque a augue nisi. Nullam interdum convallis
+                .main-titles.lined
+                  %h3.title
+                    %span.light Main
+                    Navigation
+                %ul.nav
+                  %li= link_to 'Home', root_path
+                  %li= link_to 'About', about_path
+                  %li= link_to 'Contact us', contact_path
               .span4
                 .main-titles.lined
                   %h3.title
-                    %span.light Newsletters
+                    %span.light Newsletter
                     Signup
-                %p
-                  Lorem ipsum dolor sit amet, consectetur adipiscing elit.
-                  Aliquam tincidunt vestibulum risus et gravida.
+                %p Sign up for our newsletter below
                 / Begin MailChimp Signup Form
-                #mc_embed_signup
-                  %form#mc-embedded-subscribe-form.validate.form.form-inline{action: "http://proteusthemes.us4.list-manage1.com/subscribe/post?u=ea0786485977f5ec8c9283d5c&id=5dad3f35e9", method: "post", name: "mc-embedded-subscribe-form", novalidate: "", target: "_blank"}
-                    .mc-field-group
-                      %input#mce-EMAIL.required.email{name: "EMAIL", placeholder: "Enter your e-mail address", type: "email", value: ""}/
-                      %input#mc-embedded-subscribe.btn.btn-primary{name: "subscribe", type: "submit", value: "Send"}/
-                    #mce-responses.clear
-                      #mce-error-response.response{style: "display:none"}
-                      #mce-success-response.response{style: "display:none"}
+                %form.form.form-inline{action: "", method: "post"}
+                  %input.required.email{name: "EMAIL", placeholder: "Enter your e-mail address", type: "email", value: ""}/
+                  %input.btn.btn-primary{name: "subscribe", type: "submit", value: "Send"}/
                 / End mc_embed_signup
         / /upper footer
         / ==========

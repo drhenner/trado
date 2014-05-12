@@ -1,6 +1,6 @@
 module ApplicationHelper
 
-    # Destroy generated form field object and trigger the associated JavaScript function to remove it from the DOM too
+    # Destroy generated form field object and trigger the associated JavaScript function to remove it from the DOM
     #
     # @parameter [string, object, object]
     def link_to_remove_fields name, f, obj
