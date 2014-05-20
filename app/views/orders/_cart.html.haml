@@ -19,7 +19,7 @@
         = item.cart_item_accessory.accessory.name
       %td.qty
         = item.cart_item_accessory.quantity
-- unless @order.shipping_id.nil? && @order.ship_address.nil?
+- unless @order.nil? || @order.shipping_id.nil? && @order.ship_address.nil?
   %tr
     %td.image
       = image_tag "delivery.png", :alt => @order.shipping.name
