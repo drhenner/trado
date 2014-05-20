@@ -27,6 +27,7 @@ Trado::Application.routes.draw do
     resources :build, controller: 'orders/build', :only => [:show,:update] do
       member do
         get 'express'
+        put 'estimate'
         get 'cheque'
         get 'bank_transfer'
         get 'purchase'

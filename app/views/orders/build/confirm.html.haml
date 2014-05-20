@@ -90,7 +90,7 @@
                     = @order.shipping.name
                     %div= @order.ship_address.country
                   %td.qty 1
-                  %td.price= format_currency @order.shipping.price
+                  %td.price= format_currency(@order.shipping.price)
                 - if Store::settings.tax_breakdown
                   %tr
                     %td{colspan: "2"}

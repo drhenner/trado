@@ -3,7 +3,7 @@ class Orders::BuildController < ApplicationController
 
   skip_before_filter :authenticate_user!
 
-  before_filter :accessible_order, :only => [:show, :update, :express, :cheque, :bank_transfer, :purchase]
+  before_filter :accessible_order, :only => [:show, :update, :express, :cheque, :bank_transfer, :purchase, :estimate]
 
   steps :review, :billing, :shipping, :payment, :confirm
 
@@ -23,6 +23,7 @@ class Orders::BuildController < ApplicationController
     case step
     when :shipping
       @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
+      @calculated_tier = @order.tier(current_cart)
     end
     case step 
     when :payment
@@ -71,6 +72,7 @@ class Orders::BuildController < ApplicationController
     end
     case step
     when :shipping
+      @calculated_tier = @order.tier(current_cart)
       @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
       # Update billing attributes
       if @shipping_address.update_attributes(params[:address])
@@ -106,6 +108,19 @@ class Orders::BuildController < ApplicationController
                                               )
     )
     redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
+  end
+
+  def estimate 
+    if params[:country]
+      @address = Address.new(:addressable_id => @order.id, :addressable_type => 'Order', :country => params[:country]) 
+      @address.save(validate: false)
+    end
+    @order.ship_address_id = @address.id
+    respond_to do |format|
+      if @order.update_attributes(params[:order])
+        format.js { render :partial => 'orders/shippings/update', :format => [:js] }
+      end
+    end
   end
 
   # Payment method for a bank transfer, which sets the payment_type session value to Bank tranfer
