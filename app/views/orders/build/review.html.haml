@@ -61,12 +61,29 @@
                       .align-right Price
                 %tbody
                   = render :partial => 'orders/cart'
+            = form_for @order, :url => wizard_path, :html => { :method => :put, :class => 'form-horizontal form-checkout shipping_address' } do |f|
+              .control-group
+                = f.label :country, :class => 'control-label' do
+                  Country
+                  %span.red-clr.bold *
+                .controls.update-shipping
+                  = select_tag(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }), { :include_blank => 'Please select...'})
+              .shipping-methods{ 'data-tier' => "#{@calculated_tier}" }
+                .control-group
+                  = f.label :shipping_id, :class => 'control-label' do
+                    Shipping options
+                    %span.red-clr.bold *
+                  .controls
+                    %p.shipping-notice Select a shipping country to view the available shipping options.
+              .control-group
+                .controls
+                  = errors_for @order, :shipping_id
             %hr/
             - unless @cart.cart_items.empty?
               %p.right-align
                 In the next step you will choose your billing address    
                 %a.btn.higher.bold#update_quantity UPDATE
-                = link_to "CONTINUE", next_wizard_path, :class => 'btn btn-primary higher bold'
+                = f.submit "CONTINUE", next_wizard_path, :class => 'btn btn-primary higher bold'
     / /main content
 / /container
 #insufficientStockNotice

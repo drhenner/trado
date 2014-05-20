@@ -13,13 +13,16 @@ class Orders::BuildController < ApplicationController
   def show
     @cart = current_cart
     case step
+    when :review
+      @calculated_tier = @order.tier(current_cart)
+    end
+    case step
     when :billing
       @billing_address = Payatron4000::select_address(@order.id, @order.bill_address_id)
     end
     case step
     when :shipping
       @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
-      @calculated_tier = @order.tier(current_cart)
     end
     case step 
     when :payment
@@ -41,6 +44,10 @@ class Orders::BuildController < ApplicationController
       @order.update_column(:status, 'active')
     else
       @order.update_column(:status, step.to_s)
+    end
+    case step
+    when :review
+      @calculated_tier = @order.tier(current_cart)
     end
     case step 
     when :billing
@@ -64,7 +71,6 @@ class Orders::BuildController < ApplicationController
     end
     case step
     when :shipping
-      @calculated_tier = @order.tier(current_cart)
       @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
       # Update billing attributes
       if @shipping_address.update_attributes(params[:address])

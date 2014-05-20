@@ -41,7 +41,7 @@ class Order < ActiveRecord::Base
   belongs_to :bill_address,                                             class_name: 'Address', :dependent => :destroy
 
   validates :email,                                                     :presence => { :message => 'is required' }, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, :if => :active_or_shipping?
-  validates :shipping_id,                                               :presence => { :message => 'Shipping option is required'}, :if => :active_or_shipping?                                                                                                                  
+  validates :shipping_id,                                               :presence => { :message => 'Shipping option is required'}, :if => :active_or_review?                                                                                                                  
 
   after_update :delayed_shipping, :ship_order_today,                    :if => :shipping_date_nil?
 
@@ -119,6 +119,13 @@ class Order < ActiveRecord::Base
   # @return [boolean]
   def completed?
     transactions.where(:payment_status => 'Completed').blank? ? false : true
+  end
+
+  # Detects if the current status of the order is 'review'. See wicked gem for more info
+  #
+  # @return [boolean]
+  def active_or_review?
+    status == 'review' ? true : active?
   end
 
   # Detects if the current status of the order is 'billing'. See wicked gem for more info

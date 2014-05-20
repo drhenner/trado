@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140512081310) do
+ActiveRecord::Schema.define(:version => 20140520100842) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
@@ -150,7 +150,7 @@ ActiveRecord::Schema.define(:version => 20140512081310) do
     t.datetime "created_at",                                                                :null => false
     t.datetime "updated_at",                                                                :null => false
     t.decimal  "actual_shipping_cost", :precision => 8, :scale => 2
-    t.string   "status"
+    t.string   "status",                                             :default => "review"
     t.string   "express_token"
     t.string   "express_payer_id"
     t.integer  "shipping_id"

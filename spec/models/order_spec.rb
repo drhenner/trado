@@ -99,11 +99,15 @@ describe Order do
         let(:order_2) { create(:order, status: 'billing') }
         let(:order_3) { create(:order, status: 'shipping') }
         let(:order_4) { create(:order, status: 'payment') }
+        let(:order_5) { create(:order, status: 'review') }
 
         it "should return true for an active order" do
             expect(order_1.active?).to be_true
         end
-
+        it "should return true for a review or active order" do
+            expect(order_1.active_or_review?).to be_true
+            expect(order_5.active_or_review?).to be_true
+        end        
         it "should return true for a billing or active order" do
             expect(order_1.active_or_billing?).to be_true
             expect(order_2.active_or_billing?).to be_true
