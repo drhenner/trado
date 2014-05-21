@@ -13,7 +13,7 @@ trado.app =
 
     jsonErrors: function() 
     {
-        $(document).on("ajax:error", "form", function(evt, xhr, status, error) 
+        $(document).on("ajax:error", "form.remote-form", function(evt, xhr, status, error) 
         {
             var errors;
             errors = $.parseJSON(xhr.responseJSON.errors);

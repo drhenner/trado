@@ -19,19 +19,21 @@
         = item.cart_item_accessory.accessory.name
       %td.qty
         = item.cart_item_accessory.quantity
-- unless @order.nil? || @order.shipping_id.nil? && @order.ship_address.nil?
+- unless session[:estimate_price].nil? && session[:estimate_shipping].nil? && session[:estimate_country].nil?
   %tr
     %td.image
-      = image_tag "delivery.png", :alt => @order.shipping.name
+      = image_tag "delivery.png", :alt => session[:estimate_shipping]
     %td.desc
-      = @order.shipping.name
-      %div= @order.ship_address.country
+      = session[:estimate_shipping]
+      = link_to purge_estimate_order_build_path, :method => :delete, :remote => true, :title => 'Remove item' do
+        %i.fa.fa-times-circle
+      %div= session[:estimate_country]
     %td.qty 1
-    %td.price= format_currency(@order.shipping.price)
+    %td.price= format_currency(session[:estimate_price])
 
 %tr
   %td{colspan: "2", rowspan: "2"}
 %tr
   %td.stronger Subtotal:
   %td.stronger
-    .size-16.align-right.total_price= format_currency current_cart.total_price
+    .size-16.align-right.total_price= format_currency(session[:estimate_price].nil? ? current_cart.total_price : (current_cart.total_price + session[:estimate_price]))

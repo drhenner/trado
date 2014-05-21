@@ -110,16 +110,27 @@ class Orders::BuildController < ApplicationController
     redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
   end
 
+  # Adds a shipping estimate to the session store for the order. This is dependant on the country and shipping option the user selected
+  # Refreshes the cart with the new shipping item and updates the cart subtotal
+  #
   def estimate 
-    if params[:country]
-      @address = Address.new(:addressable_id => @order.id, :addressable_type => 'Order', :country => params[:country]) 
-      @address.save(validate: false)
-    end
-    @order.ship_address_id = @address.id
+    @shipping = Shipping.find(params[:order][:shipping_id])
+    session[:estimate_country] = params[:country]
+    session[:estimate_price] = @shipping.price
+    session[:estimate_shipping] = @shipping.name
     respond_to do |format|
-      if @order.update_attributes(params[:order])
-        format.js { render :partial => 'orders/shippings/update', :format => [:js] }
-      end
+      format.js { render :partial => 'orders/estimate/update', :format => [:js] }
+    end
+  rescue
+    Rollbar.report_message("User did not select a country or shipping method for the order estimate.")
+  end
+
+  # Destroys the estimated shipping item from the cart by setting all the session stores values to nil
+  #
+  def purge_estimate
+    session[:estimate_country] = session[:estimate_price] = session[:estimate_shipping] = nil
+    respond_to do |format|
+      format.js { render :partial => 'orders/estimate/update', :format => [:js] }
     end
   end
 
@@ -144,7 +155,6 @@ class Orders::BuildController < ApplicationController
   # Else trigger the bespoke PayPal complete method
   #
   def purchase 
-    binding.pry
     @order.transfer(current_cart) if @order.transactions.blank?
     unless session[:payment_type].nil?
       Payatron4000::Generic.complete(@order, session[:payment_type], session, steps)

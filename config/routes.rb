@@ -28,12 +28,13 @@ Trado::Application.routes.draw do
       member do
         get 'express'
         put 'estimate'
+        delete 'purge_estimate'
         get 'cheque'
         get 'bank_transfer'
         get 'purchase'
         get 'success'
         get 'failure'
-        get 'purge'
+        delete 'purge'
       end
     end
   end

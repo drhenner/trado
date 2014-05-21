@@ -1,12 +1,11 @@
-- if defined?(@new_shippings)
-  - if @new_shippings.empty?
-    %p.shipping-notice Sorry, we do not ship to this country. Please check out our delivery and returns page for more information.
-    = hidden_field_tag "order[shipping_id]", nil
-  - else
-    - @new_shippings.each do |shipping|
-      %div.option
-        = hidden_field_tag "order[shipping_id]", nil
-        = radio_button_tag "order[shipping_id]", shipping.id, :checked => 'checked'
-        %h5= shipping.name
-        %p= shipping.description
-        %h6= format_currency(shipping.price)
+- if @shippings.nil? || @shippings.empty?
+  %p.shipping-notice Sorry, we do not ship to this country. Please check out our delivery and returns page for more information.
+  = hidden_field_tag "order[shipping_id]", nil
+- else
+  - @shippings.each do |shipping|
+    %div.option
+      = hidden_field_tag "order[shipping_id]", nil
+      = radio_button_tag "order[shipping_id]", shipping.id, :checked => 'checked'
+      %h5= shipping.name
+      %p= shipping.description
+      %h6= format_currency(shipping.price)
