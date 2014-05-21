@@ -110,6 +110,8 @@ class Orders::BuildController < ApplicationController
     redirect_to EXPRESS_GATEWAY.redirect_url_for(response.token)
   end
 
+  ## TODO: The estimate delivery functionality is currently quite hacky. This will need to be revised it is integrated into the master Trado platform.
+
   # Adds a shipping estimate to the session store for the order. This is dependant on the country and shipping option the user selected
   # Refreshes the cart with the new shipping item and updates the cart subtotal
   #
