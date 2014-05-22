@@ -31,7 +31,6 @@ Trado::Application.routes.draw do
         delete 'purge_estimate'
         get 'cheque'
         get 'bank_transfer'
-        get 'purchase'
         get 'success'
         get 'failure'
         delete 'purge'
