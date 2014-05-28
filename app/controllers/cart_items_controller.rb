@@ -1,5 +1,7 @@
 class CartItemsController < ApplicationController
 
+  before_filter :destroy_estimate_shipping, :only => [:create, :update]
+
   skip_before_filter :authenticate_user!
 
   # POST /cart_items
@@ -63,4 +65,11 @@ class CartItemsController < ApplicationController
       end
     end
   end  
+
+  # If a new cart item is created or an existing one is updated,
+  # remove the estimate as it is now obselete
+  #
+  def destroy_estimate_shipping
+    session[:estimate_country] = session[:estimate_price] = session[:estimate_shipping] = nil
+  end
 end
