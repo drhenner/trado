@@ -28,7 +28,7 @@
       = link_to purge_estimate_order_build_path, :method => :delete, :remote => true, :title => 'Remove item' do
         %i.fa.fa-times-circle
       %div= session[:estimate_country]
-    %td.qty 1
+    %td.qty
     %td.price= format_currency(session[:estimate_price])
 
 %tr
