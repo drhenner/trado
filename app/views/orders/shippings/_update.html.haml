@@ -1,8 +1,8 @@
-- if @shippings.nil? || @shippings.empty?
+- if @new_shippings.nil? || @new_shippings.empty?
   %p.shipping-notice Sorry, we do not ship to this country. Please check out our delivery and returns page for more information.
   = hidden_field_tag "order[shipping_id]", nil
 - else
-  - @shippings.each do |shipping|
+  - @new_shippings.each do |shipping|
     %div.option
       = hidden_field_tag "order[shipping_id]", nil
       = radio_button_tag "order[shipping_id]", shipping.id, :checked => 'checked'

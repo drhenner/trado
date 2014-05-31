@@ -11,7 +11,7 @@
           Country
         .controls.update-shipping
           = select_tag(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }), { :prompt => 'Please select...', :id => 'address_country'})
-      .shipping-methods{ 'data-tier' => "#{@calculated_tier}" }
+      .shipping-methods
         .control-group
           = f.label :shipping_id, :class => 'control-label' do
             Shipping options
