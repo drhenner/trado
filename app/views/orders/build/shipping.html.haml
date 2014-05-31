@@ -125,7 +125,7 @@
                   Country
                   %span.red-clr.bold *
                 .controls.update-shipping
-                  = f.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, @shipping_address.country), { :include_blank => 'Please select...'})
+                  = f.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }), { :include_blank => 'Please select...'})
                   = errors_for @shipping_address, :country
               .shipping-methods
                 .control-group
