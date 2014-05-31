@@ -14,7 +14,6 @@ class Orders::BuildController < ApplicationController
     @cart = current_cart
     case step
     when :review
-      @calculated_tier = @order.tier(current_cart)
     end
     case step
     when :billing
