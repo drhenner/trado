@@ -1,6 +1,5 @@
 require 'rubygems'
 require 'spork'
-require "email_spec"
 #uncomment the following line to use spork with the debugger
 #require 'spork/ext/ruby-debug'
 
@@ -12,6 +11,10 @@ Spork.prefork do
   ENV["RAILS_ENV"] ||= 'test'
   require File.expand_path("../../config/environment", __FILE__)
   require 'rspec/rails'
+  require 'capybara/rspec'
+  require 'capybara-screenshot/rspec'
+  require 'capybara/poltergeist'
+  require 'bigdecimal'
 
   # Requires supporting ruby files with custom matchers and macros, etc,
   # in spec/support/ and its subdirectories.
@@ -31,15 +34,10 @@ Spork.prefork do
     # Controller macros
     config.extend ControllerMacros, :type => :controller
 
-    config.extend StoreSettingMacro
+    config.extend CustomMacro
 
     # Devise helpers
     config.include Devise::TestHelpers, :type => :controller
-
-    # email_spec helpers/matchers
-    config.include(EmailSpec::Helpers)
-    config.include(EmailSpec::Matchers)
-
 
     # If you're not using ActiveRecord, or you'd prefer not to run each of your
     # examples within a transaction, remove the following line or assign false

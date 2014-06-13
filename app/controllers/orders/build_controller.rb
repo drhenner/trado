@@ -29,7 +29,7 @@ class Orders::BuildController < ApplicationController
     end
     case step
     when :confirm
-      Payatron4000::Paypal.assign_paypal_token(params[:token], params[:PayerID], session, @order) if params[:token]
+      Payatron4000::Paypal.assign_paypal_token(params[:token], params[:PayerID], @order) if params[:token]
     end
     render_wizard
   end
@@ -71,7 +71,6 @@ class Orders::BuildController < ApplicationController
     end
     case step
     when :shipping
-      @calculated_tier = @order.tier(current_cart)
       @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
       # Update billing attributes
       if @shipping_address.update_attributes(params[:address])
@@ -94,10 +93,12 @@ class Orders::BuildController < ApplicationController
       if @order.update_attributes(params[:order])
         @order.transfer(current_cart) if @order.transactions.blank?
         unless session[:payment_type].nil?
-          Payatron4000::Generic.complete(@order, session[:payment_type], session, steps)
+          url = Payatron4000::Generic.complete(@order, session[:payment_type], session)
         else
-          Payatron4000::Paypal.complete(@order, session, steps)
+          url = Payatron4000::Paypal.complete(@order, session)
         end
+        binding.pry
+        redirect_to url
       else
         render_wizard @order
       end
@@ -112,7 +113,7 @@ class Orders::BuildController < ApplicationController
   #
   def express
     session[:payment_type] = nil
-    response = EXPRESS_GATEWAY.setup_purchase(Payatron4000::singularize_price(@order.gross_amount), 
+    response = EXPRESS_GATEWAY.setup_purchase(Store::Price.new(@order.gross_amount, 'net').singularize, 
                                               Payatron4000::Paypal.express_setup_options( @order, 
                                                                                           steps, 
                                                                                           current_cart,

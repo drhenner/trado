@@ -24,7 +24,7 @@ Trado::Application.configure do
   # Disable request forgery protection in test environment
   config.action_controller.allow_forgery_protection    = false
 
-  config.action_mailer.default_url_options = { :host => Settings.mailer.production.host }
+  config.action_mailer.default_url_options = { :host => Settings.mailer.development.host }
 
   # Tell Action Mailer not to deliver emails to the real world.
   # The :test delivery method accumulates sent emails in the
@@ -39,6 +39,7 @@ Trado::Application.configure do
 
   # PayPal settings
   config.after_initialize do
+    Rails.application.routes.default_url_options[:host] = Settings.mailer.development.host
     ActiveMerchant::Billing::Base.mode = :test
     ::EXPRESS_GATEWAY = ActiveMerchant::Billing::BogusGateway.new
   end

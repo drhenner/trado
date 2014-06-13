@@ -7,29 +7,52 @@ FactoryGirl.define do
         specification { Faker::Lorem.paragraphs(5) }
         sku { Faker::Lorem.characters(5) }
         sequence(:part_number) { |n| n }
-        featured false
-        active false
+        featured { false }
+        active { false }
         sequence(:weighting) { |n| n }
-        single false
+        single { false }
 
         association :category
 
-        factory :product_skus do 
-            after(:create) do |product, evaluator|
-                create_list(:sku, 3, product: product)
-            end
+        after(:create) do |product, evaluator|
+            create(:product_attachment, attachable: product)
         end
 
         factory :product_sku do
             after(:create) do |product, evaluator|
-                create(:sku, product: product, sku: '55')
+                create(:sku, product: product, code: '55', active: true)
+            end
+
+            factory :multiple_attachment_product do
+                after(:create) do |product, evaluator|
+                    create(:product_attachment, attachable: product)
+                end
+            end
+
+            factory :tags_with_product do
+                tags { [create(:tag, name: 'tag #1'), create(:tag, name: 'tag #2'), create(:tag, name: 'tag #3')] }
+            end
+        end
+
+        factory :product_skus do 
+            after(:create) do |product, evaluator|
+                create_list(:sku, 3, product: product, active: true)
+            end
+        end
+
+        factory :build_product_skus do
+            skus { build_list(:sku, 3, active: true) }
+        end
+
+        factory :product_sku_stock_count do
+            after(:create) do |product, evaluator|
+                create(:sku, product: product, stock: 10, active: true)
             end
         end
 
         factory :notified_product do
             after(:create) do |product, evaluator|
                 create(:sku_in_stock, product: product)
-                create(:product_attachment, attachable: product)
             end
         end
 
@@ -37,19 +60,16 @@ FactoryGirl.define do
         factory :stock_warning_product_1 do
             after(:create) do |product, evaluator|
                 build(:sku, product: product, stock: 5, stock_warning_level: 10).save(validate: false)
-                create(:product_attachment, attachable: product)
             end
         end
         factory :stock_warning_product_2 do
             after(:create) do |product, evaluator|
                 build(:sku, product: product, stock: 20, stock_warning_level: 5).save(validate: false)
-                create(:product_attachment, attachable: product)
             end
         end
         factory :stock_warning_product_3 do
             after(:create) do |product, evaluator|
                 build(:sku, product: product, stock: 7, stock_warning_level: 15).save(validate: false)
-                create(:product_attachment, attachable: product)
             end
         end
     end

@@ -10,7 +10,7 @@
     %td.qty
       = form_for item, :remote => true do |f|
         = f.text_field :quantity, :value => item.quantity, :class => 'tiny-size'
-    %td.price= format_currency item.total_price
+    %td.price= Store::Price.new(item.total_price).format
   - unless item.cart_item_accessory.blank?
     %tr.accessory_row
       %td.image
@@ -30,10 +30,22 @@
       %div= session[:estimate_country]
     %td.qty
     %td.price= format_currency(session[:estimate_price])
-
+- if Store::settings.tax_breakdown
+  %tr
+    %td{colspan: "2"}
+    \ 
+    %td.stronger Subtotal:
+    %td.stronger
+      .align-right= Store::Price.new(current_cart.total_price).format
+  %tr
+    %td{colspan: "2", rowspan: "1"}
+    \ 
+    %td.stronger= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
+    %td.stronger
+      .align-right= Store::Price.new((current_cart.total_price*Store::tax_rate)).format
 %tr
   %td{colspan: "2", rowspan: "2"}
 %tr
-  %td.stronger Subtotal:
+  %td.stronger Total:
   %td.stronger
-    .size-16.align-right.total_price= format_currency(session[:estimate_price].nil? ? current_cart.total_price : (current_cart.total_price + session[:estimate_price]))
+    .size-16.align-right.total_price= Store::Price.new(session[:estimate_price].nil? ? current_cart.total_price : (current_cart.total_price + session[:estimate_price]), 'gross').format
