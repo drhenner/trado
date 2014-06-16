@@ -36,7 +36,8 @@ class Admin::ShippingsController < ApplicationController
     
     respond_to do |format|
       if @shipping.save
-        format.html { redirect_to admin_shippings_url, notice: 'Shipping was successfully created.' }
+        flash[:success] = 'Shipping was successfully created.'
+        format.html { redirect_to admin_shippings_url }
         format.json { render json: @shipping, status: :created, location: @shipping }
       else
         format.html { render action: "new" }
@@ -55,7 +56,7 @@ class Admin::ShippingsController < ApplicationController
     @shipping = Shipping.find(params[:id])
 
     unless @shipping.orders.empty?
-      @shipping.inactivate!
+      Store::inactivate!(@shipping)
       @shipping = Shipping.new(params[:shipping])
       @old_shipping = Shipping.find(params[:id])
     end
@@ -65,14 +66,14 @@ class Admin::ShippingsController < ApplicationController
 
         if @old_shipping
           @old_shipping.tiereds.pluck(:tier_id).map { |t| Tiered.create(:tier_id => t, :shipping_id => @shipping.id) }
-          @old_shipping.inactivate!
+          Store::inactivate!(@old_shipping)
         end
-
-        format.html { redirect_to admin_shippings_url, notice: 'Shipping was successfully updated.' }
+        flash[:success] = 'Shipping was successfully updated.'
+        format.html { redirect_to admin_shippings_url }
         format.json { head :no_content }
       else
         @form_shipping = Shipping.find(params[:id])
-        @form_shipping.activate!
+        Store::activate!(@form_shipping)
         @form_shipping.attributes = params[:shipping]
         format.html { render action: "edit" }
         format.json { render json: @shipping.errors, status: :unprocessable_entity }
@@ -86,9 +87,10 @@ class Admin::ShippingsController < ApplicationController
   def destroy
     @shipping = Shipping.find(params[:id])
 
-    @shipping.orders.empty? ? @shipping.destroy : @shipping.update_column(:active, false)
+    @shipping.orders.empty? ? @shipping.destroy : Store::inactivate!(@shipping)
 
     respond_to do |format|
+      flash[:success] = 'Shipping was successfully deleted.'
       format.html { redirect_to admin_shippings_url }
       format.json { head :no_content }
     end

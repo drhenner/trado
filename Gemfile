@@ -30,7 +30,8 @@ group :test do
   gem 'rspec-rails'
   gem 'factory_girl_rails'
   gem 'capybara'
-  # gem 'selenium-webdriver'
+  gem 'capybara-screenshot'
+  gem 'poltergeist'
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'faker'
@@ -39,7 +40,7 @@ group :test do
   gem 'guard-spork'
   # Testing postgresql on Travis CI
   gem 'pg'
-  gem 'email_spec'
+  # gem 'email_spec'
 end
 
 group :development, :test do

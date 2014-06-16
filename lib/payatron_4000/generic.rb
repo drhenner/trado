@@ -8,7 +8,7 @@ module Payatron4000
         # @param order[Object]
         # @param payment_type [String]
         def self.successful order, payment_type
-            Transaction.create( :fee => 0, 
+            Transaction.new( :fee => 0, 
                                 :gross_amount => order.gross_amount, 
                                 :order_id => order.id, 
                                 :payment_status => 'Pending', 
@@ -18,7 +18,7 @@ module Payatron4000
                                 :payment_type => payment_type,
                                 :net_amount => order.net_amount,
                                 :status_reason => nil
-            )
+            ).save(validate: false)
             Payatron4000::stock_update(order)
             order.update_column(:status, 'active')
         end
@@ -29,19 +29,16 @@ module Payatron4000
         # @param order [Object]
         # @param payment_type [String]
         # @param session [Object]
-        # @param steps [Array]
-        def self.complete order, payment_type, session, steps
+        def self.complete order, payment_type, session
             Payatron4000::Generic.successful(order, payment_type)
             Payatron4000::destroy_cart(session)
             order.reload
-            redirect_to Rails.application.routes.url_helpers.success_order_build_url(  :order_id => order.id, 
-                                                                                       :id => steps.last
-            )
             begin
-                Payatron4000::confirmation_email(order, order.transactions.last.payment_status)
+                Mailatron4000::Orders.confirmation_email(order)
             rescue
-                Rollbar.report_message("Confirmation email failed to send", "info", :order => order)
+                Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
             end
+            return Rails.application.routes.url_helpers.success_order_build_url(:order_id => order.id, :id => 'confirm')
         end
     end
 end

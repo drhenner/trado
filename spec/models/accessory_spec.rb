@@ -21,30 +21,27 @@ describe Accessory do
     it { expect(subject).to validate_uniqueness_of(:name).scoped_to(:active) }
     it { expect(subject).to validate_uniqueness_of(:part_number).scoped_to(:active) }
 
-    describe "When a used accessory is updated or deleted" do
-        let(:accessory) { create(:accessory, active: true) }
-
-        it "should set the record as inactive" do
-            accessory.inactivate!
-            expect(accessory.active).to eq false
-        end
-    end
-
-    describe "When the new accessory fails to update" do
-        let(:accessory) { create(:accessory) }
-
-        it "should set the record as active" do
-            accessory.activate!
-            expect(accessory.active).to eq true
-        end
-    end
     describe "Listing all products" do
-        let!(:accessory_1) { create(:accessory, active: true) }
-        let!(:accessory_2) { create(:accessory) }
-        let!(:accessory_3) { create(:accessory, active: true) }
+        let!(:accessory_1) { create(:accessory) }
+        let!(:accessory_2) { create(:accessory, active: false) }
+        let!(:accessory_3) { create(:accessory) }
 
         it "should return an array of 'active' accessorys" do
             expect(Accessory.active).to match_array([accessory_1, accessory_3])
+        end
+    end
+
+    describe "After updating an accessory" do
+        let!(:accessory) { create(:accessory, weight: '2.3') }
+        let!(:sku) { create(:sku, weight: '14.9') }
+        let!(:cart_item) { create(:cart_item, weight: '44.5', quantity: 5, sku: sku) }
+        let!(:cart_item_accessory) { create(:cart_item_accessory, accessory: accessory, quantity: 5, cart_item: cart_item) }
+
+        it "should update any associated cart_item_accessories with the new weight" do
+            expect(cart_item.weight).to eq BigDecimal.new("44.5")
+            accessory.update_attributes(:weight => '3.4')
+            cart_item.reload
+            expect(cart_item.weight).to eq BigDecimal.new("91.5")
         end
     end
 
