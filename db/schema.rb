@@ -15,13 +15,13 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
-    t.datetime "created_at",                                                  :null => false
-    t.datetime "updated_at",                                                  :null => false
-    t.integer  "part_number"
-    t.decimal  "price",       :precision => 8, :scale => 2
-    t.decimal  "weight",      :precision => 8, :scale => 2
-    t.decimal  "cost_value",  :precision => 8, :scale => 2
-    t.boolean  "active",                                    :default => true
+    t.datetime "created_at",                                                                 :null => false
+    t.datetime "updated_at",                                                                 :null => false
+    t.integer  "part_number", :limit => 255
+    t.decimal  "price",                      :precision => 8, :scale => 2
+    t.decimal  "weight",                     :precision => 8, :scale => 2
+    t.decimal  "cost_value",                 :precision => 8, :scale => 2
+    t.boolean  "active",                                                   :default => true
   end
 
   create_table "accessorisations", :force => true do |t|
@@ -114,12 +114,6 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.datetime "updated_at",  :null => false
   end
 
-  create_table "items", :force => true do |t|
-    t.string   "name"
-    t.datetime "created_at", :null => false
-    t.datetime "updated_at", :null => false
-  end
-
   create_table "notifications", :force => true do |t|
     t.string   "email"
     t.integer  "notifiable_id"
@@ -132,11 +126,11 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
 
   create_table "order_item_accessories", :force => true do |t|
     t.integer  "order_item_id"
-    t.decimal  "price",         :precision => 10, :scale => 0
+    t.decimal  "price"
     t.integer  "quantity"
     t.integer  "accessory_id"
-    t.datetime "created_at",                                   :null => false
-    t.datetime "updated_at",                                   :null => false
+    t.datetime "created_at",    :null => false
+    t.datetime "updated_at",    :null => false
   end
 
   create_table "order_items", :force => true do |t|
@@ -181,18 +175,17 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
   create_table "products", :force => true do |t|
     t.string   "name"
     t.text     "description"
-    t.datetime "created_at",                          :null => false
-    t.datetime "updated_at",                          :null => false
+    t.datetime "created_at",                                         :null => false
+    t.datetime "updated_at",                                         :null => false
     t.integer  "weighting"
-    t.integer  "part_number"
+    t.integer  "part_number",       :limit => 255
     t.string   "sku"
     t.integer  "category_id"
     t.string   "slug"
     t.string   "meta_description"
     t.boolean  "featured"
-    t.boolean  "active",            :default => true
+    t.boolean  "active",                           :default => true
     t.text     "short_description"
-    t.text     "specification"
     t.boolean  "single"
     t.text     "specification"
   end
@@ -203,7 +196,7 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.integer  "item"
     t.string   "table"
     t.integer  "month",      :limit => 2
-    t.integer  "year",       :limit => 8
+    t.integer  "year",       :limit => 5
     t.datetime "created_at",              :null => false
     t.datetime "updated_at",              :null => false
   end
@@ -334,7 +327,6 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
   create_table "transactions", :force => true do |t|
     t.string   "paypal_id"
     t.string   "transaction_type"
-    t.string   "payment_type"
     t.decimal  "fee",              :precision => 8, :scale => 2
     t.string   "payment_status"
     t.integer  "order_id"
@@ -344,6 +336,7 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.datetime "updated_at",                                     :null => false
     t.decimal  "net_amount",       :precision => 8, :scale => 2
     t.string   "status_reason"
+    t.string   "payment_type"
   end
 
   create_table "users", :force => true do |t|

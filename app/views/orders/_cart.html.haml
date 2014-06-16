@@ -42,6 +42,7 @@
     \ 
     %td.stronger= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
     %td.stronger
+      .align-right= Store::Price.new((current_cart.total_price*Store::tax_rate)).format
 %tr
   %td{colspan: "2", rowspan: "2"}
 %tr
