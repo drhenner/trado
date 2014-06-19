@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(:version => 20140618204303) do
     t.datetime "created_at",                                                                :null => false
     t.datetime "updated_at",                                                                :null => false
     t.decimal  "actual_shipping_cost", :precision => 8, :scale => 2
-    t.string   "status"
+    t.string   "status",                                             :default => "review"
     t.string   "express_token"
     t.string   "express_payer_id"
     t.integer  "shipping_id"
@@ -186,6 +186,7 @@ ActiveRecord::Schema.define(:version => 20140618204303) do
     t.boolean  "featured"
     t.boolean  "active",                           :default => true
     t.text     "short_description"
+    t.text     "specification"
     t.boolean  "single"
   end
 
@@ -201,6 +202,23 @@ ActiveRecord::Schema.define(:version => 20140618204303) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
+
+  create_table "redactor_assets", :force => true do |t|
+    t.integer  "user_id"
+    t.string   "data_file_name",                  :null => false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    :limit => 30
+    t.string   "type",              :limit => 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at",                      :null => false
+    t.datetime "updated_at",                      :null => false
+  end
+
+  add_index "redactor_assets", ["assetable_type", "assetable_id"], :name => "idx_redactor_assetable"
+  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_redactor_assetable_type"
 
   create_table "related_products", :id => false, :force => true do |t|
     t.integer "product_id"
@@ -309,6 +327,7 @@ ActiveRecord::Schema.define(:version => 20140618204303) do
   create_table "transactions", :force => true do |t|
     t.string   "paypal_id"
     t.string   "transaction_type"
+    t.string   "payment_type"
     t.decimal  "fee",              :precision => 8, :scale => 2
     t.string   "payment_status"
     t.integer  "order_id"
@@ -318,7 +337,6 @@ ActiveRecord::Schema.define(:version => 20140618204303) do
     t.datetime "updated_at",                                     :null => false
     t.decimal  "net_amount",       :precision => 8, :scale => 2
     t.string   "status_reason"
-    t.string   "payment_type"
   end
 
   create_table "users", :force => true do |t|
