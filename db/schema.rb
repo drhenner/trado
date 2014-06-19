@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20140606124713) do
+ActiveRecord::Schema.define(:version => 20140618204303) do
 
   create_table "accessories", :force => true do |t|
     t.string   "name"
@@ -55,7 +55,7 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.string   "attachable_type"
     t.datetime "created_at",                         :null => false
     t.datetime "updated_at",                         :null => false
-    t.boolean  "default",         :default => false
+    t.boolean  "default_record",  :default => false
   end
 
   create_table "attribute_types", :force => true do |t|
@@ -151,7 +151,7 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.datetime "created_at",                                                                :null => false
     t.datetime "updated_at",                                                                :null => false
     t.decimal  "actual_shipping_cost", :precision => 8, :scale => 2
-    t.string   "status",                                             :default => "review"
+    t.string   "status"
     t.string   "express_token"
     t.string   "express_payer_id"
     t.integer  "shipping_id"
@@ -187,7 +187,6 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
     t.boolean  "active",                           :default => true
     t.text     "short_description"
     t.boolean  "single"
-    t.text     "specification"
   end
 
   create_table "rails_admin_histories", :force => true do |t|
@@ -202,23 +201,6 @@ ActiveRecord::Schema.define(:version => 20140606124713) do
   end
 
   add_index "rails_admin_histories", ["item", "table", "month", "year"], :name => "index_rails_admin_histories"
-
-  create_table "redactor_assets", :force => true do |t|
-    t.integer  "user_id"
-    t.string   "data_file_name",                  :null => false
-    t.string   "data_content_type"
-    t.integer  "data_file_size"
-    t.integer  "assetable_id"
-    t.string   "assetable_type",    :limit => 30
-    t.string   "type",              :limit => 30
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "created_at",                      :null => false
-    t.datetime "updated_at",                      :null => false
-  end
-
-  add_index "redactor_assets", ["assetable_type", "assetable_id"], :name => "idx_redactor_assetable"
-  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], :name => "idx_redactor_assetable_type"
 
   create_table "related_products", :id => false, :force => true do |t|
     t.integer "product_id"
