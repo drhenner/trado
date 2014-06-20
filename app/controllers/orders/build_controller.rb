@@ -138,7 +138,7 @@ class Orders::BuildController < ApplicationController
       format.js { render :partial => 'orders/estimate/update', :format => [:js] }
     end
   rescue
-    Rollbar.report_message("User did not select a country or shipping method for the order estimate.")
+    render :json => { :errors => "{\"country\":[\"needs to be selected.\"]}" }, :status => 422
   end
 
   # Destroys the estimated shipping item from the cart by setting all the session stores values to nil
