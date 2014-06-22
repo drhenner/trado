@@ -29,7 +29,7 @@
         %i.fa.fa-times-circle
       %div= session[:estimate_country]
     %td.qty
-    %td.price= Store::Price.new(session[:estimate_price].to_d)
+    %td.price= Store::Price.new(session[:estimate_price]).format
 - if Store::settings.tax_breakdown
   %tr
     %td{colspan: "2"}
