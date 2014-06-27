@@ -6,10 +6,14 @@ feature 'Administration management' do
     feature_login_admin
 
     scenario 'should edit the store settings' do
+        Store::reset_settings
+        StoreSetting.destroy_all
+        settings = create(:store_setting)
+        Store::settings
 
         visit admin_root_path
         find('.user-menu').click
-        find('ul[role="menu"] li:nth-child(3) a').click
+        find('ul[role="menu"] li:nth-child(2) a').click
         expect(current_path).to eq admin_settings_path
 
         fill_in('store_setting_name', with: 'Test store name')
@@ -17,9 +21,10 @@ feature 'Administration management' do
         find('#store_setting_tax_breakdown').set(true)
         click_button 'Submit'
         expect(current_path).to eq admin_root_path
-        within '.alert' do
+        within '.alert.alert-success' do
             expect(page).to have_content 'Store settings were successfully updated.'
         end
+        Store::reset_settings
         expect(Store::settings.name).to eq 'Test store name'
         expect(Store::settings.tax_name).to eq 'Tax'
         expect(Store::settings.tax_breakdown).to eq true
@@ -37,14 +42,14 @@ feature 'Administration management' do
 
         visit admin_root_path
         find('.user-menu').click
-        find('ul[role="menu"] li:nth-child(2) a').click
+        find('ul[role="menu"] li:first-child a').click
         expect(current_path).to eq admin_profile_path
 
         fill_in('user_first_name', with: 'Tom')
         fill_in('user_last_name', with: 'Dallimore')
         click_button 'Submit'
         expect(current_path).to eq admin_root_path
-        within '.alert' do
+        within '.alert.alert-success' do
             expect(page).to have_content 'Profile was successfully updated.'
         end
         admin = User.joins(:roles).where(:roles => { :name => 'admin' }).first

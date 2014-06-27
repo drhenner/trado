@@ -56,15 +56,15 @@ Trado::Application.routes.draw do
       mount RedactorRails::Engine => '/rte'
       mount RailsEmailPreview::Engine => '/crm'
       post '/paypal/ipn' => 'transactions#paypal_ipn'
-      resources :accessories, :shippings, :products, :categories, :countries, :except => :show
+      resources :accessories, :shippings, :products, :categories, :zones, :except => :show
       resources :orders, :only => [:index, :show, :update, :edit] do
         get 'shipping', on: :member
       end
       namespace :orders do
         resources :transactions, :only => [:edit, :update]
       end
+      resources :attachments, :only => [:destroy, :update]
       namespace :products do
-        resources :attachments, :only => :destroy
         resources :tags, :only => :index
         resources :skus, :only =>  [:destroy, :edit, :update]
         namespace :skus do
@@ -75,8 +75,8 @@ Trado::Application.routes.draw do
       namespace :shippings do
         resources :tiers, :except => :show
       end
-      namespace :countries do
-        resources :zones, :except => :show
+      namespace :zones do
+        resources :countries, except: :show
       end
       get '/settings' => 'admin#settings'
       put '/settings/update' => 'admin#update'

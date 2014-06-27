@@ -108,5 +108,11 @@ gem 'sitemap_generator'
 # Processing
 gem 'whenever', :require => false
 
+# JS Variables
+gem 'gon'
+
+# Performance
+gem 'fast_blank'
+
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', :require => 'bcrypt'

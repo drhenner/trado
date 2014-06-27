@@ -18,9 +18,9 @@ class Admin::ProductsController < ApplicationController
   def new
     @product = Product.new
     respond_to do |format|
-      unless Tier.all.count > 0 || AttributeType.all.count > 0
+      unless AttributeType.all.count > 0
         format.html { redirect_to admin_products_url }
-        flash[:error] = "You do not currently have any shipping tiers and/or sku attribute types. Please add some before creating a product."
+        flash_message :error, "You must have at least one AttributeType record before creating your first product. Create one #{view_context.link_to 'here', new_admin_products_skus_attribute_type_path}.".html_safe
       else
         format.html
       end
@@ -39,7 +39,6 @@ class Admin::ProductsController < ApplicationController
 
     respond_to do |format|
       if @product.save
-        Attachment.find(params[:default_attachment]).update_attributes(default_record: true)
         Tag.add(params[:taggings], @product.id)
         format.js { render :js => "window.location.replace('#{category_product_url(@product.category, @product)}');"}
       else
@@ -52,7 +51,7 @@ class Admin::ProductsController < ApplicationController
     @product = Product.find(params[:id])
     respond_to do |format|
       if @product.update_attributes(params[:product])
-        Attachment.find(params[:default_attachment]).update_attributes(default_record: true)
+        Attachment.set_default(params[:default_attachment])
         Tag.del(params[:taggings], @product.id)
         Tag.add(params[:taggings], @product.id)
         format.js { render :js => "window.location.replace('#{admin_products_url}');"}
@@ -87,7 +86,7 @@ class Admin::ProductsController < ApplicationController
     end
 
     respond_to do |format|
-      flash[:success] = "Product was successfully deleted."
+      flash_message :success, "Product was successfully deleted."
       format.html { redirect_to admin_products_url }
     end
   end
