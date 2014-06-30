@@ -33,7 +33,7 @@
         / ==========
         / = Products =
         / ==========
-        .row.popup-products
+        .row
           #isotopeContainer.isotope-container
             - @category.products.each do |product|
               / ==========
@@ -45,11 +45,10 @@
                     .product-img
                       .picture
                         = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
-
                     .main-titles.no-margin
-                      %h4.title
-                        = Store::Price.new(product.skus.first.price, product.skus.count).range
-                      %h5.no-margin.isotope--title= truncate product.name, :length => 35
+                      %h5.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
+                      = Store::Price.new(product.skus.first.price, product.skus.count).range
+                      %p= product.meta_description
         %hr/
       / /main content
 / /container

@@ -136,9 +136,8 @@
                   .picture
                     = link_to (image_tag product.attachments.first.file, :alt => product.name, :height => 374, :width => 540), [product.category, product]
                 .main-titles.no-margin
-                  %h4.title
-                    %span= Store::Price.new(product.skus.first.price, product.skus.count).range
-                  %h5.no-margin= truncate product.name, :length => 35
+                  %h5.no-margin= link_to (truncate product.name, :length => 35), [product.category, product]
+                  = Store::Price.new(product.skus.first.price, product.skus.count).range
           / /product
 #notify_me_form
   - unless @skus.first.stock > 0

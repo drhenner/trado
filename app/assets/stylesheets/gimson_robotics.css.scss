@@ -8,6 +8,15 @@ h3
 {
     font-family: 'Arial', 'Helvetica', 'sans-serif', cursive;
 }
+a
+{
+    text-decoration: none;
+
+    &:hover
+    {
+        text-decoration: none;
+    }
+}
 .navbar
 {
     ul.nav
@@ -88,7 +97,6 @@ header
                 &:hover
                 {
                     color:#e54b5d;
-                    text-decoration: none;
                 }
             }
 
@@ -135,6 +143,26 @@ footer
     .main-titles.lined:after 
     {
         width:180px;
+    }
+}
+.product
+{
+    .main-titles
+    {
+        h5
+        {
+            margin-bottom: 10px;
+            font-size:18px;
+        }
+        div.price
+        {
+            margin-bottom:5px;
+            font-size: 16px;
+        }
+        p
+        {
+            font-weight: normal;
+        }
     }
 }
 #estimateDeliveryModal
