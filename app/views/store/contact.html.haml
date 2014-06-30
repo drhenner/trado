@@ -1,17 +1,9 @@
+- content_for :title, 'Contact us'
+- content_for :breadcrumb, 'Contact us'
 / ==========
 / = Breadcrumbs =
 / ==========
-.darker-stripe
-  .container
-    .row
-      .span12
-        %ul.breadcrumb
-          %li
-            %a{href: "index.html"} Webmarket
-          %li
-            %span.fa.fa-chevron-right
-          %li
-            %a{href: "contact.html"} Contact Us
+= render_breadcrumbs 1
 .container
   .push-up.top-equal.blocks-spacer-last
     .row
@@ -19,10 +11,10 @@
       / = Main Title =
       / ==========
       .span12
-        .title-area
-          %h1.inline
-            %span.light Contact
-            Us
+        %h3
+          %span.light Contact
+          Us
+        %hr
       / ==========
       / = Main content =
       / ==========
@@ -31,17 +23,15 @@
         / = Post =
         / ==========
         %article.post
-          .post-inner
+          .post-inner.push-down-25
             %p
-              The simple contact form below comes packed within this theme. To use the inbuilt form, simply create a page and use the page template “Contact”. The form will automatically insert below any page content. The form includes jQuery validation to enhance user experience and the recipient email can be configured from the theme options.
-        %hr/
+              The fastest and easiest way to contact us is by email, please send your query to 
+              %b support 'at' gimsonrobotics.com 
+              or use the contact form below:
         / ==========
         / = Contact Form =
         / ==========
         %section.contact-form-container
-          %h3.push-down-25
-            %span.light Send
-            a Message
           %form#commentform.form.form-inline.form-contact{action: "#", method: "post"}
             %p.push-down-20
               %input#author{"aria-required" => "true", name: "author", required: "", size: "30", tabindex: "1", type: "text", value: ""}/
@@ -60,83 +50,25 @@
               %textarea#comment.input-block-level{cols: "70", name: "comment", placeholder: "Your Message goes here ...", required: "", rows: "7", tabindex: "4"}
             %p
               %button#submit.btn.btn-primary.bold{tabindex: "5", type: "submit"} SEND EMAIL
-        %hr/
         / ==========
         / = Company Info with Google Maps =
         / ==========
         %article.company-info
           .row
-            .span3
-              %h3.push-down-30
-                %span.light Company
-                Info
+            .span8
+              %p Please send any post or other queries to:
               %p
-                %strong.opensans.dark-clr IMAGINARY COMPANY LTD.
+                %strong.opensans.dark-clr Gimson Robotics
                 %br/
-                Wall street 17,
+                13 Elgin Park
                 %br/
-                1000 New York,
+                Bristol
                 %br/
-                United States
+                BS6 6RU
+                %br/
+                United Kingdom
               %p
-                %strong.opensans.dark-clr Phone number:
-                00386 31 567 537
-                %br/
-                %strong.opensans.dark-clr Fax:
-                00386 31 567 538
-                %br/
-                %strong.opensans.dark-clr Email:
-                %a{href: "#"} info@webmarket.com
-            .span5
-              .add-googlemap{"data-addr" => "Prešernov Trg, Ljubljana", "data-height" => "205", "data-title" => "Webmarket Business", "data-type" => "roadmap", "data-zoom" => "14"}
+                Please be aware that 
+                %b we don't keep a permanent phone line 
+                as it would be uneconomical to maintain for a business of our size without additional dedicated staff. We are an engineering company first and foremost and spend much of our time in the workshop developing customer projects, making a reliable phone presence impractical. If despite this you still wish to call us please message us above and we will provide you with a mobile contact.
       / /main content
-      / ==========
-      / = Sidebar =
-      / ==========
-      %aside.span4
-        / ==========
-        / = Opening Times Widget =
-        / ==========
-        #opening_time-4.sidebar-item.opening-time
-          .underlined
-            %h3
-              %span.light Opening
-              Time
-          .time-table
-            %dl.week-day
-              %dt
-                Monday
-              %dd
-                8:00 - 16:00
-            %dl.week-day.light-bg
-              %dt
-                Tuesday
-              %dd
-                8:00 - 16:00
-            %dl.week-day
-              %dt
-                Wednesday
-              %dd
-                8:00 - 16:00
-            %dl.week-day.light-bg.today
-              %dt
-                Thursday
-              %dd
-                10:00 - 15:00
-            %dl.week-day
-              %dt
-                Friday
-              %dd
-                8:00 - 16:00
-            %dl.week-day.light-bg
-              %dt
-                Saturday
-              %dd
-                8:00 - 16:00
-            %dl.week-day.closed
-              %dt
-                Sunday
-              %dd
-                CLOSED
-      / /sidebar
-/ /container

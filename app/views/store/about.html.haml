@@ -1,155 +1,49 @@
+- content_for :title, 'About'
+- content_for :breadcrumb, 'About'
 / ==========
 / = Breadcrumbs =
 / ==========
-.darker-stripe
-  .container
-    .row
-      .span12
-        %ul.breadcrumb
-          %li
-            %a{href: "index.html"} Webmarket
-          %li
-            %span.fa.fa-chevron-right
-          %li
-            %a{href: "about-us.html"} About Us
+= render_breadcrumbs 1
 .container
   .push-up.blocks-spacer
     .row
       / ==========
-      / = Sidebar =
-      / ==========
-      %aside.span3
-        .sidebar-item
-          / ==========
-          / = Sidebar Title =
-          / ==========
-          .underlined
-            %h3
-              %span.light Our
-              Team
-          / ==========
-          / = Menu (affix) =
-          / ==========
-          .row
-            #spyMenu.span3
-              %ul.nav.nav-pills.nav-stacked
-                %li.active
-                  %a{href: "#jaka"}
-                    Jaka Šmid
-                    %i.fa.fa-caret-right.pull-right
-                %li
-                  %a{href: "#primoz"}
-                    Primož Cigler
-                    %i.fa.fa-caret-right.pull-right
-                %li
-                  %a{href: "#ana"}
-                    Ana Karenina
-                    %i.fa.fa-caret-right.pull-right
-                %li
-                  %a{href: "#andre"}
-                    Andre Agassi
-                    %i.fa.fa-caret-right.pull-right
-      / /sidebar
-      / ==========
       / = Main content =
       / ==========
-      %section.span9
+      %section.span12
         / ==========
         / = Title =
         / ==========
         .underlined.push-down-20
           %h3
-            %span.light A
-            Little Something About Us
+            %span.light About
+            = Store::settings.name
+      %section.span9
         / /title
         / ==========
         / = Description=
         / ==========
         %section.blocks-spacer
-          %h5
-            %span.light How
-            Everything Started
-          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit.
-          %h5
-            %span.light What
-            Happens Next
-          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit.
-          %h5
-            %span.light And
-            Who We Are Today!
-          %p Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet, consectetur adipiscing elit. Ut feugiat mauris eget magna egestas porta. Curabitur sagittis sagittis neque rutrum congue. Donec lobortis dui sagittis, ultrices nunc ornare, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet interdum ligula placerat. Maecenas auctor, sem nec eleifend blandit.
-        / ==========
-        / = Team Members =
-        / ==========
-        %section
-          / ==========
-          / = Title =
-          / ==========
-          .underlined.push-down-20
-            %h3
-              %span.light Faces
-              Behind The Webmarket
-          / /title
-          / = Jaka - designer =
-          #jaka.row-fluid.push-down-20
-            .span4
-              %a{href: "#"}
-                %img{alt: "person", height: "660", src: "images/dummy/about-us/profile-1.jpg", width: "550"}/
-            .span4
-              %h4
-                %span.light Jaka
-                Šmid
-              %h6.move-title-up Senior Designer
-              %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet inteum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet.
-            .span4
-              %blockquote
-                %i.fa.fa-quote-left.fa-5x
-                %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre. Dec lobortis dui sagittis, ultrices nuncre. Lorem ipsum dolor sit amet, coetur adipiscing elit.
-          / = Primož - programmer =
-          #primoz.row-fluid.push-down-20
-            .span4
-              %blockquote
-                %i.fa.fa-quote-left.fa-5x
-                %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre. Dec lobortis dui sagittis, ultrices nuncre. Lorem ipsum dolor sit amet, coetur adipiscing elit.
-            .span4
-              %h4
-                %span.light Primož
-                Cigler
-              %h6.move-title-up Code Ninja
-              %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet inteum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet.
-            .span4
-              %a{href: "#"}
-                %img{alt: "person", height: "660", src: "images/dummy/about-us/profile-2.jpg", width: "550"}/
-          / = Ana =
-          #ana.row-fluid.push-down-20
-            .span4
-              %a{href: "#"}
-                %img{alt: "person", height: "660", src: "images/dummy/about-us/profile-4.jpg", width: "550"}/
-            .span4
-              %h4
-                %span.light Ana
-                Karenina
-              %h6.move-title-up Customer Relationship
-              %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet inteum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet.
-            .span4
-              %blockquote
-                %i.fa.fa-quote-left.fa-5x
-                %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre. Dec lobortis dui sagittis, ultrices nuncre. Lorem ipsum dolor sit amet, coetur adipiscing elit.
-          / = Andre =
-          #andre.row-fluid.push-down-20
-            .span4
-              %blockquote
-                %i.fa.fa-quote-left.fa-5x
-                %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre. Dec lobortis dui sagittis, ultrices nuncre. Lorem ipsum dolor sit amet, coetur adipiscing elit.
-            .span4
-              %h4
-                %span.light Andre
-                Agassi
-              %h6.move-title-up Customer Relationship
-              %p Lorem ipsum dolor sit amet, coetur adipiscing elit. Ut feugiat mauris et magna egestas porta. Curabiturittis sagittis neque rutrum congue. Dec lobortis dui sagittis, ultrices nuncre, ultricies elit. Curabitur tristique felis pulvinar nibh porta, sit amet inteum ligula placerat. Maecenas auctor, sem nec eleifend blandit. Lorem ipsum dolor sit amet.
-            .span4
-              %a{href: "#"}
-                %img{alt: "person", height: "660", src: "images/dummy/about-us/profile-3.jpg", width: "550"}/
-        %hr/
-      / /main content
-/ /container
+          %h5 We're an online stockist and developer of electromechanical products, supplying a wide range of components including linear actuators and DC gearmotors 
+          %h5 
+            We exist as a  
+            %a{href: '', target: '_blank'}retail website
+            , 
+            %a{href: '', target: '_blank'}eBay store 
+            and  
+            %a{href: '', target: '_blank'}custom project workshop
+          %p 
+            In its current guise the business, whose name is pronounced "Jim-son" robotics, was established in November 2011, though we have previously traded under the name as far back as 2006. We have quickly grown to become one of the foremost suppliers of 
+            %a{href: 'categories/linear-actuators', target: '_blank'}linear actuators 
+            and associated electrical and mechanical hardware in the UK, releasing a number of exclusively developed products along the way.
+          %p The company is owned and managed by I, Ewan Gimson, with some help from others. I've been involved in all manner of electronics and construction projects since a young age, leading up to a degree in Mechanical Engineering from the University of Bristol. I first started Gimson Robotics in 2006 and operated for two years before the venture was put on hold between 2008-2011. The 2011 relaunch and re-branding saw an improved website and expanded product range, though the business continues to evolve today as we embrace emerging technologies and continue to develop new products.
+          %p 
+            Not only do we stock products for sale through the website (and 
+            %a{href: 'http://stores.ebay.co.uk/Gimson-Robotics', target: '_blank'}eBay store
+            ) but we also cater to bespoke projects. Some recent examples have included an interactive control panel for linear actuators, an automated actuator cycling system, and a remotely operated door-bolting mechanism. We have a full compliment of workshop equipment to use for these purposes as well as experience with C++ and microcontroller development. If you're looking for help with your electrical or mechanical project then we may be able to provide a solution, please get in touch with your requirements.
+          %p 
+            We're constantly looking to update our range and would appreciate any 
+            = link_to 'feedback', contact_path
+            on our service (and website).
+      %section.span3
+        = image_tag 'gimson-robotics/about.jpg'
