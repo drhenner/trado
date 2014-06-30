@@ -41,7 +41,7 @@ class Product < ActiveRecord::Base
   validate :single_product
 
   has_many :searches
-  has_many :skus,                                             :dependent => :delete_all
+  has_many :skus,                                             :dependent => :delete_all, inverse_of: :product
   has_many :orders,                                           :through => :skus
   has_many :carts,                                            :through => :skus
   has_many :taggings,                                         :dependent => :delete_all
