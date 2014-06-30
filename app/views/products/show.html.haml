@@ -21,7 +21,7 @@
       .span5
         .product-preview
           .picture
-            = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 940, :height => 940
+            = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
           .thumbs.clearfix
             - @product.attachments.each_with_index do |image, index|
               .thumb{:class => "#{ "active" if index == 0 }"}
@@ -32,45 +32,41 @@
       / ==========
       .span7
         .product-title
-          %h1.name
-            %span.light= @product.name
-          .meta
-            %span.tag.price
-              = Store::Price.new(@skus.first.price).markup
-            %span.stock
-              - if @skus.first.stock > 0
-                %span.btn.btn-success In Stock
-              - else 
-                %span.btn.btn-danger Out of Stock
+          %h1.name= @product.name
+          %hr/
         .product-description
           %p= raw @product.short_description
           %hr/
-          / ==========
-          / ==========
-          / = Add to cart form =
-          / ==========
-          = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
-            .numbered
-              = f.text_field :quantity, :value => 1, :class => 'tiny-size'
-              %span.clickable.add-one.fa.fa-plus-square
-              %span.clickable.remove-one.fa.fa-minus-square
-            \ 
-            - if @product.single
-              = f.hidden_field :sku_id, :value => @product.skus.first.id
-            - else
-              = f.select :sku_id, options_for_select(@skus.map { |sku| [sku_attribute_values(sku, sku.product.single), sku.id ] } )
-            - unless @product.accessories.active.empty?
-              = f.fields_for @cart_item_accessory do |ff|
-                = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "Select accessory"
-            - if @skus.first.stock > 0
-              = button_tag(:type => 'submit', :class => 'btn btn-danger pull-right add_to_cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
-                %i.fa.fa-shopping-cart
-                \  Add To Cart
-            - else
-              %a.btn.btn-warning.pull-right.notify_me{href: "#"}
-                %i.fa.fa-envelope
-                Notify me
-          %hr/
+          .row
+            = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
+              .span4
+                = Store::Price.new(@skus.first.price).markup
+                .numbered
+                  = f.text_field :quantity, :value => 1, :class => 'tiny-size'
+                  %span.clickable.add-one.fa.fa-plus-square
+                  %span.clickable.remove-one.fa.fa-minus-square
+                - if @product.single
+                  = f.hidden_field :sku_id, :value => @product.skus.first.id
+                - else
+                  = f.select :sku_id, options_for_select(@skus.map { |sku| [sku_attribute_values(sku, sku.product.single), sku.id ] } )
+                - unless @product.accessories.active.empty?
+                  = f.fields_for @cart_item_accessory do |ff|
+                    = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "Select accessory"
+              .span3
+                %div.stock
+                  - if @skus.first.stock > 0
+                    %span.btn.btn-success In Stock
+                  - else 
+                    %span.btn.btn-danger Out of Stock
+                - if @skus.first.stock > 0
+                  = button_tag(:type => 'submit', :class => 'btn btn-danger pull-right add_to_cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
+                    %i.fa.fa-shopping-cart
+                    \  Add To Cart
+                - else
+                  %a.btn.btn-warning.pull-right.notify_me{href: "#"}
+                    %i.fa.fa-envelope
+                    Notify me
+          %hr
     / ==========
     / = Tabs with more info =
     / ==========
@@ -78,31 +74,16 @@
       .span12
         %ul#myTab.nav.nav-tabs
           %li.active
-            %a{"data-toggle" => "tab", href: "#tab-1"} Description
+            %a{"data-toggle" => "tab", href: "#tab-1"} Product description
           %li
-            %a{"data-toggle" => "tab", href: "#tab-2"} Specification
-          %li
-            %a{"data-toggle" => "tab", href: "#tab-3"} Shipping details
+            %a{"data-toggle" => "tab", href: "#tab-2"} Technical details
         .tab-content
           #tab-1.fade.in.tab-pane.active
             %h3 Product Description
             %p=raw @product.description
-          #tab-2.fade.in.tab-pane.active
-            %h3 Product specification
+          #tab-2.fade.in.tab-pane
+            %h3 Technical details
             %p= raw @product.specification
-          #tab-3.fade.tab-pane
-            %p Lorem ipsum dolor sit amet, consectetuer adipiscing elit. Aenean commodo ligula eget dolor.
-            %p
-              %img.img-polaroid{alt: "", src: "http://www.tfingi.com/repo/royal-mail.png"}/
-              %img.img-polaroid{alt: "", src: "http://www.tfingi.com/repo/ups-logo.png"}/
-            %p Aenean massa. Cum sociis natoque penatibus et magnis dis parturient montes, nascetur ridiculus mus.
-            %h6
-              %em.fa.fa-gift
-              Giftwrap?
-            %p
-              Let us take care of giftwrapping your presents by selecting
-              %strong Giftwrap
-              in the order process. Eligible items can be giftwrapped for as little as £0.99, and larger items may be presented in gift bags.
 / /container
 - if @product.category.products.count > 1
   / ==========
@@ -122,7 +103,7 @@
       / ==========
       / = Related products =
       / ==========
-      .row.popup-products
+      .row
         - @product.category.products.first(4).each do |product|
           - if product == @product
             - next
@@ -134,10 +115,11 @@
               .product-inner
                 .product-img
                   .picture
-                    = link_to (image_tag product.attachments.first.file, :alt => product.name, :height => 374, :width => 540), [product.category, product]
+                    = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
                 .main-titles.no-margin
-                  %h5.no-margin= link_to (truncate product.name, :length => 35), [product.category, product]
+                  %h5.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
                   = Store::Price.new(product.skus.first.price, product.skus.count).range
+                  %p= product.meta_description
           / /product
 #notify_me_form
   - unless @skus.first.stock > 0

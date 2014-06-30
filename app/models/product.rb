@@ -61,7 +61,7 @@ class Product < ActiveRecord::Base
   validates :part_number, :sku, :name,                        :uniqueness => { :scope => :active }
   validates :name, :meta_description,                         :length => {:minimum => 10, :message => :too_short }
   validates :description,                                     :length => {:minimum => 20, :message => :too_short }
-  validates :short_description,                               :length => { :maximum => 100, :message => :too_long }
+  validates :short_description,                               :length => {:minimum => 10, :message => :too_short }
   validates :part_number,                                     :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }                                                         
   validate :single_product
 
