@@ -7,16 +7,16 @@ development:
   # username: root
   # password:
   # socket: /tmp/mysql.sock
-  # adapter: postgresql
-  # encoding: unicode
-  # database: trado_dev
-  # pool: 5
-  # username: tomdallimore
-  # password:
-  adapter: sqlite3
-  database: db/development.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: trado_dev
   pool: 5
-  timeout: 5000
+  username: postgres
+  password: admin
+  # adapter: sqlite3
+  # database: db/development.sqlite3
+  # pool: 5
+  # timeout: 5000
 
 # Warning: The database defined as "test" will be erased and
 # re-generated from your development database when you run "rake".
@@ -30,18 +30,16 @@ test:
   # username: root
   # password:
   # socket: /tmp/mysql.sock
-  # adapter: postgresql
-  # encoding: unicode
-  # database: trado_test_dev
-  # host: localhost
-  # pool: 5
-  # username: tomdallimore
-  # password:
-  adapter: sqlite3
-  database: db/test.sqlite3
+  adapter: postgresql
+  encoding: unicode
+  database: trado_test_dev
   pool: 5
-  timeout: 5000
-
+  username: postgres
+  password: admin
+  # adapter: sqlite3
+  # database: db/test.sqlite3
+  # pool: 5
+  # timeout: 5000
 
 production:
   adapter: mysql2

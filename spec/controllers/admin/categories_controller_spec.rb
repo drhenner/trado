@@ -6,12 +6,12 @@ describe Admin::CategoriesController do
     login_admin
 
     describe 'GET #index' do
-        # it "populates an array of all categories" do
-        #     category_1 = create(:category)
-        #     category_2 = create(:category)
-        #     get :index
-        #     expect(assigns(:categories)).to match_array([category_1, category_2])
-        # end
+        it "populates an array of all categories" do
+            category_1 = create(:category)
+            category_2 = create(:category)
+            get :index
+            expect(assigns(:categories)).to match_array([category_1, category_2])
+        end
         it "renders the :index template" do
             get :index
             expect(response).to render_template :index
@@ -103,6 +103,7 @@ describe Admin::CategoriesController do
     
     describe 'DELETE #destroy' do
         before :each do
+            create(:category)
             @category = create(:category)
         end
         it "deletes the category from the database"  do
