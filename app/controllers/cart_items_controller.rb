@@ -1,8 +1,7 @@
 class CartItemsController < ApplicationController
 
-  before_filter :destroy_estimate_shipping, :only => [:create, :update]
-
   skip_before_filter :authenticate_user!
+  before_filter :void_shipping
 
   # POST /cart_items
   # POST /cart_items.json
@@ -53,10 +52,9 @@ class CartItemsController < ApplicationController
     end
   end  
 
-  # If a new cart item is created or an existing one is updated,
-  # remove the estimate as it is now obselete
-  #
-  def destroy_estimate_shipping
-    session[:estimate_country] = session[:estimate_price] = session[:estimate_shipping] = nil
+  private
+
+  def void_shipping
+    current_cart.order.update_column(:shipping_id, nil) unless current_cart.order.nil? || current_cart.order.shipping_id.nil?
   end
 end

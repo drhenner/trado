@@ -14,7 +14,7 @@
 #  last_name                :string(255) 
 #  address                  :string(255)      
 #  company                  :string(255)  
-#  telephone                :integer      
+#  telephone                :string(255)        
 #  city                     :string(255) 
 #  county                   :string(255)      
 #  country                  :string(255)      
@@ -27,9 +27,13 @@
 class Address < ActiveRecord::Base
 
   attr_accessible :active, :address, :city, :company, :country, :county, :addressable_id,
-  :addressable_type, :default, :first_name, :last_name, :postcode, :telephone
+  :addressable_type, :default, :first_name, :last_name, :postcode, :telephone, :order_id
 
-  validates :first_name, :last_name, :address, :city, :postcode, :country,               :presence => true
+  belongs_to :order
+  belongs_to :addressable,                                          polymorphic: true
+
+  validates :first_name, :last_name, 
+  :address, :city, :postcode, :country,                             presence: true, :if => :shipping_stage?
 
   # Combines the first and last name of an address
   #
@@ -38,4 +42,10 @@ class Address < ActiveRecord::Base
     [first_name, last_name].join(' ')
   end
 
+  # If the parent order status field value is billing or shipping, return true
+  #
+  # @return [Boolean]
+  def shipping_stage?
+    return true if self.order.status == 'billing' || self.order.status == 'shipping'
+  end
 end

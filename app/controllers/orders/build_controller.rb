@@ -3,7 +3,7 @@ class Orders::BuildController < ApplicationController
 
   skip_before_filter :authenticate_user!
 
-  before_filter :accessible_order, :only => [:show, :update, :express, :cheque, :bank_transfer, :purchase, :estimate]
+  before_filter :accessible_order, :except => [:success, :failure]
 
   steps :review, :billing, :shipping, :payment, :confirm
 
@@ -12,16 +12,22 @@ class Orders::BuildController < ApplicationController
   #
   def show
     @cart = current_cart
+    # Sets current state of the order
+    if step == steps.last
+      @order.update_column(:status, 'active')
+    else
+      @order.update_column(:status, step.to_s)
+    end
     case step
     when :review
     end
     case step
     when :billing
-      @billing_address = Payatron4000::select_address(@order.id, @order.bill_address_id)
+      @billing_address = @order.bill_address
     end
     case step
     when :shipping
-      @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
+      @shipping_address = @order.ship_address
     end
     case step 
     when :payment
@@ -39,24 +45,12 @@ class Orders::BuildController < ApplicationController
   #
   def update 
     @cart = current_cart
-    # Sets current state of the order
-    if step == steps.last
-      @order.update_column(:status, 'active')
-    else
-      @order.update_column(:status, step.to_s)
-    end
-    case step
-    when :review
-      @calculated_tier = @order.tier(current_cart)
-    end
     case step 
     when :billing
 
-      @billing_address = Payatron4000::select_address(@order.id, @order.bill_address_id)
+      @billing_address = @order.bill_address
       # Update billing attributes
       if @billing_address.update_attributes(params[:address])
-        # Add billing ID to order record
-        @order.update_column(:bill_address_id, @billing_address.id) unless @order.bill_address_id
         # Update order attributes in the form
         unless @order.update_attributes(params[:order])
           # if unsuccessful re-render the form with order errors
@@ -71,11 +65,9 @@ class Orders::BuildController < ApplicationController
     end
     case step
     when :shipping
-      @shipping_address = Payatron4000::select_address(@order.id, @order.ship_address_id)
+      @shipping_address = @order.ship_address
       # Update billing attributes
       if @shipping_address.update_attributes(params[:address])
-        # Add billing ID to order record
-        @order.update_column(:ship_address_id, @shipping_address.id) unless @order.ship_address_id
         # Update order attributes in the form
         unless @order.update_attributes(params[:order])
           # if unsuccessful re-render the form with order errors
@@ -91,7 +83,7 @@ class Orders::BuildController < ApplicationController
     case step
     when :confirm
       if @order.update_attributes(params[:order])
-        @order.transfer(current_cart) if @order.transactions.blank?
+        @order.transfer(current_cart)
         unless session[:payment_type].nil?
           url = Payatron4000::Generic.complete(@order, session[:payment_type], session)
         else
@@ -172,42 +164,39 @@ class Orders::BuildController < ApplicationController
   #
   def success
     @order = Order.find(params[:order_id])
-
-    respond_to do |format|
-      if @order.transactions.last.payment_status == 'Pending' || @order.transactions.last.payment_status == 'Completed'
-        format.html
-      else
-        format.html { redirect_to root_url }
-      end
-    end
+    redirect_to root_url unless @order.transactions.last.payment_status == 'Pending' || @order.transactions.last.payment_status == 'Completed'
   end
 
   # Renders the failed order page, however redirected if the order payment stautus it not Failed
   #
   def failure
     @order = Order.find(params[:order_id])
+    redirect_to root_url unless @order.transactions.last.payment_status == 'Failed'
+  end
 
+  # When an order has failed, the user has an option to discard order. However it's details are retained in the database.
+  #
+  def purge
+    @order.update_column(:cart_id, nil)
+    flash_message :success, "Your order has been cancelled."
+    redirect_to root_url
+  end
+
+  def estimate
     respond_to do |format|
-      if @order.transactions.last.payment_status == 'Failed'
-        format.html
+      if @order.update_attributes(params[:order])
+        format.js { render partial: 'orders/shippings/estimate/success', format: [:js] }
       else
-        format.html { redirect_to root_url }
+        format.json { render json: { errors: @order.errors.to_json(root: true) }, status: 422 }
       end
     end
   end
 
-  # When an order has failed, the user has an option to delete the order altogether including addresses and order_items
+  # Destroys the estimated shipping item from the cart by setting all the session stores values to nil
   #
-  def purge
-    @order = Order.find(params[:order_id])
-    if @order.completed?
-      flash_message :error, "Cannot delete a completed order."
-      redirect_to root_url
-    else
-      @order.destroy
-      flash_message :success, "Your order has been deleted."
-      redirect_to root_url
-    end
+  def purge_estimate
+    @order.update_column(:shipping_id, nil)
+    render :partial => 'orders/shippings/estimate/success', :format => [:js]
   end
 
   private

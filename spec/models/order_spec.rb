@@ -8,16 +8,18 @@ describe Order do
     it { expect(subject).to have_many(:order_items).dependent(:delete_all) }
     it { expect(subject).to have_many(:transactions).dependent(:delete_all) }
     it { expect(subject).to belong_to(:shipping) }
-    it { expect(subject).to belong_to(:ship_address).class_name('Address').dependent(:destroy) }
-    it { expect(subject).to belong_to(:bill_address).class_name('Address').dependent(:destroy) }
+    it { expect(subject).to belong_to(:cart) }
+    it { expect(subject).to have_one(:ship_address).class_name('Address').conditions(addressable_type: 'OrderShipAddress').dependent(:destroy) }
+    it { expect(subject).to have_one(:bill_address).class_name('Address').conditions(addressable_type: 'OrderBillAddress').dependent(:destroy) }
 
-    context "When the order has a an associated transaction record" do
-        before { subject.stub(:has_transaction?) { true } }
+    # Validations
+    context "If the order has a an associated completed transaction record" do
+        before { subject.stub(:completed?) { true } }
         it { expect(subject).to validate_presence_of(:actual_shipping_cost) }
     end
 
-    context "When the status of the order is 'active' or 'payment'" do
-        before { subject.stub(:active_or_payment?) { true } }
+    context "If the status of the order is 'active' or 'confirm'" do
+        before { subject.stub(:active_or_confirm?) { true } }
         it { expect(subject).to ensure_inclusion_of(:terms).in_array(%w(true)) }
     end
 
@@ -29,7 +31,10 @@ describe Order do
         it { expect(subject).to_not allow_value("test@test").for(:email).with_message(/invalid/) }
     end
 
-    describe "Adding cart_items to an order" do
+    # Nested attributes
+    it { expect(subject).to accept_nested_attributes_for(:ship_address) }
+
+    describe "When adding cart_items to an order" do
         let(:cart) { create(:full_cart) }
         let(:order) { create(:order) }
 
@@ -49,7 +54,7 @@ describe Order do
         end
     end
 
-    describe "Calculating an order" do
+    describe "When calculating an order" do
         let!(:cart) { create(:full_cart) }
         let!(:tax) { BigDecimal.new("0.2") }
         let(:order) { create(:order) }
@@ -68,12 +73,16 @@ describe Order do
         end
     end
 
-    describe "Managing an order shipping" do
+    describe "When updating an order" do
         let(:order) { create(:order, shipping_date: nil) }
         let(:order_2) { create(:order, shipping_date: Time.now) }
         let!(:order_3) { create(:order) }
 
-        context "if order date is today" do
+        it "should call ship_order_today method after" do
+            Order._update_callbacks.select { |cb| cb.kind.eql?(:after) }.map(&:raw_filter).include?(:ship_order_today).should == true
+        end
+
+        context "if order shipping date is today" do
 
             it "should update the order as dispatched" do
                 expect {
@@ -97,7 +106,6 @@ describe Order do
         it "should return true if the shipping_date is not nil" do
             expect(order_3.shipping_date_nil?).to be_true
         end
-
     end
 
     describe "When calculating whether an order is completed" do
@@ -117,15 +125,11 @@ describe Order do
         let(:order_2) { create(:order, status: 'billing') }
         let(:order_3) { create(:order, status: 'shipping') }
         let(:order_4) { create(:order, status: 'payment') }
-        let(:order_5) { create(:order, status: 'review') }
+        let(:order_5) { create(:order, status: 'confirm') }
 
         it "should return true for an active order" do
             expect(order_1.active?).to be_true
-        end
-        it "should return true for a review or active order" do
-            expect(order_1.active_or_review?).to be_true
-            expect(order_5.active_or_review?).to be_true
-        end        
+        end      
         it "should return true for a billing or active order" do
             expect(order_1.active_or_billing?).to be_true
             expect(order_2.active_or_billing?).to be_true
@@ -137,6 +141,67 @@ describe Order do
         it "should return true for a payment or active order" do
             expect(order_1.active_or_payment?).to be_true
             expect(order_4.active_or_payment?).to be_true
+        end
+        it "should return true for a payment or active order" do
+            expect(order_1.active_or_confirm?).to be_true
+            expect(order_5.active_or_confirm?).to be_true
+        end
+    end
+
+    describe "During a daily scheduled task" do
+
+        context "if the orders are more than 12 hours old but their status is set to active" do
+            let!(:order_1) { create(:order, updated_at: 11.hours.ago) }
+            let!(:order_2) { create(:order, updated_at: 13.hours.ago) }
+            let!(:order_3) { create(:order, updated_at: 28.hours.ago) }
+
+            it "should select the correct orders" do
+                expect(Order.clear_orders).to match_array([])
+            end
+
+            it "should not remove any orders" do
+                expect{
+                    Order.clear_orders
+                }.to change(Order, :count).by(0)
+            end
+        end
+
+        context "if the orders are more than 12 years old and their status is not set to active" do
+            let!(:order_1) { create(:order, updated_at: 11.hours.ago, status: 'shipping') }
+            let!(:order_2) { create(:order, updated_at: 13.hours.ago, status: 'review') }
+            let!(:order_3) { create(:order, updated_at: 28.hours.ago, status: 'billing') }
+
+            it "should select the correct orders" do
+                expect(Order.clear_orders).to match_array([order_2, order_3])
+            end
+
+            it "should remove the orders" do
+                expect{
+                    Order.clear_orders
+                }.to change(Order, :count).by(-2)
+            end
+        end
+    end
+
+    describe "After creating a new order" do
+        let(:order) { create(:order) }
+
+        it "should call create_addresses method after" do
+            Order._create_callbacks.select { |cb| cb.kind.eql?(:after) }.map(&:raw_filter).include?(:create_addresses).should == true
+        end
+
+        it "should create a new bill_address and ship_address record" do
+            expect{
+                order
+            }.to change(Address, :count).by(2)
+        end
+
+        it "should have the correct type for the bill_address record" do
+            expect(order.bill_address.addressable_type).to eq 'OrderBillAddress'
+        end
+
+        it "should have the correct type for the ship_address record" do
+            expect(order.ship_address.addressable_type).to eq 'OrderShipAddress'
         end
     end
 end

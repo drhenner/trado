@@ -23,17 +23,17 @@ Trado::Application.routes.draw do
     :registrations => "users/registrations",
     :sessions => "users/sessions"
      }
-  resources :orders, :only => :new do
-    resources :build, controller: 'orders/build', :only => [:show,:update] do
+  resources :orders, :only => [:new, :update] do
+    resources :build, controller: 'orders/build', :only => [:show, :update] do
       member do
         get 'express'
-        put 'estimate'
-        delete 'purge_estimate'
         get 'cheque'
         get 'bank_transfer'
         get 'success'
         get 'failure'
-        delete 'purge'
+        put 'estimate'
+        get 'purge'
+        delete 'purge_estimate'
       end
     end
   end
@@ -57,9 +57,7 @@ Trado::Application.routes.draw do
       mount RailsEmailPreview::Engine => '/crm'
       post '/paypal/ipn' => 'transactions#paypal_ipn'
       resources :accessories, :shippings, :products, :categories, :zones, :except => :show
-      resources :orders, :only => [:index, :show, :update, :edit] do
-        get 'shipping', on: :member
-      end
+      resources :orders, :only => [:index, :show, :update, :edit]
       namespace :orders do
         resources :transactions, :only => [:edit, :update]
       end

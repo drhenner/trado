@@ -13,8 +13,7 @@
 #  email                    :string(255)     
 #  status                   :string(255)          
 #  user_id                  :integer     
-#  bill_address_id          :integer     
-#  ship_address_id          :integer     
+#  cart_id                  :integer
 #  tax_number               :integer 
 #  shipping_id              :integer        
 #  shipping_status          :string(255)      default('Pending')   
@@ -31,26 +30,31 @@
 #
 class Order < ActiveRecord::Base
   attr_accessible :tax_number, :shipping_status, :shipping_date, :actual_shipping_cost, 
-  :email, :shipping_id, :status, :ip_address, :user_id, :bill_address_id, :ship_address_id, :express_token, :express_payer_id,
-  :net_amount, :tax_amount, :gross_amount, :terms
+  :email, :shipping_id, :status, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
+  :net_amount, :tax_amount, :gross_amount, :terms, :ship_address_attributes
   
   has_many :order_items,                                                :dependent => :delete_all
   has_many :transactions,                                               :dependent => :delete_all
 
+  belongs_to :cart
   belongs_to :shipping
-  belongs_to :ship_address,                                             class_name: 'Address', :dependent => :destroy
-  belongs_to :bill_address,                                             class_name: 'Address', :dependent => :destroy
+  has_one :ship_address,                                                class_name: 'Address', conditions: { addressable_type: 'OrderShipAddress' }, dependent: :destroy
+  has_one :bill_address,                                                class_name: 'Address', conditions: { addressable_type: 'OrderBillAddress' }, dependent: :destroy
 
-  validates :actual_shipping_cost,                                      :presence => true, :if => :has_transaction?
+  validates :actual_shipping_cost,                                      :presence => true, :if => :completed?
   validates :email,                                                     :presence => { :message => 'is required' }, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, :if => :active_or_shipping?
   validates :shipping_id,                                               :presence => { :message => 'Shipping option is required'}, :if => :active_or_shipping?                                                                                                                  
-  validates :terms,                                                     :inclusion => { :in => [true], :message => 'You must tick the box in order to complete your order.' }, :if => :active_or_payment?
+  validates :terms,                                                     :inclusion => { :in => [true], :message => 'You must tick the box in order to complete your order.' }, :if => :active_or_confirm?
 
+  after_create :create_addresses
   after_update :ship_order_today,                                       :if => :shipping_date_nil?
+
+  accepts_nested_attributes_for :ship_address
 
   # Upon completing an order, transfer the cart item data to new order item records 
   #
   def transfer cart
+    self.order_items.destroy_all
   	cart.cart_items.each do |item|
       @order_item = order_items.build(:price => item.price, :quantity => item.quantity, :sku_id => item.sku_id, :weight => item.weight, :order_id => id)
       @order_item.build_order_item_accessory(:accessory_id => item.cart_item_accessory.accessory_id, :price => item.cart_item_accessory.price, :quantity => item.cart_item_accessory.quantity) unless item.cart_item_accessory.nil?
@@ -68,7 +72,7 @@ class Order < ActiveRecord::Base
                             :tax_amount => net_amount*current_tax_rate,
                             :gross_amount => net_amount + (net_amount*current_tax_rate)
     )
-    self.save!
+    self.save(validate: false)
   end
 
   # When shipping date for an order is set, if it's today, mark the order as dispatched and send the relevant email
@@ -98,7 +102,7 @@ class Order < ActiveRecord::Base
   #
   # @return [Boolean]
   def completed?
-    transactions.where(:payment_status => 'Completed').blank? ? false : true
+    transactions.where(payment_status: 'Completed').blank? ? false : true
   end
 
   # Detects if the current status of the order is 'review'. See wicked gem for more info
@@ -129,11 +133,26 @@ class Order < ActiveRecord::Base
     status == 'payment' ? true : active?
   end
 
-  # If the order has an associated transaction record, it returns true
+  # Detects if the current status of the order is 'confirm'. See wicked gem for more info
   #
   # @return [Boolean]
-  def has_transaction?
-    transactions.empty? ? false : true
+  def active_or_confirm?
+    status == 'confirm' ? true : active?
+  end
+  
+  # Deletes redundant orders which are more than 12 hours old
+  #
+  # @return [nil]
+  def self.clear_orders
+    where("updated_at < ? AND status != ?", 12.hours.ago, 'active').destroy_all
   end
 
+  private
+
+  # After creating order record, create a ship and bill address to accompany it
+  #
+  def create_addresses
+    self.build_ship_address.save(validate: false)
+    self.build_bill_address.save(validate: false)
+  end
 end

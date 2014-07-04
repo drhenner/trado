@@ -15,10 +15,9 @@ FactoryGirl.define do
         terms { true }
         
 
+        association :cart
         association :shipping
-        association :ship_address, factory: :address
-        association :bill_address, factory: :address
-
+        
         ignore do
             count 1
         end
@@ -60,13 +59,9 @@ FactoryGirl.define do
             end
         end
 
-        factory :nil_actual_shipping_order do
-            transactions { [create(:transaction, payment_status: 'Pending')] }
-            actual_shipping_cost { nil }
-        end
-
-        factory :nil_shipping_date_order do
+        factory :edit_dispatch_order do
             transactions { [create(:transaction)] }
+            actual_shipping_cost { nil }
             shipping_date { nil }
         end
 
@@ -76,6 +71,18 @@ FactoryGirl.define do
 
         factory :bank_transfer_order do
             transactions { [create(:transaction, payment_status: 'Pending', payment_type: 'Bank transfer')] }
+        end
+
+        factory :bill_address_order do
+            after(:create) do |order, evaluator|
+                create(:address, addressable_type: 'OrderBillAddress', order: order)
+            end
+        end
+
+        factory :ship_address_order do
+            after(:create) do |order, evaluator|
+                create(:address, addressable_type: 'OrderShipAddress', order: order)
+            end
         end
     end
 end
