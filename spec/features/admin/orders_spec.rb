@@ -43,7 +43,7 @@ feature 'Order management' do
         end
         within '.row .fourcol:first-child .widget-content ul' do
             expect(find('li:first-child')).to have_content order.email
-            expect(find('li:nth-child(3) span')).to have_content 'Pending'
+            expect(find('li:nth-child(2) span')).to have_content 'Pending'
         end
         within '.row .fourcol:nth-child(2) .widget-content' do
             expect(page).to have_content order.bill_address.full_name
@@ -75,7 +75,7 @@ feature 'Order management' do
         end
         within '.row .fourcol:first-child .widget-content ul' do
             expect(find('li:first-child')).to have_content order.email
-            expect(find('li:nth-child(3) span')).to have_content 'Dispatched'
+            expect(find('li:nth-child(2) span')).to have_content 'Dispatched'
         end
         within '.row .fourcol:nth-child(2) .widget-content' do
             expect(page).to have_content order.bill_address.full_name
