@@ -10,7 +10,7 @@ class Admin::AdminController < ApplicationController
 
     def update
         @settings = Store::settings
-        
+    
         respond_to do |format|
           if @settings.update_attributes(params[:store_setting])
             Store::reset_settings

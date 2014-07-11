@@ -1,5 +1,6 @@
 - content_for :title, 'Profile'
 - content_for :breadcrumb, 'Profile'
+- javascript 'redactor-rails'
 
 .eightcol
   .page-header
@@ -42,7 +43,6 @@
           %label
             = f.check_box :tax_breakdown
             Breakdown
-          
     .widget-sub-heading
       %h3 Google Analytics
     %fieldset.widget.widget-content
@@ -68,6 +68,26 @@
           %label
             = f.check_box :bank_transfer
             Bank transfer
+    .widget-sub-heading
+      %h3 Alert
+    %fieldset.widget.widget-content
+      .form-group
+        .checkbox
+          %label
+            = f.check_box :alert_active
+            Active
+      .form-group
+        .checkbox
+          %label
+            = f.radio_button :alert_type, 'warning'
+            Medium
+        .checkbox
+          %label
+            = f.radio_button :alert_type, 'danger'
+            High
+      .form-group.form-last
+        = f.label 'Message'
+        = f.text_area :alert_message, rows: 8, :class => 'form-control redactor'
     .form-action
       = f.submit 'Submit', :class => 'btn btn-blue btn-large'
 .fourcol.last
