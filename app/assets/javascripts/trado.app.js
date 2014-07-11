@@ -117,16 +117,5 @@ trado.app =
                 return $('.shipping-methods .control-group .controls').html('<p class="shipping_notice">Select a shipping country to view the available shipping options.</p>');
             }
         });
-    },
-
-    submitAll: function()
-    {
-        $('#update_quantity').click(function() 
-        {
-            $('.edit_cart_item').each(function() 
-            {
-                return $(this).submit();
-            });
-        });
     }
 }
