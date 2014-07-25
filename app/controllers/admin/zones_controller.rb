@@ -1,36 +1,32 @@
 class Admin::ZonesController < ApplicationController
 
-  before_filter :authenticate_user!
+  before_action :set_zone, only: [:edit, :update, :destroy]
+  before_action :get_associations, except: [:index, :destroy, :set_zone]
+  before_action :authenticate_user!
   layout "admin"
-  # GET /zones
-  # GET /zones.json
+
   def index
-    @zones = Zone.includes(:countries).all
+    @zones = Zone.includes(:countries).load
 
     respond_to do |format|
-      format.html # index.html.erb
+      format.html
       format.json { render json: @zones }
     end
   end
 
-  # GET /zones/new
-  # GET /zones/new.json
+
   def new
     @zone = Zone.new
 
     respond_to do |format|
-      format.html # new.html.erb
+      format.html 
       format.json { render json: @zone }
     end
   end
 
-  # GET /zones/1/edit
   def edit
-    @zone = Zone.find(params[:id])
   end
 
-  # POST /zones
-  # POST /zones.json
   def create
     @zone = Zone.new(params[:zone])
 
@@ -46,12 +42,9 @@ class Admin::ZonesController < ApplicationController
     end
   end
 
-  # PUT /zones/1
-  # PUT /zones/1.json
   def update
-    @zone = Zone.find(params[:id])
     respond_to do |format|
-      if @zone.update_attributes(params[:zone])
+      if @zone.update(params[:zone])
         flash_message :success, 'Zone was successfully updated.'
         format.html { redirect_to admin_zones_url }
         format.json { head :no_content }
@@ -62,10 +55,7 @@ class Admin::ZonesController < ApplicationController
     end
   end
 
-  # DELETE /zones/1
-  # DELETE /zones/1.json
   def destroy
-    @zone = Zone.find(params[:id])
     @result = Store::last_record(@zone, Zone.all.count)
 
     respond_to do |format|
@@ -74,4 +64,14 @@ class Admin::ZonesController < ApplicationController
       format.json { head :no_content }
     end
   end
+
+  private
+
+    def set_zone
+      @zone = Zone.find(params[:id])
+    end
+
+    def get_associations
+      @countries = Country.all
+    end
 end

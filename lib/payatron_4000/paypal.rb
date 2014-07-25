@@ -85,11 +85,7 @@ module Payatron4000
               Rollbar.report_exception(e)
             end
             order.reload
-            begin
-              Mailatron4000::Orders.confirmation_email(order)
-            rescue
-                Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
-            end
+            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
             return Rails.application.routes.url_helpers.success_order_build_url(:order_id => order.id, :id => 'confirm')
           else
             begin
@@ -97,6 +93,8 @@ module Payatron4000
             rescue Exception => e
               Rollbar.report_exception(e)
             end
+            order.reload
+            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
             return Rails.application.routes.url_helpers.failure_order_build_url( :order_id => order.id, :id => 'confirm', :response => response.message, :error_code => response.params["error_codes"])
           end
         end
@@ -110,7 +108,7 @@ module Payatron4000
             Transaction.new(    :fee => response.params['PaymentInfo']['FeeAmount'], 
                                 :gross_amount => response.params['PaymentInfo']['GrossAmount'], 
                                 :order_id => order.id, 
-                                :payment_status => response.params['PaymentInfo']['PaymentStatus'], 
+                                :payment_status => response.params['PaymentInfo']['PaymentStatus'].downcase, 
                                 :transaction_type => 'Credit', 
                                 :tax_amount => response.params['PaymentInfo']['TaxAmount'], 
                                 :paypal_id => response.params['PaymentInfo']['TransactionID'], 
@@ -118,8 +116,9 @@ module Payatron4000
                                 :net_amount => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d,
                                 :status_reason => response.params['PaymentInfo']['PendingReason']
             ).save(validate: false)
-            Payatron4000::stock_update(order)
-            order.update_column(:status, 'active')
+            Payatron4000::update_stock(order)
+            order.status = :active
+            order.save(validate: false)
         end
 
         
@@ -131,7 +130,7 @@ module Payatron4000
             Transaction.new(    :fee => 0, 
                                 :gross_amount => order.gross_amount, 
                                 :order_id => order.id, 
-                                :payment_status => 'Failed', 
+                                :payment_status => 'failed', 
                                 :transaction_type => 'Credit', 
                                 :tax_amount => order.tax_amount, 
                                 :paypal_id => '', 
@@ -139,7 +138,8 @@ module Payatron4000
                                 :net_amount => order.net_amount,
                                 :status_reason => response.message
             ).save(validate: false)
-            order.update_column(:status, 'active')
+            order.status = :active
+            order.save(validate: false)
         end
 
     end

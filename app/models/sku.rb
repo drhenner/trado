@@ -31,8 +31,8 @@ class Sku < ActiveRecord::Base
   
   has_many :cart_items
   has_many :carts,                                                    :through => :cart_items
-  has_many :order_items,                                              :dependent => :restrict
-  has_many :orders,                                                   :through => :order_items, :dependent => :restrict
+  has_many :order_items,                                              :dependent => :restrict_with_exception
+  has_many :orders,                                                   :through => :order_items, :dependent => :restrict_with_exception
   has_many :notifications,                                            as: :notifiable, :dependent => :delete_all
   has_many :stock_levels,                                             :dependent => :delete_all
   belongs_to :product,                                                inverse_of: :skus
@@ -40,14 +40,16 @@ class Sku < ActiveRecord::Base
 
   validates :price, :cost_value, :length, 
   :weight, :thickness, :code,                                         :presence => true
-  validates :price, :cost_value,                                      :format => { :with => /^(\$)?(\d+)(\.|,)?\d{0,2}?$/ }
+  validates :price, :cost_value,                                      :format => { :with => /\A(\$)?(\d+)(\.|,)?\d{0,2}?\z/ }
   validates :length, :weight, :thickness,                             :numericality => { :greater_than_or_equal_to => 0 }
-  validates :stock, :stock_warning_level,                             :presence => true, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }
+  validates :stock, :stock_warning_level,                             :presence => true, :numericality => { :only_integer => true, :greater_than_or_equal_to => 1 }, :if => :new_record?
   validate :stock_values,                                             :on => :create
   validates :attribute_value, :code,                                  :uniqueness => { :scope => [:product_id, :active] }
   validates :attribute_value, :attribute_type_id,                     presence: true, :if => :not_single_sku?
 
   after_update :update_cart_items_weight
+
+  after_create :create_stock_level
 
   # Validation check to ensure the stock value is higher than the stock warning level value when creating a new SKU
   #
@@ -82,7 +84,7 @@ class Sku < ActiveRecord::Base
   #
   # @return [Boolean]
   def not_single_sku?
-    return true unless self.product && self.product.skus.map { |s| s.active }.count == 1 && self.product.single
+    return self.product && self.product.skus.map(&:active).count == 1 && self.product.single ? false : true
   end
 
   # Joins the parent product SKU and the current SKU with a hyphen
@@ -92,4 +94,9 @@ class Sku < ActiveRecord::Base
     [product.sku, code].join('-')
   end
 
+  # After creating a SKU record, also create a stock level record which logs the intiial stock value
+  #
+  def create_stock_level
+    StockLevel.create(description: 'Initial stock', adjustment: stock, sku_id: id)
+  end
 end

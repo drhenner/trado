@@ -1,12 +1,16 @@
-require 'spec_helper'
+require 'rails_helper'
 
 feature 'Shipping management' do
 
     store_setting
     feature_login_admin
+    given(:shipping) { create(:shipping, active: true) }
+    given(:shipping_with_zones) { create(:shipping_with_zones) }
+    given(:shippings) { create_list(:shipping, 2, active: true) }
+    given(:tier) { create(:tier) }
 
     scenario 'should display an index of shippings' do
-        shipping = create(:shipping, active: true)
+        shipping
 
         visit admin_root_path
         find('a[data-original-title="Shippings"]').click
@@ -49,18 +53,18 @@ feature 'Shipping management' do
     end
 
     scenario 'should edit a shipping' do
-        shipping = create(:shipping_with_zones)
+        shipping_with_zones
 
         visit admin_shippings_path
         within 'tbody' do
             first('tr').find('td:last-child').first(:link).click
         end
-        expect(current_path).to eq edit_admin_shipping_path(shipping)
+        expect(current_path).to eq edit_admin_shipping_path(shipping_with_zones)
         within '#breadcrumbs li.current' do
             expect(page).to have_content 'Edit'
         end
         fill_in('shipping_price', with: '4.92')
-        find('.form-last div:last-child label input[type="checkbox"]').set(false)
+        find('.form-last div:nth-child(3) label input[type="checkbox"]').set(false)
         click_button 'Submit'
         expect(current_path).to eq admin_shippings_path
         within '.alert.alert-success' do
@@ -69,15 +73,15 @@ feature 'Shipping management' do
         within 'h2' do
             expect(page).to have_content 'Shipping methods'
         end 
-        shipping.reload
-        expect(shipping.price).to eq BigDecimal.new("4.92")
-        expect(shipping.name).to eq 'Royal mail 1st class'
-        expect(shipping.zones.count).to eq 1
-        expect(shipping.zones.first.name).to eq 'EU'
+        shipping_with_zones.reload
+        expect(shipping_with_zones.price).to eq BigDecimal.new("4.92")
+        expect(shipping_with_zones.name).to eq 'Royal mail 1st class'
+        expect(shipping_with_zones.zones.count).to eq 1
+        expect(shipping_with_zones.zones.first.name).to eq 'EU'
     end
 
     scenario 'should display an index of tiers' do
-        tier = create(:tier)
+        tier
 
         visit admin_shippings_path
         within '.page-header' do
@@ -99,7 +103,7 @@ feature 'Shipping management' do
     end
 
     scenario "should delete a shipping if there is more than one record" do
-        shipping = create_list(:shipping, 2, active: true)
+        shippings
 
         visit admin_shippings_path
         expect{
@@ -116,7 +120,7 @@ feature 'Shipping management' do
     end
 
     scenario "should not delete a shipping if there is only one record" do
-        shipping = create(:shipping, active: true)
+        shipping
 
         visit admin_shippings_path
         expect{

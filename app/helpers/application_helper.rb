@@ -6,7 +6,7 @@ module ApplicationHelper
     # @param f [Object]
     # @param obj [Object]
     def link_to_remove_fields name, f, obj
-      f.hidden_field(:_destroy) + link_to_function(name, "trado.admin.removeField(this, '#{obj}')")
+      f.hidden_field(:_destroy) + link_to(name, '#/', onclick: "trado.admin.removeField(this, '#{obj}')")
     end
       
     # Create a new form field object and trigger the associated JavaScript to add the field elements to the DOM
@@ -22,7 +22,7 @@ module ApplicationHelper
       fields = f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
         render("admin/products/" + association.to_s + "/fields", :f => builder)
       end
-      link_to_function(name, "trado.admin.addField(this, \"#{association}\", \"#{escape_javascript(fields)}\", \"#{target}\")", 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'data-original-title' => tooltip)
+      link_to name, '#/', onclick: "trado.admin.addField(this, \"#{association}\", \"#{escape_javascript(fields)}\", \"#{target}\")", 'data-toggle' => 'tooltip', 'data-placement' => 'top', 'data-original-title' => tooltip
     end
 
     # Add a single form field object to the DOM
@@ -35,6 +35,14 @@ module ApplicationHelper
       f.fields_for(association, new_object, :child_index => "new_#{association}") do |builder|
         render("admin/products/" + association.to_s + "/fields", :f => builder)
       end
+    end
+
+    # Returns an array of categories which are visible and ordered by their ascending weighting value
+    # Including product data for the links
+    #
+    # @return [Array] list of categories
+    def category_list
+      Category.joins(:products).where('visible = ?', true).order(sorting: :asc)
     end
     
     # If the string parameter equals the current controller value in the parameters hash, return a string
@@ -160,10 +168,10 @@ module ApplicationHelper
         flash_array = []
         flash.each do |type, messages|
             if messages.is_a?(String)
-                flash_array << render(partial: 'shared/flash', locals: { :type => type, :message => messages })
+                flash_array << render(partial: 'shared/flash/admin', locals: { :type => type, :message => messages })
             else
                 messages.each do |m|
-                    flash_array << render(partial: 'shared/flash', locals: { :type => type, :message => m }) unless m.blank?
+                    flash_array << render(partial: 'shared/flash/admin', locals: { :type => type, :message => m }) unless m.blank?
                 end
             end
         end

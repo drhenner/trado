@@ -10,7 +10,7 @@
 
 var taxRate = "<%= Store::settings.tax_rate %>";
      
-$(document).ready(function() 
+ready = function()
 {
     trado.admin.taxField();
     trado.admin.jsonErrors();
@@ -22,4 +22,6 @@ $(document).ready(function()
     trado.modal.ajaxOpen('.edit_sku_attributes', '/admin/products/skus/', '/edit');
     trado.modal.ajaxOpen('.edit_transaction_attributes', '/admin/orders/transactions/', '/edit');
 
-});
+};
+$(document).ready(ready);
+$(document).on('page:load', ready)

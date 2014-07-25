@@ -3,10 +3,7 @@ require File.expand_path('../boot', __FILE__)
 require 'rails/all'
 
 if defined?(Bundler)
-  # If you precompile assets before deploying to production, use this line
-  Bundler.require(*Rails.groups(:assets => %w(development test)))
-  # If you want your assets lazily compiled in production, use this line
-  # Bundler.require(:default, :assets, Rails.env)
+  Bundler.require(:default, Rails.env)
 end
 
 require './lib/deep_struct'
@@ -44,9 +41,6 @@ module Trado
 
     config.assets.expire_after 2.weeks
 
-    # Configure sensitive parameters which will be filtered from the log file.
-    config.filter_parameters += [:password]
-
     # Enable escaping HTML in JSON.
     config.active_support.escape_html_entities_in_json = true
 
@@ -79,10 +73,10 @@ module Trado
         g.test_framework :rspec,
             fixtures: true,
             view_specs: false,
-            helper_specs: false,
+            helper_specs: true,
             routing_specs: false,
             controller_specs: true,
-            request_specs: false
+            feature_specs: true
         g.fixture_replacement :factory_girl, dir: "spec/factories"
     end
   end

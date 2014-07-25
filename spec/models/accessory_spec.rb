@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Accessory do
 
@@ -6,8 +6,8 @@ describe Accessory do
     it { expect(subject).to have_many(:cart_item_accessories) }
     it { expect(subject).to have_many(:cart_items).through(:cart_item_accessories) }
     it { expect(subject).to have_many(:carts).through(:cart_items) }
-    it { expect(subject).to have_many(:order_item_accessories).dependent(:restrict) }
-    it { expect(subject).to have_many(:order_items).through(:order_item_accessories).dependent(:restrict) }
+    it { expect(subject).to have_many(:order_item_accessories).dependent(:restrict_with_exception) }
+    it { expect(subject).to have_many(:order_items).through(:order_item_accessories).dependent(:restrict_with_exception) }
     it { expect(subject).to have_many(:orders).through(:order_items) }
     it { expect(subject).to have_many(:accessorisations).dependent(:delete_all) }
     it { expect(subject).to have_many(:products).through(:accessorisations) }
@@ -39,7 +39,7 @@ describe Accessory do
 
         it "should update any associated cart_item_accessories with the new weight" do
             expect(cart_item.weight).to eq BigDecimal.new("44.5")
-            accessory.update_attributes(:weight => '3.4')
+            accessory.update(:weight => '3.4')
             cart_item.reload
             expect(cart_item.weight).to eq BigDecimal.new("91.5")
         end

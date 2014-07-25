@@ -62,10 +62,10 @@ class Product < ActiveRecord::Base
 
   searchkick word_start: [:name, :part_number, :sku], conversions: "conversions"
 
-  default_scope order('weighting DESC')
+  default_scope { order('weighting DESC') }
   
   extend FriendlyId
-  friendly_id :name, use: :slugged
+  friendly_id :name, use: [:slugged, :finders]
 
   # Search paramters for elasticsearch
   #
@@ -91,7 +91,7 @@ class Product < ActiveRecord::Base
   # @return [Boolean]
   def single_product
     
-    if self.single && self.skus.map { |s| s.active }.count > 1
+    if self.single && self.skus.map(&:active).count > 1
       errors.add(:single, " product cannot be set if the product has more than one SKU.")
       return false
     end

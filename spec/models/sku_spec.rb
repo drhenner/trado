@@ -1,12 +1,12 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Sku do
 
     # ActiveRecord relations
     it { expect(subject).to have_many(:cart_items) }
     it { expect(subject).to have_many(:carts).through(:cart_items) }
-    it { expect(subject).to have_many(:order_items).dependent(:restrict) }
-    it { expect(subject).to have_many(:orders).through(:order_items).dependent(:restrict) }
+    it { expect(subject).to have_many(:order_items).dependent(:restrict_with_exception) }
+    it { expect(subject).to have_many(:orders).through(:order_items).dependent(:restrict_with_exception) }
     it { expect(subject).to have_many(:notifications).dependent(:delete_all) }
     it { expect(subject).to have_many(:stock_levels).dependent(:delete_all) }
     it { expect(subject).to belong_to(:product) }
@@ -39,10 +39,27 @@ describe Sku do
 
     describe "When creating a new SKU" do
         let!(:sku) { build(:sku, stock: 5, stock_warning_level: 10) }
+        let(:create_sku) { create(:sku_after_stock_level, stock: 55) }
         
         it "should validate whether the stock value is higher than stock_warning_level" do
             expect(sku).to have(1).error_on(:sku)
             expect(sku.errors.messages[:sku]).to eq ["stock warning level value must not be below your stock count."]
+        end
+
+        it "should create a new stock level record" do
+            expect{
+                create_sku
+            }.to change(StockLevel, :count).by(1)
+        end
+
+        it "should set the stock level record as 'Initial stock'" do
+            create_sku
+            expect(create_sku.stock_levels.first.description).to eq 'Initial stock'
+        end
+
+        it "should set the stock level record adjustment as the SKU's stock" do
+            create_sku
+            expect(create_sku.stock_levels.first.adjustment).to eq 55
         end
     end
 
@@ -72,7 +89,7 @@ describe Sku do
 
             it "should return false for attribute validation" do
                 product.reload
-                expect(product.skus.first.not_single_sku?).to be_false
+                expect(product.skus.first.not_single_sku?).to eq false
             end
         end
 
@@ -81,7 +98,7 @@ describe Sku do
 
             it "should return true for attribute validation" do
                 product.reload
-                expect(product.skus.first.not_single_sku?).to be_true
+                expect(product.skus.first.not_single_sku?).to eq true
             end
         end
     end
@@ -92,7 +109,7 @@ describe Sku do
 
         it "should update the associated cart_item records weight" do
             expect(cart_item.weight).to eq BigDecimal.new("9.6")
-            sku.update_attributes(:weight => '4.4')
+            sku.update(:weight => '4.4')
             cart_item.reload
             expect(cart_item.weight).to eq BigDecimal.new("17.6")
         end

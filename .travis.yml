@@ -5,18 +5,12 @@ script:
     - RAILS_ENV=test bundle exec rake db:setup --trace
     - bundle exec rake db:test:prepare
     - bundle exec rspec spec/
-branches:
-    only:
-        - master
+services:
+    - elasticsearch
 before_install:
     - sudo apt-get install -qq openjdk-6-jre
-env:
-    - DB=sqlite
-    - DB=mysql
-    - DB=postgresql
 before_script:
     - cp config/database.travis.yml config/database.yml
-    - mysql -e 'create database trado_test_db'
     - psql -c 'create database trado_test_db' -U postgres
     - export DISPLAY=:99.0
     - sh -e /etc/init.d/xvfb start

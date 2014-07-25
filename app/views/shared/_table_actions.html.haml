@@ -1,11 +1,11 @@
 %td.table-actions
   / Update stock level
   - if type == 1
-    %a.new_stock_levels{href: "#", id: object.id}
+    %a.new_stock_levels{href: "#/", id: object.id}
       %i.icon-plus
   - if type == 1
     / Edit SKU
-    %a.edit_sku_attributes{href: "#", id: object.id}
+    %a.edit_sku_attributes{href: "#/", id: object.id}
       %i.icon-pencil
   - elsif type == 3
     / Edit transaction
@@ -17,14 +17,14 @@
       %i.icon-pencil
 
   / Dispatch order
-  - if type == 2 && object.transactions.last.payment_status == "Completed"
-    %a.edit_order_attributes{href: "#", id: object.id}
+  - if type == 2 && object.transactions.last.completed?
+    %a.edit_order_attributes{href: "#/", id: object.id}
       %i.icon-pencil
   / Delete record
   - unless type == 2 || type == 1 || type == 3
-    = link_to del, :method => :delete, :confirm => 'Are you sure?' do
+    = link_to del, :method => :delete, data: { confirm: 'Are you sure?' } do
       %i.icon-remove
   / AJAX delete record (SKU)
   - if type == 1
-    = link_to del, :method => :delete, :confirm => 'Are you sure?', :remote => true do
+    = link_to del, :method => :delete, data: { confirm: 'Are you sure?' }, :remote => true do
       %i.icon-remove

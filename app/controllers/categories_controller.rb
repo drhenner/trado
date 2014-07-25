@@ -1,13 +1,12 @@
 class CategoriesController < ApplicationController
 
-    skip_before_filter :authenticate_user!
+    skip_before_action :authenticate_user!
     
-    # GET /categories/1
-    # GET /categories/1.json
+
     def show
       @category = Category.find(params[:id])
       respond_to do |format|
-        format.html # show.html.erb
+        format.html
         format.json { render json: @category }
       end
     end

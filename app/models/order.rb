@@ -11,12 +11,12 @@
 #  id                       :integer          not null, primary key
 #  ip_address               :string(255)      
 #  email                    :string(255)     
-#  status                   :string(255)          
+#  status                   :integer          
 #  user_id                  :integer     
 #  cart_id                  :integer
 #  tax_number               :integer 
 #  shipping_id              :integer        
-#  shipping_status          :string(255)      default('Pending')   
+#  shipping_status          :integer          default(0)   
 #  shipping_date            :datetime 
 #  actual_shipping_cost     :decimal          precision(8), scale(2) 
 #  express_token            :string(255) 
@@ -38,8 +38,8 @@ class Order < ActiveRecord::Base
 
   belongs_to :cart
   belongs_to :shipping
-  has_one :ship_address,                                                class_name: 'Address', conditions: { addressable_type: 'OrderShipAddress' }, dependent: :destroy
-  has_one :bill_address,                                                class_name: 'Address', conditions: { addressable_type: 'OrderBillAddress' }, dependent: :destroy
+  has_one :ship_address,                                                -> { where addressable_type: 'OrderShipAddress'}, class_name: 'Address', dependent: :destroy
+  has_one :bill_address,                                                -> { where addressable_type: 'OrderBillAddress'}, class_name: 'Address', dependent: :destroy
 
   validates :actual_shipping_cost,                                      :presence => true, :if => :completed?
   validates :email,                                                     :presence => { :message => 'is required' }, :format => { :with => /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }, :if => :active_or_shipping?
@@ -47,9 +47,12 @@ class Order < ActiveRecord::Base
   validates :terms,                                                     :inclusion => { :in => [true], :message => 'You must tick the box in order to complete your order.' }, :if => :active_or_confirm?
 
   after_create :create_addresses
-  after_update :ship_order_today,                                       :if => :shipping_date_nil?
 
   accepts_nested_attributes_for :ship_address
+
+  enum shipping_status: [:pending, :dispatched]
+
+  enum status: [:review, :billing, :shipping, :payment, :confirm, :active]
 
   # Upon completing an order, transfer the cart item data to new order item records 
   #
@@ -68,41 +71,18 @@ class Order < ActiveRecord::Base
   # @param current_tax_rate [Decimal]
   def calculate cart, current_tax_rate
     net_amount = cart.total_price + shipping.price
-    self.update_attributes( :net_amount => net_amount,
-                            :tax_amount => net_amount*current_tax_rate,
-                            :gross_amount => net_amount + (net_amount*current_tax_rate)
-    )
+    self.update(  :net_amount => net_amount,
+                  :tax_amount => net_amount*current_tax_rate,
+                  :gross_amount => net_amount + (net_amount*current_tax_rate)
+              )
     self.save(validate: false)
-  end
-
-  # When shipping date for an order is set, if it's today, mark the order as dispatched and send the relevant email
-  #
-  def ship_order_today
-    if shipping_date.to_date == Date.today
-      self.update_column(:shipping_status, "Dispatched")
-      ShippingMailer.complete(self).deliver
-    end
-  end
-
-  # Determines whether the shipping date of the current order is nil
-  #
-  # @return [Boolean]
-  def shipping_date_nil?
-    return true unless shipping_date.nil?
-  end
-
-  # Detects if the current status of the order is 'active'. Inactive orders are deleted on a daily cron job
-  #
-  # @return [Boolean]
-  def active?
-    status == 'active'
   end
 
   # Returns a boolean on whether the order is marked as completed
   #
   # @return [Boolean]
   def completed?
-    transactions.where(payment_status: 'Completed').blank? ? false : true
+    transactions.last.completed? unless transactions.empty?
   end
 
   # Detects if the current status of the order is 'review'. See wicked gem for more info
@@ -116,35 +96,35 @@ class Order < ActiveRecord::Base
   #
   # @return [Boolean]
   def active_or_billing?
-    status == 'billing' ? true : active?
+    billing? ? true : active?
   end
 
   # Detects if the current status of the order is 'shipping'. See wicked gem for more info
   #
   # @return [Boolean]
   def active_or_shipping?
-    status == 'shipping' ? true : active?
+    shipping? ? true : active?
   end
 
   # Detects if the current status of the order is 'payment'. See wicked gem for more info
   #
   # @return [Boolean]
   def active_or_payment?
-    status == 'payment' ? true : active?
+    payment? ? true : active?
   end
 
   # Detects if the current status of the order is 'confirm'. See wicked gem for more info
   #
   # @return [Boolean]
   def active_or_confirm?
-    status == 'confirm' ? true : active?
+    confirm? ? true : active?
   end
   
   # Deletes redundant orders which are more than 12 hours old
   #
   # @return [nil]
   def self.clear_orders
-    where("updated_at < ? AND status != ?", 12.hours.ago, 'active').destroy_all
+    where("updated_at < ? AND status != ?", 12.hours.ago, 5).destroy_all
   end
 
   private

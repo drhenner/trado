@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Payatron4000::Paypal do
 
@@ -111,18 +111,18 @@ describe Payatron4000::Paypal do
             let(:session) { Hash({:cart_id => order.cart.id}) }
             let(:successful_order) { Payatron4000::Paypal.complete(order, session) }
             before(:each) do
-                EXPRESS_GATEWAY.stub(:purchase) { OpenStruct.new(  :params => { 'PaymentInfo' => {   'FeeAmount' => '2.34', 
-                                                                                                                    'TransactionID' => '78232', 
-                                                                                                                    'GrossAmount' => '67.23',
-                                                                                                                    'PaymentStatus' => 'Completed',
-                                                                                                                    'TaxAmount' => '15.66',
-                                                                                                                    'TransactionType' => 'express-checkout',
-                                                                                                                    'PendingReason' => nil 
-                                                                                                            }
-                                                                                            },
+                EXPRESS_GATEWAY.stub(:purchase) { OpenStruct.new(  :params => { 'PaymentInfo' => {  'FeeAmount' => '2.34', 
+                                                                                                    'TransactionID' => '78232', 
+                                                                                                    'GrossAmount' => '67.23',
+                                                                                                    'PaymentStatus' => 'Completed',
+                                                                                                    'TaxAmount' => '15.66',
+                                                                                                    'TransactionType' => 'express-checkout',
+                                                                                                    'PendingReason' => nil 
+                                                                                                }
+                                                                                },
                                                                                 :success? => true 
-                                                                            )
-                                                            }
+                                                                )
+                                                }
             end
 
             it "should create a tranasction record" do
@@ -157,18 +157,18 @@ describe Payatron4000::Paypal do
             let(:order) { create(:order) }
             let(:failed_order) { Payatron4000::Paypal.complete(order, session) }
             before(:each) do
-                EXPRESS_GATEWAY.stub(:purchase) { OpenStruct.new(  :params => { 'PaymentInfo' => {   'FeeAmount' => '', 
-                                                                                                                    'TransactionID' => '', 
-                                                                                                                    'GrossAmount' => '',
-                                                                                                                    'PaymentStatus' => 'Failed',
-                                                                                                                    'TaxAmount' => '',
-                                                                                                                    'TransactionType' => '',
-                                                                                                                    'PendingReason' => nil 
-                                                                                                            }
-                                                                                            },
+                EXPRESS_GATEWAY.stub(:purchase) { OpenStruct.new(  :params => { 'PaymentInfo' => {  'FeeAmount' => '', 
+                                                                                                    'TransactionID' => '', 
+                                                                                                    'GrossAmount' => '',
+                                                                                                    'PaymentStatus' => 'Failed',
+                                                                                                    'TaxAmount' => '',
+                                                                                                    'TransactionType' => '',
+                                                                                                    'PendingReason' => nil 
+                                                                                                }
+                                                                                },
                                                                                 :success? => false 
-                                                                            )
-                                                            }
+                                                                )
+                                                }
             end
 
             it "should create a tranasction record" do
@@ -177,11 +177,11 @@ describe Payatron4000::Paypal do
                 }.to change(Transaction, :count).by(1)
             end
 
-            it "should not result in an email being sent" do
+            it "should result in an email being sent" do
                 expect{
                     failed_order
                 }.to change {
-                    ActionMailer::Base.deliveries.count }.by(0)
+                    ActionMailer::Base.deliveries.count }.by(1)
             end
 
             it "should return a redirect URL to the failed order page" do
@@ -198,10 +198,14 @@ describe Payatron4000::Paypal do
                                                                         'PaymentStatus' => 'Completed',
                                                                         'TaxAmount' => '15.66',
                                                                         'TransactionType' => 'express-checkout',
-                                                                        'PendingReason' => nil } })  }
+                                                                        'PendingReason' => nil 
+                                                                    } 
+                                                    }
+                                        )  
+                        }
         let(:successful) { Payatron4000::Paypal.successful(response, order) }
         before(:each) do
-            unless example.metadata[:skip_before]
+            unless RSpec.current_example.metadata[:skip_before]
                 successful
             end
         end
@@ -217,7 +221,7 @@ describe Payatron4000::Paypal do
         end
 
         it "should set the transaction record payment status attribute as 'Completed'" do
-            expect(order.transactions.first.payment_status).to eq 'Completed'
+            expect(order.transactions.first.payment_status).to eq 'completed'
         end
 
         it "should set the correct paypal id for the transaction" do
@@ -239,7 +243,7 @@ describe Payatron4000::Paypal do
         let(:response) { OpenStruct.new(:message => 'Failed order.')  }
         let(:failed) { Payatron4000::Paypal.failed(response, order) }
         before(:each) do
-            unless example.metadata[:skip_before]
+            unless RSpec.current_example.metadata[:skip_before]
                 failed
             end
         end
@@ -260,7 +264,7 @@ describe Payatron4000::Paypal do
         end
 
         it "should set the transaction record payment status attribute as 'Failed'" do
-            expect(order.transactions.first.payment_status).to eq 'Failed'
+            expect(order.transactions.first.payment_status).to eq 'failed'
         end
 
         it "should set the correct value for the status reason attribute on the transaction record" do

@@ -32,6 +32,10 @@ FactoryGirl.define do
             factory :tags_with_product do
                 tags { [create(:tag, name: 'tag #1'), create(:tag, name: 'tag #2'), create(:tag, name: 'tag #3')] }
             end
+
+            factory :product_accessory do
+                accessories { [create(:accessory)] }
+            end
         end
 
         factory :product_skus do 
@@ -54,6 +58,10 @@ FactoryGirl.define do
             after(:create) do |product, evaluator|
                 create(:sku_in_stock, product: product)
             end
+        end
+
+        factory :invalid_product do
+            name { nil }
         end
 
         # Factories for stock_spec:automated stock warning level

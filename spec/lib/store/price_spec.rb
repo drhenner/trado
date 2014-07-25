@@ -1,4 +1,4 @@
-require 'spec_helper'
+require 'rails_helper'
 
 describe Store::Price do
 
@@ -113,7 +113,7 @@ describe Store::Price do
     describe "When rendering price markup for a view" do
 
         context "if the tax breakdown Store setting is true" do
-            let(:sku) { create(:sku, price: '48.93') }
+            let!(:sku) { create(:sku, price: '48.93') }
             before(:each) do
                 Store::reset_settings
                 StoreSetting.destroy_all
@@ -127,7 +127,7 @@ describe Store::Price do
         end
 
         context "if the tax breakdown Store setting is false" do
-            let(:sku) { create(:sku, price: '48.93') }
+            let!(:sku) { create(:sku, price: '48.93') }
 
             it "should have the correct elements" do
                 expect(Store::Price.new(sku.price).markup).to_not include("<span>#{Store::Price.new(sku.price).format}</span>")

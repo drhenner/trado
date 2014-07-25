@@ -1,6 +1,6 @@
 class Admin::TransactionsController < ApplicationController
 
-  skip_before_filter :authenticate_user!
+  skip_before_action :authenticate_user!
 
   include ActiveMerchant::Billing::Integrations
 
@@ -10,24 +10,17 @@ class Admin::TransactionsController < ApplicationController
     
     if notify.acknowledge
       transaction = Transaction.where('order_id = ?', notify.params['invoice']).first
-      begin
-
-        if notify.complete? and transaction.gross_amount.to_s == notify.params['mc_gross']
-          transaction.fee = notify.params['mc_fee']
-          transaction.payment_status = notify.params['payment_status']
-        end
-        # TODO: Possibly log failed paypal verifications in future?
-
-      rescue => e
-        transaction.payment_status = 'Failed'
-        raise
-      ensure
-        if transaction.save
-          OrderMailer.received(transaction.order)
-        end
+      if notify.complete? and transaction.gross_amount.to_s == notify.params['mc_gross']
+        transaction.fee = notify.params['mc_fee']
+        transaction.completed!
+      else
+        transaction.failed!
+      end
+      if transaction.save
+        Mailatron4000::Orders.confirmation_email(transaction.order) rescue Rollbar.report_message("PayPal IPN: Order #{transaction.order.id} confirmation email failed to send", "info", :order => transaction.order)
       end
     end
 
-    render :nothing => true
+    render nothing: true
   end
 end

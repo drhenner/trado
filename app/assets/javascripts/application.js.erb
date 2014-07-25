@@ -19,7 +19,7 @@
 //= require trado.tracking
 //= require trado.app
 
-$(document).ready(function()
+ready = function()
 {
     trado.tracking.init();
     trado.modal.loading('.paypal_checkout', '#paypalModal');
@@ -28,19 +28,21 @@ $(document).ready(function()
     trado.modal.open('#estimate-shipping', '#estimateDeliveryModal');
     trado.app.submitAll();
     trado.animation.loadingSettings();
-    trado.app.updatePrice('/product/skus/update?sku_id=', '&accessory_id=', '#cart_item_sku_id', '#cart_item_cart_item_accessory_accessory_id');
-    trado.app.updatePrice('/product/accessories/update?accessory_id=', '&sku_id=', '#cart_item_cart_item_accessory_accessory_id', '#cart_item_sku_id');
+    trado.app.updatePrice('/product/skus/', '&accessory_id=', '#cart_item_sku_id', '#cart_item_cart_item_accessory_accessory_id');
+    trado.app.updatePrice('/product/accessories/', '&sku_id=', '#cart_item_cart_item_accessory_accessory_id', '#cart_item_sku_id');
     trado.app.typeahead();
     trado.app.selectShipping();
     trado.app.updateShipping();
     trado.app.duplicateAddress();
-});
-    
+};
+$(document).ready(ready);
+$(document).on('page:load', ready)
+
 $(document).ajaxComplete(function()
 {
     trado.modal.open('.notify_me', '#notifyMeModal');
     trado.animation.loadingSettings();
-    trado.app.updatePrice('/product/skus/update?sku_id=', '&accessory_id=', '#cart_item_sku_id', '#cart_item_cart_item_accessory_accessory_id');
+    trado.app.updatePrice('/product/skus/', '&accessory_id=', '#cart_item_sku_id', '#cart_item_cart_item_accessory_accessory_id');
     trado.app.selectShipping();
     trado.app.jsonErrors();
 });

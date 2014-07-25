@@ -1,12 +1,10 @@
 class OrdersController < ApplicationController
   include Wicked::Wizard
 
-  skip_before_filter :authenticate_user!
+  skip_before_action :authenticate_user!
 
   steps :review, :billing, :shipping, :payment, :confirm
-  
-  # GET /orders/new
-  # GET /orders/new.json
+
   def new
     if current_cart.cart_items.empty?
       flash_message :notice, "Your cart is empty."
