@@ -11,6 +11,7 @@
     %td.qty
       = form_for item, :remote => true do |f|
         = f.text_field :quantity, :value => item.quantity, :class => 'tiny-size'
+        = image_submit_tag 'gimson-robotics/refresh.jpg', height: 22, width: 22, alt: 'Refresh cart item'
     %td.price= Store::Price.new(item.total_price).format
   - unless item.cart_item_accessory.blank?
     %tr.accessory_row

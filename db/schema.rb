@@ -11,6 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
+
 ActiveRecord::Schema.define(version: 20140725181845) do
 
   # These are extensions that must be enabled in order to support this database
@@ -195,7 +196,6 @@ ActiveRecord::Schema.define(version: 20140725181845) do
     t.boolean  "featured"
     t.boolean  "active",            default: true
     t.text     "short_description"
-    t.text     "specification"
     t.boolean  "single"
     t.text     "specification"
   end
@@ -263,17 +263,17 @@ ActiveRecord::Schema.define(version: 20140725181845) do
     t.string   "currency",                              default: "£"
     t.string   "tax_name",                              default: "VAT"
     t.integer  "user_id"
-    t.datetime "created_at",                                                                   :null => false
-    t.datetime "updated_at",                                                                   :null => false
+    t.datetime "created_at",                                                                                 :null => false
+    t.datetime "updated_at",                                                                                 :null => false
     t.string   "ga_code",                                     :default => "UA-XXXXX-X"
     t.boolean  "ga_active",                                   :default => false
     t.decimal  "tax_rate",      :precision => 8, :scale => 2, :default => 20.0
     t.boolean  "cheque",                                      :default => false
     t.boolean  "bank_transfer",                               :default => false
     t.boolean  "tax_breakdown",                               :default => false
-    t.boolean  "alert_active",                          default: false
-    t.text     "alert_message",                         default: "Type your alert message here..."
-    t.string   "alert_type",                            default: "warning"
+    t.boolean  "alert_active",                                :default => false
+    t.text     "alert_message",                               :default => "Type your alert message here..."
+    t.string   "alert_type",                                  :default => "warning"
   end
 
   create_table "taggings", force: true do |t|

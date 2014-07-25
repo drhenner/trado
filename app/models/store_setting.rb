@@ -18,12 +18,17 @@
 #  ga_active                :boolean                default(false)
 #  cheque                   :boolean                default(false)
 #  bank_transfer            :boolean                default(false)
+#  alert_active             :boolean                default(false)
+#  alert_type               :string(255)            default('orange')
+#  alert_message            :text                   default('Type your alert message here...')
 #  created_at               :datetime               not null
 #  updated_at               :datetime               not null
 #
 class StoreSetting < ActiveRecord::Base
 
-  attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes
+  attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, 
+  :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes,
+  :alert_active, :alert_type, :alert_message
 
   has_one :attachment,                                                  as: :attachable, :dependent => :destroy
 
