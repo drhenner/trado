@@ -127,32 +127,6 @@ class Orders::BuildController < ApplicationController
     end
   end
 
-  ## TODO: The estimate delivery functionality is currently quite hacky. This will need to be revised it is integrated into the master Trado platform.
-
-  # Adds a shipping estimate to the session store for the order. This is dependant on the country and shipping option the user selected
-  # Refreshes the cart with the new shipping item and updates the cart subtotal
-  #
-  def estimate 
-    @shipping = Shipping.find(params[:order][:shipping_id])
-    session[:estimate_country] = params[:country]
-    session[:estimate_price] = @shipping.price
-    session[:estimate_shipping] = @shipping.name
-    respond_to do |format|
-      format.js { render :partial => 'orders/estimate/update', :format => [:js] }
-    end
-  rescue
-    render :json => { :errors => "{\"country\":[\"needs to be selected.\"]}" }, :status => 422
-  end
-
-  # Destroys the estimated shipping item from the cart by setting all the session stores values to nil
-  #
-  def purge_estimate
-    session[:estimate_country] = session[:estimate_price] = session[:estimate_shipping] = nil
-    respond_to do |format|
-      format.js { render :partial => 'orders/estimate/update', :format => [:js] }
-    end
-  end
-
   # Payment method for a bank transfer, which sets the payment_type session value to Bank tranfer
   # Redirect to last step in the order process
   #
