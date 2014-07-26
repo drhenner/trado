@@ -26,7 +26,6 @@ ready = function()
     trado.modal.loading('.confirm_order', '#confirmOrderModal');
     trado.modal.open('.notify_me', '#notifyMeModal');
     trado.modal.open('#estimate-shipping', '#estimateDeliveryModal');
-    trado.app.submitAll();
     trado.animation.loadingSettings();
     trado.app.updatePrice('/product/skus/', '&accessory_id=', '#cart_item_sku_id', '#cart_item_cart_item_accessory_accessory_id');
     trado.app.updatePrice('/product/accessories/', '&sku_id=', '#cart_item_cart_item_accessory_accessory_id', '#cart_item_sku_id');
