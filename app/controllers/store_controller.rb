@@ -14,5 +14,17 @@ class StoreController < ApplicationController
   def contact
 
   end
+
+  def delivery
+
+  end
+
+  def terms
+
+  end
+
+  def faq
+
+  end
   
 end

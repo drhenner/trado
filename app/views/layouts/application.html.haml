@@ -43,10 +43,13 @@
             / ==========
             .span6
               = link_to root_path, :class => 'brand' do
-                = image_tag 'gimson-robotics_logo.jpg', :alt => Store::settings.name
+                /= image_tag 'gimson-robotics_logo.jpg', :alt => Store::settings.name
             .span6
               %ul
                 %li= link_to 'About', about_path
+                %li= link_to 'Terms of sale', terms_path
+                %li= link_to 'Delivery', delivery_path
+                %li= link_to 'FAQ', faq_path
                 %li= link_to 'Contact us', contact_path
 
       / ==========
@@ -82,7 +85,6 @@
               .span3
                 #cartContainer.cart-container
                   = render :partial => 'carts/cart'
-      = render partial: 'shared/flash/store'
       / ==========
       / = Main container =
       / ==========

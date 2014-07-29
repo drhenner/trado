@@ -5,6 +5,9 @@ Trado::Application.routes.draw do
   # Standard pages
   get '/about' => 'store#about'
   get '/contact' => 'store#contact'
+  get '/delivery' => 'store#delivery'
+  get '/terms' => 'store#terms'
+  get '/faq' => 'store#faq'
 
   # Custom routes
   get '/order/shippings/update' => 'shippings#update'
