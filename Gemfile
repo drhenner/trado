@@ -23,7 +23,7 @@ group :development do
     gem 'capistrano', '~> 2.15'
     gem 'bullet'
     gem 'metric_fu'
-    gem 'capistrano-unicorn', :require => false, :platforms => :ruby
+    gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
 end
 
