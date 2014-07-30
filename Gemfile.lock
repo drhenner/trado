@@ -370,7 +370,7 @@ GEM
     sexp_processor (4.4.3)
     shoulda-matchers (2.6.2)
       activesupport (>= 3.0.0)
-    sitemap_generator (5.0.4)
+    sitemap_generator (5.0.5)
       builder
     slop (3.6.0)
     spring (1.1.3)
