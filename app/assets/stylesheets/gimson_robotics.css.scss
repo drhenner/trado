@@ -173,10 +173,16 @@ footer
             margin-bottom:5px;
             font-size: 16px;
 
-            span
+            span.range-prefix
             {
                 font-style: italic;
                 font-weight: normal;
+            }
+
+            span.tax-suffix
+            {
+                font-size: 14px;
+                margin-left: 10px;
             }
         }
         p
