@@ -79,10 +79,8 @@
             %a{"data-toggle" => "tab", href: "#tab-2"} Technical details
         .tab-content
           #tab-1.fade.in.tab-pane.active
-            %h3 Product Description
             %p=raw @product.description
           #tab-2.fade.in.tab-pane
-            %h3 Technical details
             %p= raw @product.specification
 / /container
 - if @product.category.products.count > 1
