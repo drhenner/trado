@@ -24,9 +24,7 @@ Trado::Application.configure do
                                 'modernizr/modernizr.js',
                                 'orders.js',
                                 'products.js',
-                                'redactor-rails/redactor.js',
-                                'redactor-rails/config.js',
-                                'redactor-rails/index.js',
+                                'redactor-rails.js',
                                 'typeahead.js/dist/typeahead.jquery.min.js'
                               ]
 
