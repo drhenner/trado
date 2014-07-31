@@ -26,7 +26,7 @@
           %div
             = sku_attribute_values(item.sku, item.sku.product.single)
             - unless item.cart_item_accessory.blank?
-              = "<i class='fa fa-code-fork'></i> #{item.cart_item_accessory.accessory.name}".html_safe
+              = "<i class='icon-power-cord'></i> #{item.cart_item_accessory.accessory.name}".html_safe
           %span.light-clr.qty
             Qty:
             = item.quantity

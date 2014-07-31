@@ -18,10 +18,8 @@
                   .center-align
                     %h1
                       %span.light Review
-                      order
+                      shopping cart
                 .span2
-                  .right-align
-                    = image_tag 'webmarket/buttons/security.jpg', :alt => 'Security', :width => 92, :height => 65
             / ==========
             / = Steps =
             / ==========
@@ -29,13 +27,13 @@
               .clearfix
                 .step.active
                   .step-badge 1
-                  Review order
+                  Review cart
                 .step
                   .step-badge 2
-                  Billing address
+                  Billing details
                 .step
                   .step-badge 3
-                  Shipping information
+                  Shipping address
                 .step
                   .step-badge 4
                   Payment method
@@ -59,14 +57,15 @@
                       .align-center
                     %th
                       .align-right Price
+                    %th
+                      .align-right Total
                 %tbody
                   = render :partial => 'orders/cart'
             %hr/
             - unless @cart.cart_items.empty?
               %p.right-align
-                In the next step you will choose your billing address  
-                %a.btn.higher.bold#estimate-shipping ESTIMATE SHIPPING  
-                = link_to "CONTINUE", next_wizard_path, :class => 'btn btn-primary higher bold'
+                %a.btn.higher.bold#estimate-shipping Estimate shipping  
+                = link_to "Continue to checkout", next_wizard_path, :class => 'btn btn-primary higher bold'
     / /main content
 / /container
 = render 'orders/shippings/estimate/modal'

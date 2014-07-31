@@ -12,15 +12,14 @@
       = form_for item, :remote => true do |f|
         = f.text_field :quantity, :value => item.quantity, :class => 'tiny-size'
         = image_submit_tag 'gimson-robotics/refresh.jpg', height: 22, width: 22, alt: 'Refresh cart item'
+    %td.price= Store::Price.new(item.price).format
     %td.price= Store::Price.new(item.total_price).format
   - unless item.cart_item_accessory.blank?
     %tr.accessory_row
-      %td.image
-        = image_tag 'http://placehold.it/124x124', :alt => item.cart_item_accessory.accessory.name, :height => 124, :width => 124
+      %td.icon
+        %i.icon-plus
       %td.desc
         = item.cart_item_accessory.accessory.name
-      %td.qty
-        = item.cart_item_accessory.quantity
 - unless @order.nil? || @order.shipping.nil?
   %tr
     %td.image
@@ -34,19 +33,19 @@
     %td.price= Store::Price.new(@order.shipping.price).format
 - if Store::settings.tax_breakdown
   %tr
-    %td{colspan: "2"}
+    %td{colspan: "3"}
     \ 
     %td.stronger Subtotal:
     %td.stronger
       .align-right= Store::Price.new(@cart_total).format
   %tr
-    %td{colspan: "2", rowspan: "1"}
+    %td{colspan: "3", rowspan: "1"}
     \ 
     %td.stronger= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
     %td.stronger
       .align-right= Store::Price.new((@cart_total*Store::tax_rate)).format
 %tr
-  %td{colspan: "2", rowspan: "2"}
+  %td{colspan: "3", rowspan: "2"}
 %tr
   %td.stronger Total:
   %td.stronger

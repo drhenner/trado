@@ -60,6 +60,18 @@ a
                 }
             }
         }
+        .desc
+        {  
+            div
+            {
+                font-size: 11px;
+
+                .icon-power-cord
+                {
+                    color:#e54b5d;
+                }
+            }
+        }
         .proceed 
         {
             a
@@ -122,6 +134,10 @@ header
                 position: absolute;
                 left: 0;
                 top:4px;
+            }
+            &:first-child:before
+            {
+                height:0px;
             }
         }
     }
@@ -285,5 +301,22 @@ header
     .tax-suffix
     {
         color:#003366;
+    }
+}
+.checkout-container
+{
+    .accessory_row
+    {
+        .icon
+        {
+            text-align: center;
+            padding: 10px 0 12px;
+            i
+            {
+                margin-right: 5px;
+                color:#727272;
+                font-size: 30px;
+            }
+        }
     }
 }
