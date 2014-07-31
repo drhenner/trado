@@ -9,51 +9,19 @@
   .push-up.blocks-spacer
     .row
       / ==========
-      / = Sidebar =
-      / ==========
-      %aside#tourStep1.span3.left-sidebar
-        #sidebarFilters.sidebar-item.sidebar-filters
-          / ==========
-          / = Sidebar Title =
-          / ==========
-          .underlined
-            %h3
-              %span.light Shop
-              by filters
-          / /categories
-          / ==========
-          / = Prices slider =
-          / ==========
-          .accordion-group
-            .accordion-heading
-              %a.accordion-toggle{"data-toggle" => "collapse", href: "#filterPrices"}
-                Price
-                %b.caret
-            #filterPrices.accordion-body.in.collapse
-              .accordion-inner.with-slider
-                .jqueryui-slider-container
-                  #pricesRange
-                %input.max-val.pull-right{"data-initial" => "432", disabled: "disabled", type: "text"}/
-                %input.min-val{"data-initial" => "99", disabled: "disabled", type: "text"}/
-          / /prices slider
-          %a#removeFilters.remove-filter{href: "#"}
-            %span.fa.fa-ban
-            Remove All Filters
-      / /sidebar
-      / ==========
       / = Main content =
       / ==========
-      %section.span9
+      %section.span12
         / ==========
         / = Title =
         / ==========
         .underlined.push-down-20
           .row
-            .span4
+            .span6
               %h3
                 %span.light Search:
                 = params[:query]
-            .span5.align-right.sm-align-left
+            .span6.align-right.sm-align-left
               #tourStep4.form-inline.sorting-by
                 %label.black-clr{for: "isotopeSorting"} Sort:
                 %select#isotopeSorting.span3
@@ -65,32 +33,27 @@
         / ==========
         / = Products =
         / ==========
-        .row.search
+        .row
           - if @products.empty?
             %p 
               Unfortuantely, we couldn't find anything for 
               %strong= "#{params[:query]}."
-
           - else
-            #isotopeContainer.isotope-container
-            
-
-              - @products.each do |product|
-                .span9.isotope--target.filter--boots{"data-brand" => product.name, "data-price" => product.skus.first.price}
-                  .product
-                    .row
-                      .span3
-                        .product-img
-                          .picture
-                            = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
-                      .span6
-                        .main-titles.no-margin
-                          %h5.isotope--title
-                            = link_to product.name, [product.category, product]
-                          .meta-data
-                            %span.price= Store::Price.new(product.skus.first.price, product.skus.count).range
-                        %p.desc= product.description
-                / /single product
-            %hr/
+          #isotopeContainer.isotope-container
+            - @products.each do |product|
+              / ==========
+              / = Single Product =
+              / ==========
+              .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price}
+                .product
+                  .product-inner
+                    .product-img
+                      .picture
+                        = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
+                    .main-titles.no-margin
+                      %h5.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
+                      = Store::Price.new(product.skus.first.price, product.skus.count).range
+                      %p= product.meta_description
+        %hr/
       / /main content
 / /container
