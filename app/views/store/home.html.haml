@@ -1,4 +1,5 @@
 - content_for :page_title, 'The Linear Actuator and Electric Motor specialist'
+= render partial: 'shared/flash/store'
 / ==========
 / = Slider Revolution =
 / ==========
@@ -129,21 +130,19 @@
               %span.light Featured
               Products
       / /title
-      .row
-        - @featured_products.products.each do |product|
-          / ==========
-          / = Single Product =
-          / ==========
-          .span4
+      .row.popup-products
+        - @featured_products.each do |product|
+          .span3
             .product
               .product-inner
                 .product-img
                   .picture
-                    = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
+                    = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :height => 412, :width => 540), [product.category, product]
                 .main-titles.no-margin
-                  %h5.no-margin= link_to (truncate product.name, :length => 35), [product.category, product]
-                  = Store::Price.new(product.skus.first.price, product.skus.count).range
-                  %p= product.meta_description
+                  %h4.title
+                    = Store::Price.new(product.skus.first.price, product.skus.count).range
+                  %h5.no-margin= truncate product.name, :length => 35
+                %p.desc= truncate product.short_description, :length => 100
 / ==========
 / = New Products =
 / ==========
