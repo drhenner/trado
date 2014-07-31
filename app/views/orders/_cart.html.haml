@@ -33,7 +33,7 @@
     %td.price= Store::Price.new(@order.shipping.price).format
 - if Store::settings.tax_breakdown
   %tr
-    %td{colspan: "3"}
+    %td.border-colspan{colspan: "3"}
     \ 
     %td.stronger Subtotal:
     %td.stronger
@@ -45,7 +45,10 @@
     %td.stronger
       .align-right= Store::Price.new((@cart_total*Store::tax_rate)).format
 %tr
-  %td{colspan: "3", rowspan: "2"}
+  - if Store::settings.tax_breakdown
+    %td{colspan: "3", rowspan: "2"}
+  - else
+    %td.border-colspan{colspan: "3", rowspan: "2"}
 %tr
   %td.stronger Total:
   %td.stronger

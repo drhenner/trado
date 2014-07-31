@@ -319,4 +319,8 @@ header
             }
         }
     }
+    td[colspan="3"]:not(.border-colspan)
+    {
+        border:0;
+    }
 }
