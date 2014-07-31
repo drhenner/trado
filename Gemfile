@@ -25,8 +25,6 @@ group :development do
     gem 'metric_fu'
     gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
-    gem 'highline'
-    gem 'colorize'
 end
 
 group :test do
@@ -80,6 +78,8 @@ gem 'foreman',   '~> 0.61.0'
 gem 'protected_attributes'
 gem 'tzinfo-data'
 gem 'turbolinks'
+gem 'highline'
+gem 'colorize'
 
 # RTE
 gem 'redactor-rails'
