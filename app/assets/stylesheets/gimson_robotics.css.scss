@@ -277,6 +277,11 @@ header
 }
 .price
 {
+    .range-prefix
+    {
+        margin-right:1px;
+        font-size:15px;
+    }
     .tax-suffix
     {
         color:#003366;
