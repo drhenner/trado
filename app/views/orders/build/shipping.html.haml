@@ -19,8 +19,6 @@
                       %span.light Shipping
                       address
                 .span2
-                  .right-align
-                    = image_tag 'webmarket/buttons/security.jpg', :alt => 'Security', :width => 92, :height => 65
             / ==========
             / = Steps =
             / ==========
@@ -50,7 +48,7 @@
             = form_for @shipping_address, :url => wizard_path, :html => { method: :patch, :class => 'form-horizontal form-checkout shipping_address' } do |f|
               .control-group
                 %label.control-label
-                  Use billing address?
+                  Same as billing address?
                 .controls
                   %input.use-billing-address{type: 'checkbox'}
               .control-group
@@ -141,7 +139,6 @@
                   = errors_for @order, :shipping_id
               %hr/
               %p.right-align
-                In the next step you will choose a payment method
-                = f.submit 'CONTINUE', :class => 'btn btn-primary higher bold'
+                = f.submit 'Continue', :class => 'btn btn-primary higher bold'
     / /main content
 / /container

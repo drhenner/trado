@@ -323,4 +323,26 @@ header
     {
         border:0;
     }
+    &.payment-method
+    {
+        a:hover
+        {
+            color:#000;
+        }
+        h3
+        {
+            padding:10px 0 10px;
+        }
+        a
+        {
+            &.paypal .btn.circle
+            {
+                margin-top: 22px;
+            }
+            &.cheque .btn.circle, &.bank-transfer .btn.circle
+            {
+                margin-top: 16px;
+            }
+        }
+    }
 }
