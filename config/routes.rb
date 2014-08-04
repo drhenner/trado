@@ -3,8 +3,8 @@ Trado::Application.routes.draw do
   root to: 'store#home'
 
   # Standard pages
-  get '/about' => 'store#about'
-  get '/contact' => 'store#contact'
+  get '/about-us' => 'store#about'
+  get '/contact-us' => 'store#contact'
   get '/delivery' => 'store#delivery'
   get '/terms' => 'store#terms'
   get '/faq' => 'store#faq'

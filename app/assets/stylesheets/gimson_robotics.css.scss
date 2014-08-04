@@ -162,12 +162,20 @@ footer
                 border-right:none;
             }
         }
-        a:after 
+        a
         {
-            content: "";
-            border-right: 1px solid #666666;
-            margin-left: 10px;
-            height: 1px;
+            color:#fff !important;
+            &:after 
+            {
+                content: "";
+                border-right: 1px solid #666666;
+                margin-left: 10px;
+                height: 1px;
+            }
+            &:hover
+            {
+                color:#fff !important;
+            }
         }
     }
     .main-titles.lined:after 
@@ -177,6 +185,10 @@ footer
     .foot-last
     {
         color:#727272;
+    }
+    .btn-primary
+    {
+        font-size: 13px;
     }
 }
 .product
@@ -254,6 +266,13 @@ footer
         span
         {
             float:right;
+        }
+    }
+    .numbered
+    {
+        input
+        {
+            margin-left:5px;
         }
     }
 }

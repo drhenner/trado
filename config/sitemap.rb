@@ -7,8 +7,8 @@ SitemapGenerator::Sitemap.sitemaps_path = 'shared/'
 
 SitemapGenerator::Sitemap.create do
 
-  add about_path, :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
-  add contact_path, :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
+  add about_us_path, :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
+  add contact_us_path, :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
 
   Category.find_each do |category|
     add category_path(category), :lastmod => category.updated_at

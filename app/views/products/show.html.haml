@@ -39,9 +39,10 @@
           %hr/
           .row
             = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
-              .span4
+              .span5
                 = Store::Price.new(@skus.first.price).markup
                 .numbered
+                  Quantity
                   = f.text_field :quantity, :value => 1, :class => 'tiny-size'
                   %span.clickable.add-one.fa.fa-plus-square
                   %span.clickable.remove-one.fa.fa-minus-square
@@ -52,7 +53,7 @@
                 - unless @product.accessories.active.empty?
                   = f.fields_for @cart_item_accessory do |ff|
                     = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "Select accessory"
-              .span3
+              .span2
                 %div.stock
                   - if @skus.first.stock > 0
                     %span.btn.btn-success In Stock
