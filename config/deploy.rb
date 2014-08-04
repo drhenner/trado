@@ -3,7 +3,7 @@ set :user, 'root'
 set :scm, 'git'
 set :repository, 'git@github.com:Jellyfishboy/gimson-robotics.git'
 set :scm_verbose, true
-set :domain, '141.0.175.166'
+set :domain, '37.139.0.243'
 set :deploy_to, '/home/gimsonrobotics/'
 set :branch, 'gimsonrobotics'
 
@@ -53,7 +53,7 @@ end
 namespace :assets do
     desc "Install Bower dependencies"
     task :bower, :roles => :app do
-      run "cd /home/gimsonrobotics/current && sudo bower install --allow-root"
+      run "cd /home/gimsonrobotics/current && bower install --allow-root"
     end 
     desc "Compile assets"
     task :compile, :roles => :app do
