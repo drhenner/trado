@@ -195,10 +195,15 @@ footer
 {
     .main-titles
     {
-        h5
+        h4
         {
             margin-bottom: 10px;
             font-size:18px;
+
+            a:hover
+            {
+                color:#000;
+            }
         }
         div.price
         {
