@@ -25,6 +25,8 @@ Trado::Application.configure do
                                 'orders.js',
                                 'products.js',
                                 'redactor-rails.js',
+                                'filter.js',
+                                'mixitup/build/jquery.mixitup.min',
                                 'typeahead.js/dist/typeahead.jquery.min.js'
                               ]
 
