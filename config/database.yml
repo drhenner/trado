@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: gimson_robotics
+  database: gimson_robotics_dev
   pool: 5
   username: postgres
   password: admin
