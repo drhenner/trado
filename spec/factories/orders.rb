@@ -16,7 +16,7 @@ FactoryGirl.define do
         
 
         association :cart
-        association :shipping
+        association :delivery, factory: :delivery_service_price
         
         ignore do
             count 1
@@ -87,13 +87,13 @@ FactoryGirl.define do
             transactions { [create(:transaction, payment_status: 'pending', payment_type: 'Bank transfer')] }
         end
 
-        factory :bill_address_order do
+        factory :billing_address_order do
             after(:create) do |order, evaluator|
                 create(:address, addressable_type: 'OrderBillAddress', order: order)
             end
         end
 
-        factory :ship_address_order do
+        factory :delivery_address_order do
             after(:create) do |order, evaluator|
                 create(:address, addressable_type: 'OrderShipAddress', order: order)
             end

@@ -10,7 +10,7 @@ Trado::Application.routes.draw do
   get '/faq' => 'store#faq'
 
   # Custom routes
-  get '/order/shippings/update' => 'shippings#update'
+  get '/order/delivery_service_prices/update' => 'delivery_service_prices#update'
   get '/product/skus' => 'skus#update'
   get '/product/accessories' => 'accessories#update'
   get '/search' => 'search#results'
@@ -47,25 +47,25 @@ Trado::Application.routes.draw do
   resources :cart_item_accessories, only: [:update, :destroy]
   resources :notifications, only: :create
   resources :addresses, only: [:new, :create, :update]
-  resources :shippings, only: [:update]
+  resources :delivery_service_prices, only: [:update]
 
 
   namespace :admin do
       root to: "categories#index"
       post '/paypal/ipn' => 'transactions#paypal_ipn'
-      resources :accessories, :shippings, :products, :categories, :zones, except: :show
+      resources :accessories, :products, :categories, :zones, except: :show
       resources :orders, only: [:index, :show, :update, :edit]
+      resources :delivery_services, except: :show do
+        resources :delivery_service_prices, as: 'prices', path: 'prices', except: :show
+      end
       resources :attachments, only: [:destroy, :update]
       namespace :products do
         resources :tags, only: :index
-        resources :skus, only:  [:destroy, :edit, :update]
+        resources :skus, only: [:destroy, :edit, :update]
         namespace :skus do
           resources :attribute_types, except: :show
           resources :stock_levels, only: [:create, :new]
         end
-      end
-      namespace :shippings do
-        resources :tiers, except: :show
       end
       namespace :zones do
         resources :countries, except: :show

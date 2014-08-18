@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140811104139) do
+ActiveRecord::Schema.define(version: 20140815202952) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -109,14 +109,38 @@ ActiveRecord::Schema.define(version: 20140811104139) do
     t.datetime "updated_at", null: false
     t.string   "iso"
     t.string   "language"
-    t.integer  "zone_id"
+  end
+
+  create_table "delivery_service_prices", force: true do |t|
+    t.string   "code"
+    t.decimal  "price",               precision: 8, scale: 2
+    t.datetime "created_at",                                                 null: false
+    t.datetime "updated_at",                                                 null: false
+    t.text     "description"
+    t.boolean  "active",                                      default: true
+    t.decimal  "min_weight",          precision: 8, scale: 2
+    t.decimal  "max_weight",          precision: 8, scale: 2
+    t.decimal  "min_length",          precision: 8, scale: 2
+    t.decimal  "max_length",          precision: 8, scale: 2
+    t.decimal  "min_thickness",       precision: 8, scale: 2
+    t.decimal  "max_thickness",       precision: 8, scale: 2
+    t.integer  "delivery_service_id"
+  end
+
+  create_table "delivery_services", force: true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.string   "courier_name"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+    t.boolean  "active",       default: true
   end
 
   create_table "destinations", force: true do |t|
-    t.integer  "shipping_id"
+    t.integer  "delivery_service_id"
     t.integer  "zone_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
+    t.datetime "created_at",          null: false
+    t.datetime "updated_at",          null: false
   end
 
   create_table "items", force: true do |t|
@@ -158,22 +182,22 @@ ActiveRecord::Schema.define(version: 20140811104139) do
     t.string   "email"
     t.integer  "tax_number"
     t.datetime "shipping_date"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-    t.decimal  "actual_shipping_cost", precision: 8, scale: 2
+    t.datetime "created_at",                                                  null: false
+    t.datetime "updated_at",                                                  null: false
+    t.decimal  "actual_shipping_cost",    precision: 8, scale: 2
     t.string   "express_token"
     t.string   "express_payer_id"
-    t.integer  "shipping_id"
+    t.integer  "delivery_id"
     t.string   "ip_address"
     t.integer  "user_id"
-    t.decimal  "net_amount",           precision: 8, scale: 2
-    t.decimal  "gross_amount",         precision: 8, scale: 2
-    t.decimal  "tax_amount",           precision: 8, scale: 2
+    t.decimal  "net_amount",              precision: 8, scale: 2
+    t.decimal  "gross_amount",            precision: 8, scale: 2
+    t.decimal  "tax_amount",              precision: 8, scale: 2
     t.boolean  "terms"
     t.integer  "cart_id"
-    t.integer  "shipping_status",                              default: 0
-    t.integer  "status",                                       default: 0
-    t.integer  "tiers",                                                                 array: true
+    t.integer  "shipping_status",                                 default: 0
+    t.integer  "status",                                          default: 0
+    t.integer  "delivery_service_prices",                                                  array: true
   end
 
   create_table "permissions", force: true do |t|
@@ -222,15 +246,6 @@ ActiveRecord::Schema.define(version: 20140811104139) do
     t.integer  "product_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
-  end
-
-  create_table "shippings", force: true do |t|
-    t.string   "name"
-    t.decimal  "price",       precision: 8, scale: 2
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
-    t.text     "description"
-    t.boolean  "active",                              default: true
   end
 
   create_table "skus", force: true do |t|
@@ -290,24 +305,6 @@ ActiveRecord::Schema.define(version: 20140811104139) do
     t.datetime "updated_at", null: false
   end
 
-  create_table "tiereds", force: true do |t|
-    t.integer  "shipping_id"
-    t.integer  "tier_id"
-    t.datetime "created_at",  null: false
-    t.datetime "updated_at",  null: false
-  end
-
-  create_table "tiers", force: true do |t|
-    t.decimal  "length_start",    precision: 8, scale: 2
-    t.decimal  "length_end",      precision: 8, scale: 2
-    t.decimal  "weight_start",    precision: 8, scale: 2
-    t.decimal  "weight_end",      precision: 8, scale: 2
-    t.decimal  "thickness_start", precision: 8, scale: 2
-    t.decimal  "thickness_end",   precision: 8, scale: 2
-    t.datetime "created_at",                              null: false
-    t.datetime "updated_at",                              null: false
-  end
-
   create_table "transactions", force: true do |t|
     t.string   "paypal_id"
     t.string   "transaction_type"
@@ -346,6 +343,13 @@ ActiveRecord::Schema.define(version: 20140811104139) do
 
   create_table "zones", force: true do |t|
     t.string   "name"
+    t.datetime "created_at", null: false
+    t.datetime "updated_at", null: false
+  end
+
+  create_table "zonifications", force: true do |t|
+    t.integer  "country_id"
+    t.integer  "zone_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end

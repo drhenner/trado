@@ -50,15 +50,15 @@
         text-align: center;
     }
 }
-form.shipping_address input[type="text"] + div {
+form.delivery_address input[type="text"] + div {
     display:none;
     text-indent: -9999px;
 }
-form.shipping_address .controls .field_with_errors + div {
+form.delivery_address .controls .field_with_errors + div {
     display:none;
     text-indent: -9999px;
 }
-.shipping-methods {
+.delivery_service_prices {
     overflow:hidden;
         .option {
             float:left;
@@ -105,7 +105,7 @@ form.shipping_address .controls .field_with_errors + div {
                         }
                 }
         }
-        .shipping-notice {
+        .delivery_service_price_notice {
             margin:5px 0 9.5px 0;
         }
 }
