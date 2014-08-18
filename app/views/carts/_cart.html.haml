@@ -51,7 +51,7 @@
           .span6.align-right.size-16= Store::Price.new(current_cart.total_price, 'gross').format
     .proceed
       = link_to new_order_path, :class => 'btn btn-danger pull-right bold higher' do
-        CHECKOUT
+        View cart
         %i.fa.fa-shopping-cart
       %span
         Shipping costs are calculated based on location
