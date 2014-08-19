@@ -90,7 +90,7 @@ class Order < ActiveRecord::Base
   #
   # @return [boolean]
   def active_or_review_or_shipping?
-    review? ? true : billing? ? true : active?
+    review? ? true : shipping? ? true : active?
   end
 
   # Detects if the current status of the order is 'billing'. See wicked gem for more info
