@@ -338,15 +338,18 @@ header
     }
     .accessory_row
     {
-        .icon
+        td:first-child
         {
-            text-align: center;
-            padding: 10px 0 12px;
-            i
+            div
             {
-                margin-right: 5px;
-                color:#727272;
-                font-size: 30px;
+                height:50px;
+                margin-top:-5px;
+
+
+                img
+                {
+                    border: 0;
+                }
             }
         }
     }
