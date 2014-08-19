@@ -42,7 +42,7 @@
               .span5
                 = Store::Price.new(@skus.first.price).markup
                 .numbered
-                  Quantity
+                  Quantity:
                   = f.text_field :quantity, :value => 1, :class => 'tiny-size'
                   %span.clickable.add-one.fa.fa-plus-square
                   %span.clickable.remove-one.fa.fa-minus-square
@@ -66,7 +66,7 @@
                 - else
                   %a.btn.btn-warning.pull-right.notify_me{href: "#"}
                     %i.fa.fa-envelope
-                    Notify me
+                    = " Notify Me"
           %hr
     / ==========
     / = Tabs with more info =
@@ -122,4 +122,4 @@
           / /product
 #notify_me_form
   - unless @skus.first.stock > 0
-    = render :partial => 'products/notify/form', :locals => { :sku => @skus.first, :notification => @notification }
+    = render :partial => 'products/notify/modal', :locals => { :sku => @skus.first, :notification => @notification }
