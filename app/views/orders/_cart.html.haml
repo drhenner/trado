@@ -2,7 +2,7 @@
 - current_cart.cart_items.each do |item|
   %tr
     %td.image
-      = link_to (image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 124, :width => 124), [item.sku.product.category, item.sku.product]
+      = link_to (image_tag item.sku.product.attachments.first.file.medium, :alt => item.sku.product.name), [item.sku.product.category, item.sku.product]
     %td.desc
       = link_to item.sku.product.name, [item.sku.product.category, item.sku.product]
       = link_to item, :method => :delete, :remote => true, :title => 'Remove item' do
@@ -16,12 +16,12 @@
     %td.price= Store::Price.new(item.total_price).format
   - unless item.cart_item_accessory.blank?
     %tr.accessory_row
-      %td.icon
-        %i.icon-plus
+      %td
+        %div
+          = image_tag 'gimson-robotics/including-accessory.jpg'
       %td.desc
         = item.cart_item_accessory.accessory.name
       %td.qty
-        = item.cart_item_accessory.quantity
 - unless @order.nil? || @order.delivery.nil?
   %tr
     %td.image

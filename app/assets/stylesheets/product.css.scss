@@ -13,18 +13,112 @@
     padding-bottom: 8px;
     font-weight: bold;
 }
-.product-description #accessory {
-    margin-left:7px;
-}
 .gross_price {
     font-weight: bold;
     color: #e54b5d;
     margin-top: 7px;
     font-size: 12px;
 }
-.product-title {
-    margin-bottom:20px;
-}
 .product-inner .main-titles h5 {
     color:#e54b5d;
+}
+.product
+{
+    .main-titles
+    {
+        h4
+        {
+            margin-bottom: 10px;
+            font-size:18px;
+
+            a:hover
+            {
+                color:#000;
+            }
+        }
+        div.price
+        {
+            margin-bottom:5px;
+            font-size: 16px;
+
+            span.range-prefix
+            {
+                font-style: italic;
+                font-weight: normal;
+            }
+
+            span.tax-suffix
+            {
+                font-size: 14px;
+                margin-left: 10px;
+            }
+        }
+        p
+        {
+            font-weight: normal;
+        }
+    }
+}
+.product-title
+{
+    margin-bottom:20px;
+
+    h1
+    {
+        font-weight: normal;
+        font-size:24px !important;
+        margin:0;
+    }
+}
+.product-description
+{
+    overflow: hidden;
+    color:#34353e;
+    .price
+    {
+        font-size: 20px;
+        font-weight: bold;
+        color:#34353e;
+        margin-bottom:15px;
+        span
+        {
+            margin-top:10px;
+            font-size: 17px;
+            display: block;
+        }
+    }
+    form
+    {
+        margin:0;
+
+        select
+        {
+            margin-left: 5px;
+        }
+    }
+    .stock
+    {
+        width:100%;
+        margin-bottom: 15px;
+        height: 35px;
+        span
+        {
+            float:right;
+        }
+    }
+    .numbered
+    {
+        font-weight: bold;
+        font-size: 17px;
+    }
+    #accessory 
+    {
+        margin-left:7px;
+    }
+    .quantity
+    {
+        font-size: 17px;
+        font-weight: bold;
+        margin-bottom: 10px;
+    }
 }

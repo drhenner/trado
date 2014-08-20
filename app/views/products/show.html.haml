@@ -41,8 +41,8 @@
             = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
               .span5
                 = Store::Price.new(@skus.first.price).markup
+                .quantity Quantity:
                 .numbered
-                  Quantity:
                   = f.text_field :quantity, :value => 1, :class => 'tiny-size'
                   %span.clickable.add-one.fa.fa-plus-square
                   %span.clickable.remove-one.fa.fa-minus-square

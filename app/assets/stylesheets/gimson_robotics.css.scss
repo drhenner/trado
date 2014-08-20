@@ -102,42 +102,50 @@ header
     {
         padding: 15px 0;
     }
-    ul
+    .span6.sub-menu
     {
-        list-style-type: none;
-        font-size:14px;
-        margin:7% 0 0 0;
-        overflow: hidden;
-        display: inline-block;
+        padding: 2.7% 0;
 
-        li
+        ul
         {
-            float:left;
-            padding:0 20px;
-            position: relative;
+            list-style-type: none;
+            font-size:14px;
+            margin:7% 0 0 0;
+            height:30px;
+            display: table-row;
 
-            a
+            li
             {
-                color:#34353e;
+                display: table-cell;
+                vertical-align: middle;
+                height:25px;
+                padding:0 20px;
+                position: relative;
 
-                &:hover
+                a
                 {
-                    color:#e54b5d;
-                }
-            }
+                    color:#34353e;
 
-            &:before
-            {
-                content: "";
-                border-left: 1px solid #e0e0e0;
-                height:11px;
-                position: absolute;
-                left: 0;
-                top:4px;
-            }
-            &:first-child:before
-            {
-                height:15px;
+                    &:hover
+                    {
+                        color:#e54b5d;
+                    }
+                }
+
+                &:before
+                {
+                    content: "";
+                    border-left: 1px solid #e0e0e0;
+                    height:11px;
+                    position: absolute;
+                    left: 0;
+                    top:9px;
+                }
+                &:first-child:before
+                {
+                    height:25px;
+                    top:2px;
+                }
             }
         }
     }
@@ -191,98 +199,7 @@ footer
         font-size: 13px;
     }
 }
-.product
-{
-    .main-titles
-    {
-        h4
-        {
-            margin-bottom: 10px;
-            font-size:18px;
 
-            a:hover
-            {
-                color:#000;
-            }
-        }
-        div.price
-        {
-            margin-bottom:5px;
-            font-size: 16px;
-
-            span.range-prefix
-            {
-                font-style: italic;
-                font-weight: normal;
-            }
-
-            span.tax-suffix
-            {
-                font-size: 14px;
-                margin-left: 10px;
-            }
-        }
-        p
-        {
-            font-weight: normal;
-        }
-    }
-}
-.product-title
-{
-    h1
-    {
-        font-weight: normal;
-        font-size:24px !important;
-        margin:0;
-    }
-}
-.product-description
-{
-    overflow: hidden;
-    color:#34353e;
-    .price
-    {
-        font-size: 20px;
-        font-weight: bold;
-        color:#34353e;
-        margin-bottom:15px;
-        span
-        {
-            margin-top:10px;
-            font-size: 17px;
-            display: block;
-        }
-    }
-    form
-    {
-        margin:0;
-
-        select
-        {
-            margin-left: 5px;
-        }
-    }
-    .stock
-    {
-        width:100%;
-        margin-bottom: 15px;
-        height: 35px;
-        span
-        {
-            float:right;
-        }
-    }
-    .numbered
-    {
-        font-weight: bold;
-        font-size: 17px;
-        input
-        {
-            margin-left:5px;
-        }
-    }
-}
 #estimateDeliveryModal
 {
     padding:30px 0 0;
@@ -338,15 +255,37 @@ header
     }
     .accessory_row
     {
-        .icon
+        td 
         {
-            text-align: center;
-            padding: 10px 0 12px;
-            i
+            border-top:0px;
+
+            &.icon
             {
-                margin-right: 5px;
-                color:#727272;
-                font-size: 30px;
+                text-align: center;
+                padding: 10px 0 12px;
+                i
+                {
+                    margin-right: 5px;
+                    color:#727272;
+                    font-size: 30px;
+                }
+            }
+            &.desc
+            {
+                font-weight: normal;
+            }
+            &:first-child
+            {
+                div
+                {
+                    height: 50px;
+                    margin-top:10px;
+
+                    img
+                    {
+                        border:0;
+                    }
+                }
             }
         }
     }

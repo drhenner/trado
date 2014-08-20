@@ -23,11 +23,11 @@ class FileUploader < CarrierWave::Uploader::Base
   end
 
   version :medium, :from_version => :large do 
-    process resize_to_fill: [440,280]
+    process resize_to_fill: [146,110]
   end
 
   version :small, :from_version => :medium do
-    process resize_to_fill: [240,80]
+    process resize_to_fill: [79,60]
   end
 
   version :square do
