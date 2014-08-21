@@ -4,7 +4,7 @@ Trado::Application.routes.draw do
 
   # Standard pages
   get '/about-us' => 'store#about'
-  get '/contact-us' => 'store#contact'
+  get '/contact-us' => 'contacts#new'
   get '/delivery' => 'store#delivery'
   get '/terms' => 'store#terms'
   get '/faq' => 'store#faq'
@@ -48,6 +48,7 @@ Trado::Application.routes.draw do
   resources :notifications, only: :create
   resources :addresses, only: [:new, :create, :update]
   resources :delivery_service_prices, only: [:update]
+  resources :contacts, only: :create
 
 
   namespace :admin do
