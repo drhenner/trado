@@ -1,8 +1,3 @@
-.product_sku_form {
-    select {
-        width:140px;
-    }
-}
 .add_to_cart, .notify_me {
     @include transition-property(display);
     @include transition-timing-function(ease-in);
@@ -108,19 +103,30 @@
             float:right;
         }
     }
-    .numbered
+    .numbered, .options
     {
-        font-weight: bold;
         font-size: 17px;
+        font-weight: bold;
+    }
+    .options
+    {
+        overflow: hidden;
+
+        div
+        {
+            float: left;
+            height: 73px;
+            margin-right: 10px;
+        }
+
+        select
+        {
+            margin-bottom: 7px;
+            display: block;
+        }
     }
     #accessory 
     {
         margin-left:7px;
-    }
-    .quantity
-    {
-        font-size: 17px;
-        font-weight: bold;
-        margin-bottom: 10px;
     }
 }

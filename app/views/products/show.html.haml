@@ -21,12 +21,12 @@
       .span5
         .product-preview
           .picture
-            = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
-          .thumbs.clearfix
-            - @product.attachments.each_with_index do |image, index|
-              .thumb{:class => "#{ "active" if index == 0 }"}
-                %a{href: "#mainPreviewImg"}
-                  = image_tag image.file.large, :width => 940, :height => 940
+          /   = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
+          / .thumbs.clearfix
+          /   - @product.attachments.each_with_index do |image, index|
+          /     .thumb{:class => "#{ "active" if index == 0 }"}
+          /       %a{href: "#mainPreviewImg"}
+          /         = image_tag image.file.large, :width => 940, :height => 940
       / ==========
       / = Title and short desc =
       / ==========
@@ -40,19 +40,21 @@
           .row
             = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
               .span5
-                = Store::Price.new(@skus.first.price).markup
-                .quantity Quantity:
+                = Store::Price.new(@skus.first.price).markup 
+                .options
+                  %div Options:
+                  - if @product.single
+                    = f.hidden_field :sku_id, :value => @product.skus.first.id
+                  - else
+                    = f.select :sku_id, options_for_select(@skus.map { |sku| [sku_attribute_values(sku, sku.product.single), sku.id ] } )
+                  - unless @product.accessories.active.empty?
+                    = f.fields_for @cart_item_accessory do |ff|
+                      = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "Select accessory"
                 .numbered
+                  Quantity:
                   = f.text_field :quantity, :value => 1, :class => 'tiny-size'
                   %span.clickable.add-one.fa.fa-plus-square
                   %span.clickable.remove-one.fa.fa-minus-square
-                - if @product.single
-                  = f.hidden_field :sku_id, :value => @product.skus.first.id
-                - else
-                  = f.select :sku_id, options_for_select(@skus.map { |sku| [sku_attribute_values(sku, sku.product.single), sku.id ] } )
-                - unless @product.accessories.active.empty?
-                  = f.fields_for @cart_item_accessory do |ff|
-                    = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "Select accessory"
               .span2
                 %div.stock
                   - if @skus.first.stock > 0
