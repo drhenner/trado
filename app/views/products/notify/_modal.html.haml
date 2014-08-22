@@ -4,14 +4,11 @@
     %h3#notifyMeModalLabel
       %span.light Notify
       Me
-  .modal-body
-    = form_for notification, html: { method: :post, remote: true, :class => 'remote-form' } do |f|
-      %p 
-        Please enter your email address and we'll let you know when
-        %strong
-          = "#{sku.product.name} " 
-          = sku_attribute_values(sku, sku.product.single)
-        is back in stock!
+  = form_for notification, html: { method: :post, remote: true, :class => 'remote-form' } do |f|
+    .modal-body
+      %p Please enter your email address and we'll let you know when the following item is back in stock:
+      %p
+        %strong= "#{sku.product.name} (#{sku_attribute_values(sku, sku.product.single)})"
       .control-group
         = f.label :email, :class => 'control-label hidden shown-ie8'
         .controls
@@ -19,5 +16,5 @@
       / FIXME: This is a possible security risk as the user can modify it.
       = f.hidden_field :notifiable_id, value: sku.id
       = f.hidden_field :notifiable_type, value: 'Sku'
-      = button_tag(type: 'submit', :class => 'btn btn-primary input-block-level bold higher') do
-        SUBMIT
+    .modal-footer
+      = f.submit "Submit", :class => 'btn btn-primary bold higher'
