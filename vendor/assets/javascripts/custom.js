@@ -403,15 +403,24 @@ jQuery(document).ready(function($) {
          * @see http://css-tricks.com/jquery-magicline-navigation/
          */
         (function() {
-            var $el, leftPos, newWidth, $mainNav = $("#mainNavigation");
+            var $el, leftPos, newWidth, noActiveMenu, $mainNav = $("#mainNavigation");
+            noActiveMenu = true;
             if($('#magic-line').length < 1) {
                 $mainNav.prepend('<li id="magic-line"></li>');
             }
             var $magicLine = $("#magic-line");
-            if ($(".large-screen #mainNavigation > .active").length > 0) {
-                $magicLine.width($(".large-screen #mainNavigation > .active").width()).css("left", $("#mainNavigation > .active").position().left).data("origLeft", $magicLine.position().left).data("origWidth", $magicLine.width());
+            if ($(".large-screen #mainNavigation li").length > 1) {
+                if ($("#mainNavigation > .active").length > 0)
+                {
+                    $magicLine.width($(".large-screen #mainNavigation > .active").width()).css("left", $("#mainNavigation > .active").position().left).data("origLeft", $magicLine.position().left).data("origWidth", $magicLine.width());
+                    noActiveMenu = false;
+                }
                 $(document).on({
                     mouseenter: function() {
+                        // if (noActiveMenu)
+                        // {
+                        //     $magicLine.fadeIn();
+                        // }
                         $el = $(this);
                         leftPos = $el.position().left;
                         newWidth = $el.width();
@@ -425,8 +434,19 @@ jQuery(document).ready(function($) {
                             left: $magicLine.data("origLeft"),
                             width: $magicLine.data("origWidth")
                         });
+                        if (noActiveMenu)
+                        {
+                            $magicLine.fadeOut();
+                        }
                     }
                 }, ".large-screen #mainNavigation > li");
+                $('#mainNavigation li').hover(function()
+                {
+                    if(noActiveMenu && !$('.magic-line').is(':visible'))
+                    {
+                        $magicLine.fadeIn();
+                    }
+                })
             }
         })();
         // width of carousel slides
