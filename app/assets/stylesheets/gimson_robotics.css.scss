@@ -141,10 +141,15 @@ header
                     left: 0;
                     top:9px;
                 }
-                &:first-child:before
+                &:first-child
                 {
-                    height:25px;
-                    top:2px;
+                    padding:0 20px 0 30px;
+
+                    &:before
+                    {
+                        height:25px;
+                        top:2px;
+                    }
                 }
             }
         }
