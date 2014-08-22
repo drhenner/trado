@@ -21,12 +21,12 @@
       .span5
         .product-preview
           .picture
-          /   = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
-          / .thumbs.clearfix
-          /   - @product.attachments.each_with_index do |image, index|
-          /     .thumb{:class => "#{ "active" if index == 0 }"}
-          /       %a{href: "#mainPreviewImg"}
-          /         = image_tag image.file.large, :width => 940, :height => 940
+            = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
+          .thumbs.clearfix
+            - @product.attachments.each_with_index do |image, index|
+              .thumb{:class => "#{ "active" if index == 0 }"}
+                %a{href: "#mainPreviewImg"}
+                  = image_tag image.file.large, :width => 940, :height => 940
       / ==========
       / = Title and short desc =
       / ==========
@@ -42,7 +42,8 @@
               .span5
                 = Store::Price.new(@skus.first.price).markup 
                 .options
-                  %div Options:
+                  - unless @product.single && @product.accessories.active.empty?
+                    %div Options:
                   - if @product.single
                     = f.hidden_field :sku_id, :value => @product.skus.first.id
                   - else

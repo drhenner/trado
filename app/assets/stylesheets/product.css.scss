@@ -110,19 +110,20 @@
     }
     .options
     {
-        overflow: hidden;
+        position: relative;
 
         div
         {
             float: left;
-            height: 73px;
-            margin-right: 10px;
+            height: 100%;
+            position: absolute;
         }
 
         select
         {
             margin-bottom: 7px;
             display: block;
+            margin-left: 79px;
         }
     }
     #accessory 
