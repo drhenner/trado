@@ -11,10 +11,6 @@ class StoreController < ApplicationController
 
   end
 
-  def contact
-
-  end
-
   def delivery
 
   end
@@ -26,5 +22,4 @@ class StoreController < ApplicationController
   def faq
 
   end
-  
 end
