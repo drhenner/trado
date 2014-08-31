@@ -47,7 +47,7 @@ class Product < ActiveRecord::Base
 
   validates :name, :meta_description, :description,
   :part_number, :sku, :weighting, :category_id,               presence: true, :if => :published?
-  validates :part_number, :sku, :name,                        uniqueness: { scope: :active }, :if => :published?
+  validates :part_number, :sku, :name,                        uniqueness: { scope: :active }
   validates :meta_description,                                length: { maximum: 150, message: :too_long }, :if => :published?
   validates :name,                                            length: { minimum: 10, message: :too_short }, :if => :published?
   validates :description,                                     length: { minimum: 20, message: :too_short }, :if => :published?
@@ -86,7 +86,7 @@ class Product < ActiveRecord::Base
   # If no associated attachments exist, return an error
   #
   def attachment_count
-    if self.attachments.count == 0
+    if self.attachments.map(&:default_record).count == 0
       errors.add(:product, " must have at least one attachment.")
       return false
     end
@@ -96,7 +96,7 @@ class Product < ActiveRecord::Base
   # If no associated SKUs exist, return an error
   #
   def sku_count
-    if self.skus.count == 0
+    if self.skus.map(&:active).count == 0
       errors.add(:product, " must have at least one SKU.")
       return false
     end
