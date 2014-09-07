@@ -8,7 +8,7 @@
 #
 # Table name: products
 #
-#  id                       :integer          not null, primary key
+#  id                       :integer            not null, primary key
 #  part_number              :string      
 #  name                     :string(255)
 #  description              :text
@@ -19,16 +19,18 @@
 #  sku                      :string(255)
 #  featured                 :boolean 
 #  single                   :boolean
-#  active                   :boolean          default(true)
+#  active                   :boolean            default(true)
 #  category_id              :integer    
-#  created_at               :datetime         not null
-#  updated_at               :datetime         not null
+#  status                   :integer            default(0)
+#  order_count              :integer            default(0)
+#  created_at               :datetime           not null
+#  updated_at               :datetime           not null
 #
 class Product < ActiveRecord::Base
 
-  attr_accessible :name, :meta_description, :description, :weighting, :sku, :part_number, 
+  attr_accessible :name, :meta_description, :description, :weighting, :sku, :part_number,
   :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
-  :featured, :short_description, :related_ids, :specification, :single, :active
+  :featured, :short_description, :related_ids, :specification, :single, :active, :order_count
 
   has_many :searches
   has_many :skus,                                             dependent: :delete_all, inverse_of: :product

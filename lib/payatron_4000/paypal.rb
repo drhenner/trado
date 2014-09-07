@@ -85,8 +85,8 @@ module Payatron4000
               Rollbar.report_exception(e)
             end
             order.reload
-            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
-            return Rails.application.routes.url_helpers.success_order_build_url(:order_id => order.id, :id => 'confirm')
+            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", order: order)
+            return Rails.application.routes.url_helpers.success_order_build_url(order_id: order.id, id: 'confirm')
           else
             begin
               Payatron4000::Paypal.failed(response, order)
@@ -94,8 +94,8 @@ module Payatron4000
               Rollbar.report_exception(e)
             end
             order.reload
-            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", :order => order)
-            return Rails.application.routes.url_helpers.failure_order_build_url( :order_id => order.id, :id => 'confirm')
+            Mailatron4000::Orders.confirmation_email(order) rescue Rollbar.report_message("Order #{order.id} confirmation email failed to send", "info", order: order)
+            return Rails.application.routes.url_helpers.failure_order_build_url( order_id: order.id, id: 'confirm')
           end
         end
 
@@ -117,6 +117,7 @@ module Payatron4000
                               :status_reason => response.params['PaymentInfo']['PendingReason']
             ).save(validate: false)
             Payatron4000::update_stock(order)
+            Payatron4000::increment_product_order_count(order.products)
             order.status = :active
             order.save(validate: false)
         end

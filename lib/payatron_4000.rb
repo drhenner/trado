@@ -13,7 +13,7 @@ module Payatron4000
             order.order_items.each do |item|
               sku = Sku.find(item.sku_id)
               description = item.order_item_accessory.nil? ? "Order ##{order.id}" : "Order ##{order.id} (+ #{item.order_item_accessory.accessory.name})"
-              StockLevel.create(:description => description, :adjustment => "-#{item.quantity}", :sku_id => item.sku_id)
+              StockLevel.create(description: description, adjustment: "-#{item.quantity}", sku_id: item.sku_id)
               sku.update_column(:stock, sku.stock-item.quantity)
             end
         end
@@ -26,5 +26,15 @@ module Payatron4000
             Cart.destroy(session[:cart_id])
             session[:cart_id] = nil
         end      
+
+        # Increments the order count attribute for each product in an order by one
+        # The order count attribute is used for determing popularity in the store sorting tool
+        #
+        # @param products [Array]
+        def increment_product_order_count products
+            products.each do |product|
+                product.increment!(:order_count)
+            end
+        end
     end  
 end
