@@ -4,4 +4,19 @@
 / = Breadcrumbs =
 / ==========
 = render_breadcrumbs 1
-= render partial: 'shared/flash/store'
+
+.container
+  .push-up.blocks-spacer
+    = render partial: 'shared/flash/store'
+    .row
+      / ==========
+      / = Main content =
+      / ==========
+      %section.span12
+        / ==========
+        / = Title =
+        / ==========
+        .underlined.push-down-20
+          %h3
+            %span.light Delivery
+      %section.span9
