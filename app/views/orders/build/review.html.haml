@@ -1,6 +1,5 @@
 - content_for :title, "Review your order"
-.container.review-cart
-  = render partial: 'shared/flash/store'
+.container
   .row
     / ==========
     / = Main content =
@@ -9,6 +8,7 @@
       .checkout-container
         .row
           .span10.offset1
+            = render partial: 'shared/flash/store'
             / ==========
             / = Header =
             / ==========
