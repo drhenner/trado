@@ -5,7 +5,7 @@
 / = Breadcrumbs =
 / ==========
 = render_breadcrumbs 1
-.container
+.container.contact-form-container
   .push-up.top-equal.blocks-spacer-last
     = render partial: 'shared/flash/store'
     .row
@@ -33,7 +33,7 @@
         / ==========
         / = Contact Form =
         / ==========
-        %section.contact-form-container
+        %section
           = form_for @contact, html: { :class => 'form form-inline form-contact remote-form', id: 'commentform', method: :post, remote: true } do |f|
             %p.push-down-20
               %label
