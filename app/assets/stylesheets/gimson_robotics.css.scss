@@ -343,3 +343,32 @@ header
 {
     @include opacity(0.65);
 }
+.about-sub-header
+{
+    a
+    {
+        color:#008e99;
+
+        &:hover
+        {
+            text-decoration: underline;
+        }
+    }
+}
+.contact-form-container
+{
+    label
+    {
+        width: 80px;
+        display: inline-block;
+        margin-left:5px;
+    }
+    .field-with-errors
+    {
+        display:inline-block;
+    }
+    .error-explanation
+    {
+        display: block;
+    }
+}

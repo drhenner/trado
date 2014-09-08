@@ -25,6 +25,11 @@ ready = function()
     soca.mobile.disableTooltips();
 
     trado.admin.jsonErrors();
+
+    $('.redactor').redactor
+    ({
+        deniedTags: ['p']
+    });
 };
 $(document).ready(ready);
 $(document).on('page:change page:load', function()

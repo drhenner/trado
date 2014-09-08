@@ -7,13 +7,13 @@ class StoreMailer < ActionMailer::Base
     def contact params
         @name = params[:name]
         @email = params[:email]
-        @website = params[:website]
+        @telephone = params[:telephone]
         @message = params[:message]
 
         mail(
             from: "#{@name} <#{@email}>",
             to: Store::settings.email, 
-            subject: "New contact message from #{@name}",
+            subject: "#{Store::settings.name} contact form message",
             template_path: 'mailer/store',
             template_name: 'contact'
         )

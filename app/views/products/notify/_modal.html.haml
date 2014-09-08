@@ -8,7 +8,9 @@
     .modal-body
       %p Please enter your email address and we'll let you know when the following item is back in stock:
       %p
-        %strong= "#{sku.product.name} (#{sku_attribute_values(sku, sku.product.single)})"
+        %strong
+          = sku.product.name 
+          = "(#{sku_attribute_values(sku, sku.product.single)})" unless sku.product.single
       .control-group
         = f.label :email, :class => 'control-label hidden shown-ie8'
         .controls

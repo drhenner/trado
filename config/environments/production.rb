@@ -25,7 +25,8 @@ Trado::Application.configure do
                                 'products.js',
                                 'redactor-rails.js',
                                 'admin/soca.datepicker.js',
-                                'typeahead.js/dist/typeahead.jquery.min.js'
+                                'typeahead.js/dist/typeahead.jquery.min.js',
+                                'custom-redactor-settings.js'
                               ]
 
   # Generate digests for assets URLs
