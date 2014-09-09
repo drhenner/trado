@@ -1,6 +1,6 @@
-$("#cartContainer").html("<%=j render :partial => 'carts/cart' %>");
+$("#cartContainer").html("<%=j render partial: 'carts/cart', format: [:html] %>");
 <% unless current_cart.cart_items.count == 0 %>
-    $('.checkout-container .table-items tbody').html("<%=j render :partial => 'orders/cart' %>");
+    $('.checkout-container .table-items tbody').html("<%=j render partial: 'orders/cart' %>");
 <% else %>
     $('.checkout-container .right-align').remove();
     $('.checkout-container .table-items').html('<h4>Your cart is empty</h4>');
