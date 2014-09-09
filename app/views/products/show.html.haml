@@ -78,13 +78,13 @@
       .span12
         %ul#myTab.nav.nav-tabs
           %li.active
-            %a{"data-toggle" => "tab", href: "#tab-1"} Product Description
+            %a{"data-toggle" => "tab", href: "#product-description"} Product Description
           %li
-            %a{"data-toggle" => "tab", href: "#tab-2"} Technical Details
+            %a{"data-toggle" => "tab", href: "#technical-details"} Technical Details
         .tab-content
-          #tab-1.fade.in.tab-pane.active
+          #product-description.fade.in.tab-pane.active
             %p=raw @product.description
-          #tab-2.fade.in.tab-pane
+          #technical-details.fade.in.tab-pane
             %p= raw @product.specification
 / /container
 - if @product.category.products.count > 1
