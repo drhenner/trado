@@ -7,8 +7,9 @@ class CartItemsController < ApplicationController
 
   def create
     @sku = Sku.find(params[:cart_item][:sku_id])
-    @cart_item = CartItem.increment(@sku, params[:cart_item][:quantity], params[:cart_item][:cart_item_accessory], current_cart)
-    render partial: 'carts/update', format: [:js] if @cart_item.save
+    @quantity = params[:cart_item][:quantity]
+    @cart_item = CartItem.increment(@sku, @quantity, params[:cart_item][:cart_item_accessory], current_cart)
+    render partial: 'carts/create', format: [:js] if @cart_item.save
   end
 
   def update

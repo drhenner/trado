@@ -1,0 +1,3 @@
+<%= render partial: 'carts/basket', format: [:js] %>
+$('#cartNotification').html('<%=j render partial: "carts/modal", format: [:html], object: @cart_item %>');
+$('#cartNotificationModal').modal('show');

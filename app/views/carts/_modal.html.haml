@@ -1,0 +1,19 @@
+#cartNotificationModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "cartNotificationModalLabel", role: "dialog", tabindex: "-1", style: 'display:none;'}
+  .modal-header
+    %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
+    %h3#notifyMeModalLabel
+      %span.light Cart
+      Notification
+  .modal-body
+    %p The following was added to your cart:
+    %p
+      = "#{@quantity} x" 
+      %b= "#{@cart_item.sku.product.name}"
+      = "(#{sku_attribute_values(@cart_item.sku, @cart_item.sku.product.single)})" unless @cart_item.sku.product.single
+    - unless @cart_item.cart_item_accessory.nil?
+      %p
+        = "#{@quantity} x"
+        %b= "#{@cart_item.cart_item_accessory.accessory.name}" 
+  .modal-footer
+    %a.btn.btn-primary.higher.bold{"data-dismiss" => "modal"} Continue shopping
+    = link_to 'View cart', order_link(current_cart), :class => 'btn btn-danger higher bold'

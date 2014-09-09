@@ -32,6 +32,7 @@
         %i.fa.fa-times-circle
       %div= @order.delivery_address.country
     %td.qty
+    %td.price
     %td.price= Store::Price.new(@order.delivery.price).single
 - if Store::settings.tax_breakdown
   %tr
