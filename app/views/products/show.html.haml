@@ -63,13 +63,13 @@
                   - else 
                     %span.btn.btn-danger Out of Stock
                 - if @skus.first.stock > 0
-                  = button_tag(:type => 'submit', :class => 'btn btn-danger pull-right add_to_cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
+                  = button_tag(:type => 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
                     %i.fa.fa-shopping-cart
                     \  Add To Cart
                 - else
-                  %a.btn.btn-warning.pull-right.notify_me{href: "#"}
+                  = link_to notify_category_product_sku_path(@product.category, @product, @skus.first), :class => 'btn btn-warning pull-right notify-me', remote: true do
                     %i.fa.fa-envelope
-                    = " Notify Me"
+                    &nbsp; Notify me
           %hr
     / ==========
     / = Tabs with more info =
@@ -123,6 +123,5 @@
                   = Store::Price.new(product.skus.first.price, product.skus.count).range
                   %p= product.meta_description
           / /product
-#notify_me_form
-  - unless @skus.first.stock > 0
-    = render partial: 'products/notify/modal', locals: { sku: @skus.first, notification: @notification }
+#notifyMeForm
+= render partial: 'carts/cart_items/validate/modal', format: [:html], locals: { sku: @skus.first }
