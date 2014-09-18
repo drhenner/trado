@@ -3,16 +3,16 @@ development:
   encoding: unicode
   database: gimson_robotics_dev
   pool: 5
-  username: postgres
-  password: admin
+  username: tomdallimore
+  password: 
 
 test:
   adapter: postgresql
   encoding: unicode
   database: gimson_robotics_test
   pool: 5
-  username: postgres
-  password: admin
+  username: tomdallimore
+  password: 
 
 
 production:
