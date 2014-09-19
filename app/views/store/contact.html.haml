@@ -48,9 +48,9 @@
             %p.push-down-20
               %label
                 Telephone:
-              = f.text_field :telephone, taxindex: 3
+              = f.text_field :telephone, tabindex: 3
             %p.push-down-20
-              = f.text_area :message, cols: 70, placeholder: 'Your message goes here...', rows: 7, taxindex: 4, :class => 'input-block-level'
+              = f.text_area :message, cols: 70, placeholder: 'Your message goes here...', rows: 7, tabindex: 4, :class => 'input-block-level'
             %p
               = f.submit 'Send message', tabindex: 5, :class => 'btn btn-primary bold'
         / ==========
