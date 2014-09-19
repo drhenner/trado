@@ -34,7 +34,7 @@
         / = Contact Form =
         / ==========
         %section
-          = form_for @contact, html: { :class => 'form form-inline form-contact remote-form', id: 'commentform', method: :post, remote: true } do |f|
+          = form_for @contact, html: { :class => 'form form-inline form-contact remote-form loading-form', id: 'commentform', method: :post, remote: true } do |f|
             %p.push-down-20
               %label
                 Name:
