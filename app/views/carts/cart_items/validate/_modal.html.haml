@@ -5,7 +5,13 @@
       %span.light Insufficient
       Stock
   .modal-body
-    %p There is not enough stock for the following item:
+    %p 
+      Unable to add the following item to your cart:
     %p
-      %b= "#{sku.product.name}"
+      %b= sku.product.name
       = "(#{sku_attribute_values(sku, sku.product.single)})" unless sku.product.single
+    %p 
+      There is only
+      %b= sku.stock
+      left in stock.
+      
