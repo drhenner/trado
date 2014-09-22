@@ -4,6 +4,7 @@ require 'spec_helper'
 require File.expand_path("../../config/environment", __FILE__)
 require 'rspec/rails'
 require 'capybara/rspec'
+require 'capybara-screenshot'
 require 'capybara-screenshot/rspec'
 require 'capybara/poltergeist'
 require 'bigdecimal'
@@ -30,6 +31,9 @@ RSpec.configure do |config|
 
   config.extend CustomMacro
 
+  # Custom utility methods
+  config.include Utilities
+
   # Devise helpers
   config.include Devise::TestHelpers, type: :controller
 
@@ -38,6 +42,7 @@ RSpec.configure do |config|
   # instead of true.
   config.use_transactional_fixtures = false
 
+  # Clean up ActionMailer deliveries
   config.before(:each) { ActionMailer::Base.deliveries.clear }
 
   # RSpec Rails can automatically mix in different behaviours to your tests

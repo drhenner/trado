@@ -87,7 +87,7 @@
           #technical-details.fade.in.tab-pane
             %p= raw @product.specification
 / /container
-- if @product.category.products.count > 1
+- if @product.category.products.published.count > 1
   / ==========
   / = Related Products =
   / ==========
@@ -106,7 +106,7 @@
       / = Related products =
       / ==========
       .row
-        - @product.category.products.first(4).each do |product|
+        - @product.category.products.published.first(4).each do |product|
           - if product == @product
             - next
           / ==========
