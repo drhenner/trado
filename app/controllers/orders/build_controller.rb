@@ -234,11 +234,11 @@ class Orders::BuildController < ApplicationController
   #
   def check_order_status
     @order = Order.find(params[:order_id])
-    route = (steps.last(3).include?(params[:id].to_sym) && @order.billing_address.first_name.nil?) ? 'billing' 
+    route_id = (steps.last(3).include?(params[:id].to_sym) && @order.billing_address.first_name.nil?) ? 'billing' 
             : (steps.last(2).include?(params[:id].to_sym) && (@order.delivery_address.first_name.nil? || @order.delivery_id.nil?)) ? 'shipping' 
             : steps.last(1).include?(params[:id].to_sym) && (params[:token].nil? || params[:PayerID].nil?) ? 'payment' 
             : nil
-    redirect_to order_build_url(order_id: @order.id, id: route) unless route.nil?
+    redirect_to order_build_url(order_id: @order.id, id: route_id) unless route_id.nil?
   end
   ###################################
 end

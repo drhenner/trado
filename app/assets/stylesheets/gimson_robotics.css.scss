@@ -204,7 +204,6 @@ footer
         font-size: 13px;
     }
 }
-
 #estimateDeliveryModal, #notifyMeModal, #cartNotificationModal
 {
     width:600px;
@@ -225,6 +224,10 @@ footer
             width:100%;
         }
     }
+}
+#cartNotificationModal .modal-footer a:first-child
+{
+    float:left;
 }
 .tab-content
 {
