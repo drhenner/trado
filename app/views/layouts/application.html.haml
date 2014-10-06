@@ -49,7 +49,7 @@
               %ul
                 - page_list.each do | page|
                   %li{ :class => active_page?('pages', page.template_type, page.id) }
-                    = link_to page.title, send("#{page.slug}_path"), title: page.title
+                    = link_to page.title, send("#{page.slug.split('-').join('_')}_path"), title: page.title
 
       / ==========
       / = Main Menu / navbar =
@@ -107,7 +107,7 @@
                   %li= link_to 'Home', root_path
                   - page_list.each do | page|
                     %li{ :class => active_page?('pages', page.template_type, page.id) }
-                      = link_to page.title, send("#{page.slug}_path"), title: page.title
+                      = link_to page.title, send("#{page.slug.split('-').join('_')}_path"), title: page.title
               .span4
                 .main-titles.lined
                   %h3.title
