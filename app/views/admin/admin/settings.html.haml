@@ -46,7 +46,7 @@
             Breakdown
     .widget-sub-heading
       %h3 Google Analytics
-    %fieldset.widget.widget-content.widget-last
+    %fieldset.widget.widget-content
       .form-group
         .checkbox
           %label
@@ -57,21 +57,21 @@
         = f.text_field :ga_code, :class => 'form-control'
     .widget-sub-heading
       %h3 Payment options
-    %fieldset.widget.widget-content.widget-last
+    %fieldset.widget.widget-content
       %p Please select the following payment options you would like to offer for your store (PayPal is automatically turned on).
       .form-group
         .checkbox
           %label
             = f.check_box :cheque
             Cheque
-      .form-group
+      .form-group.form-last
         .checkbox
           %label
             = f.check_box :bank_transfer
             Bank transfer
     .widget-sub-heading
       %h3 Alert
-    %fieldset.widget.widget-content
+    %fieldset.widget.widget-content.widget-last
       .form-group
         .checkbox
           %label

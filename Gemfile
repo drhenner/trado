@@ -25,6 +25,8 @@ group :development do
     gem 'metric_fu'
     gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
+    gem 'highline'
+    gem 'colorize'
 end
 
 group :test do
@@ -44,7 +46,8 @@ group :test do
 end
 
 group :development, :test do
-  gem 'pry'
+  gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
+  gem 'pry-byebug'
   # gem 'terminal-notifier-guard', :platforms => :ruby
 end
 
@@ -83,10 +86,6 @@ gem 'protected_attributes'
 gem 'tzinfo-data'
 gem 'jquery-turbolinks'
 gem 'turbolinks'
-gem 'highline'
-gem 'colorize'
-
-# RTE
 gem 'redactor-rails'
 
 # Transaction handler

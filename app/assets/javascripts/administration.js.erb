@@ -19,9 +19,10 @@ ready = function()
     soca.misc.taxField();
     soca.misc.multiSelect();
     soca.misc.updateTableHeight();
-    soca.mobile.disableScrolling();
     soca.mobile.disableTooltips();
+    soca.mobile.triggerMenu();
 };
+
 $(document).ready(ready);
 $(document).on('page:change page:load', function()
 {
@@ -43,9 +44,3 @@ $(document).ajaxComplete(function()
 {
     soca.misc.taxField();
 });
-// document.addEventListener('page:change', function() {
-//     document.getElementById('primary-content').className += 'animated fadeIn';
-// });
-// document.addEventListener('page:fetch', function() {
-//         document.getElementById('primary-content').className += 'animated fadeOut';
-// });

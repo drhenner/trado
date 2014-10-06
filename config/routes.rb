@@ -1,13 +1,7 @@
 Trado::Application.routes.draw do
 
+  mount RedactorRails::Engine => '/redactor_rails'
   root to: 'store#home'
-
-  # Standard pages
-  get '/about-us' => 'store#about'
-  get '/contact-us' => 'contacts#new'
-  get '/delivery' => 'store#delivery'
-  get '/terms' => 'store#terms'
-  get '/faq' => 'store#faq'
 
   # Custom routes
   get '/order/delivery_service_prices/update' => 'delivery_service_prices#update'
@@ -26,6 +20,9 @@ Trado::Application.routes.draw do
   resources :users
   resources :contacts, only: :create
   resources :delivery_service_prices, only: :update
+  resources :pages, only: [] do
+    post 'send_contact_message', on: :collection
+  end
 
   resources :categories, only: :show do
     resources :products, only: :show do
@@ -81,12 +78,15 @@ Trado::Application.routes.draw do
       namespace :zones do
         resources :countries, except: :show
       end
+      resources :pages, except: [:show, :destroy, :new, :create]
       get '/settings' => 'admin#settings'
       patch '/settings/update' => 'admin#update'
       get '/profile' => 'users#edit'
       patch '/profile/update' => 'users#update'
   end
 
+  # Generate dynamic page routes
+  DynamicRouter::load
   # # redirect unknown URLs to 404 error page
   # match '*path', via: :all, to: 'errors#show', code: 404
 

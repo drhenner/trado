@@ -1,0 +1,28 @@
+- content_for :title, @page.page_title
+- content_for :meta_description, @page.meta_description
+- content_for :breadcrumb, @page.title
+
+/ ==========
+/ = Breadcrumbs =
+/ ==========
+= render_breadcrumbs 1
+.container
+  .push-up.blocks-spacer
+    .row
+      / ==========
+      / = Main content =
+      / ==========
+      %section.span12
+        / ==========
+        / = Title =
+        / ==========
+        .underlined.push-down-20
+          %h3
+            %span.light= @page.title
+            = Store::settings.name
+        / /title
+        / ==========
+        / = Description=
+        / ==========
+        %section.blocks-spacer.about-sub-header
+          = raw @page.content

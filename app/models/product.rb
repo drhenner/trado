@@ -23,6 +23,7 @@
 #  category_id              :integer    
 #  status                   :integer            default(0)
 #  order_count              :integer            default(0)
+#  slug                     :string(255)
 #  created_at               :datetime           not null
 #  updated_at               :datetime           not null
 #
@@ -30,7 +31,7 @@ class Product < ActiveRecord::Base
 
   attr_accessible :name, :meta_description, :description, :weighting, :sku, :part_number,
   :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
-  :featured, :short_description, :related_ids, :specification, :single, :active, :order_count
+  :featured, :short_description, :related_ids, :specification, :single, :status, :active, :order_count
 
   has_many :searches
   has_many :skus,                                             dependent: :delete_all, inverse_of: :product

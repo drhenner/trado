@@ -47,11 +47,9 @@
                 = image_tag 'gimson-robotics_logo.jpg', :alt => Store::settings.name
             .span6.sub-menu
               %ul
-                %li= link_to 'About Us', about_us_path
-                %li= link_to 'Terms of Sale', terms_path
-                %li= link_to 'Delivery', delivery_path
-                %li= link_to 'FAQs', faq_path
-                %li= link_to 'Contact Us', contact_us_path
+                - page_list.each do | page|
+                  %li{ :class => active_page?('pages', page.template_type, page.id) }
+                    = link_to page.title, send("#{page.slug}_path"), title: page.title
 
       / ==========
       / = Main Menu / navbar =
@@ -107,11 +105,9 @@
                     Navigation
                 %ul.nav
                   %li= link_to 'Home', root_path
-                  %li= link_to 'About Us', about_us_path
-                  %li= link_to 'Terms of Sale', terms_path
-                  %li= link_to 'Delivery', delivery_path
-                  %li= link_to 'FAQs', faq_path
-                  %li= link_to 'Contact Us', contact_us_path
+                  - page_list.each do | page|
+                    %li{ :class => active_page?('pages', page.template_type, page.id) }
+                      = link_to page.title, send("#{page.slug}_path"), title: page.title
               .span4
                 .main-titles.lined
                   %h3.title

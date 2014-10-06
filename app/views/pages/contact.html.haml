@@ -1,0 +1,56 @@
+- content_for :title, @page.page_title
+- content_for :meta_description, @page.meta_description
+- content_for :breadcrumb, @page.title
+/ ==========
+/ = Breadcrumbs =
+/ ==========
+= render_breadcrumbs 1
+.container.contact-form-container
+  .push-up.top-equal.blocks-spacer-last
+    .row
+      / ==========
+      / = Main Title =
+      / ==========
+      .span12
+        %h3
+          %span.light= @page.title
+        %hr    
+      / ==========
+      / = Main content =
+      / ==========
+      %section.span8.single.single-page
+        / ==========
+        / = Post =
+        / ==========
+        %article.post
+          .post-inner.push-down-25
+            %p
+              You can contact by email with the following form:
+        / ==========
+        / = Contact Form =
+        / ==========
+        %section
+          = form_for @contact_message, url: send_contact_message_pages_path, html: { :class => 'form form-inline form-contact remote-form loading-form', id: 'commentform', method: :post, remote: true } do |f|
+            %p.push-down-20
+              %label
+                Name
+                %span.red-clr.bold *
+              = f.text_field :name, tabindex: 1
+            %p.push-down-20
+              %label
+                Email
+                %span.red-clr.bold *
+              = f.text_field :email, tabindex: 2
+            %p.push-down-20
+              %label
+                Telephone
+                %span.red-clr.bold
+              = f.text_field :telephone, tabindex: 3
+            %p.push-down-20
+              = f.text_area :message, cols: 70, placeholder: 'Your message goes here...', rows: 7, tabindex: 4, :class => 'input-block-level'
+            %p
+              = f.submit 'Send message', tabindex: 5, :class => 'btn btn-primary bold'
+        %article.company-info
+          .row
+            .span8
+              = raw @page.content
