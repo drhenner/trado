@@ -7,6 +7,11 @@ class RedactorRailsPictureUploader < CarrierWave::Uploader::Base
   include CarrierWave::MiniMagick
   # include CarrierWave::ImageScience
 
+  if Rails.env.production?
+    storage :fog
+  else  
+    store :file
+  end
   # Override the directory where uploaded files will be stored.
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
