@@ -1,2 +1,3 @@
+$('.main .container').removeClass('fadeIn');
 $('#transaction-modal').html('<%=j render :partial => "admin/orders/transactions/form" %>');
-$('#transaction-form').modal('show');
+soca.modal.standard('#transaction-form');

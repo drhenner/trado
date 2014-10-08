@@ -1,7 +1,7 @@
 #transaction-form.modal.fade{"aria-hidden" => "true", "aria-labelledby" => "transactionModalLabel", role: "dialog", tabindex: "-1"}
   .modal-dialog
     .modal-content
-      = form_for [:admin, :orders, @transaction], :html => { :role => 'form', :method => "put" }, :remote => true do |f|
+      = form_for [:admin, @order, @transaction], :html => { role: 'form', method: :patch }, remote: true do |f|
         #errors.json
           %ul
         .modal-header
@@ -14,7 +14,7 @@
             .form-group
               .checkbox
                 %label
-                  = f.check_box :payment_status, {}, 'Completed'
+                  = f.check_box :payment_status, {}, 'completed'
                   Completed
         .modal-footer
           %button.btn.btn-orange.btn-large{"data-dismiss" => "modal", type: "button"} Close

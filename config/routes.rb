@@ -64,9 +64,11 @@ Trado::Application.routes.draw do
           resources :stock_levels, only: [:create, :new]
         end
       end
-      resources :orders, only: [:index, :show, :update, :edit]
+      resources :orders, only: [:index, :show, :update, :edit] do
+        resources :transactions, only: [:edit, :update]
+      end
       resources :delivery_services, except: :show do
-        resources :delivery_service_prices, as: 'prices', path: 'prices', except: :show
+        resources :delivery_service_prices, path: 'prices', except: :show
       end
       
       namespace :products do
