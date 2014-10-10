@@ -13,6 +13,7 @@
 #  name                     :string(255)
 #  description              :text
 #  short_description        :text
+#  page_title               :string(255)
 #  meta_description         :string(255)
 #  specification            :text
 #  weighting                :integer 
@@ -28,8 +29,7 @@
 #  updated_at               :datetime           not null
 #
 class Product < ActiveRecord::Base
-
-  attr_accessible :name, :meta_description, :description, :weighting, :sku, :part_number,
+  attr_accessible :name, :page_title, :meta_description, :description, :weighting, :sku, :part_number,
   :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
   :featured, :short_description, :related_ids, :specification, :single, :status, :active, :order_count
 
@@ -48,9 +48,16 @@ class Product < ActiveRecord::Base
                                                               association_foreign_key: :related_id
   belongs_to :category
 
+<<<<<<< HEAD
   validates :name, :meta_description, :description,
   :part_number, :sku, :weighting, :category_id,               presence: true, :if => :published?
+=======
+  validates :name, :meta_description, :description, 
+  :part_number, :sku, :weighting, :category_id,
+  :page_title,                                                presence: true, :if => :published?
+>>>>>>> master
   validates :part_number, :sku, :name,                        uniqueness: { scope: :active }
+  validates :page_title,                                      length: { maximum: 70, message: :too_long }
   validates :meta_description,                                length: { maximum: 150, message: :too_long }, :if => :published?
   validates :name,                                            length: { minimum: 10, message: :too_short }, :if => :published?
   validates :description,                                     length: { minimum: 20, message: :too_short }, :if => :published?
