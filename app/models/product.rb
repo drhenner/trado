@@ -47,15 +47,10 @@ class Product < ActiveRecord::Base
                                                               foreign_key: :product_id, 
                                                               association_foreign_key: :related_id
   belongs_to :category
-
-<<<<<<< HEAD
-  validates :name, :meta_description, :description,
-  :part_number, :sku, :weighting, :category_id,               presence: true, :if => :published?
-=======
+  
   validates :name, :meta_description, :description, 
   :part_number, :sku, :weighting, :category_id,
   :page_title,                                                presence: true, :if => :published?
->>>>>>> master
   validates :part_number, :sku, :name,                        uniqueness: { scope: :active }
   validates :page_title,                                      length: { maximum: 70, message: :too_long }
   validates :meta_description,                                length: { maximum: 150, message: :too_long }, :if => :published?
