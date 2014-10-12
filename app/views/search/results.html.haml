@@ -39,21 +39,21 @@
               Unfortuantely, we couldn't find anything for 
               %strong= "#{params[:query]}."
           - else
-          #isotopeContainer.isotope-container
-            - @products.each do |product|
-              / ==========
-              / = Single Product =
-              / ==========
-              .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price}
-                .product
-                  .product-inner
-                    .product-img
-                      .picture
-                        = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
-                    .main-titles.no-margin
-                      %h5.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
-                      = Store::Price.new(product.skus.first.price, product.skus.count).range
-                      %p= product.meta_description
+            #isotopeContainer.isotope-container
+              - @products.each do |product|
+                / ==========
+                / = Single Product =
+                / ==========
+                .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price}
+                  .product
+                    .product-inner
+                      .product-img
+                        .picture
+                          = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
+                      .main-titles.no-margin
+                        %h5.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
+                        = Store::Price.new(product.skus.first.price, nil, product.skus.count).range
+                        %p= product.meta_description
         %hr/
       / /main content
 / /container
