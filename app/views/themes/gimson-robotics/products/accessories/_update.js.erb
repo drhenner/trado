@@ -1,4 +1,4 @@
 <%  @accessory_price = Accessory.where(id: params[:accessory_id]).pluck(:price).first ? Accessory.where(id: params[:accessory_id]).pluck(:price).first : 0
     @sku = Sku.find(params[:sku_id]) %>
-$('.product-description div.price').html('<%=j Store::Price.new(@sku.price+@accessory_price).markup %>');
+$('.product-description div.price').html('<%=j Store::Price.new(price(@sku.price + @accessory_price)).markup %>');
 

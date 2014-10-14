@@ -40,7 +40,7 @@
           .row
             = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
               .span5
-                = Store::Price.new(@skus.first.price).markup 
+                = Store::Price.new(price: @skus.first.price).markup 
                 .options
                   - unless @product.single && @product.accessories.active.empty?
                     %div Options:
@@ -120,7 +120,7 @@
                     = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
                 .main-titles.no-margin
                   %h4.no-margin.isotope--title= link_to (truncate product.name, length: 35), [product.category, product]
-                  = Store::Price.new(product.skus.first.price, product.skus.count).range
+                  = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range
                   %p= product.meta_description
           / /product
 #notifyMeForm
