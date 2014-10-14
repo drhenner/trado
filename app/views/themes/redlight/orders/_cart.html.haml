@@ -1,0 +1,55 @@
+- @cart_total = @order.nil? || @order.delivery.nil? ? current_cart.total_price : (current_cart.total_price + @order.delivery.price)
+- current_cart.cart_items.each do |item|
+  %tr
+    %td.image
+      = link_to (image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 124, :width => 124), [item.sku.product.category, item.sku.product]
+    %td.desc
+      = link_to item.sku.product.name, [item.sku.product.category, item.sku.product]
+      = link_to item, :method => :delete, :remote => true, :title => 'Remove item' do
+        %i.fa.fa-times-circle
+      %div= sku_attribute_values(item.sku, item.sku.product.single)
+    %td.qty
+      = form_for item, remote: true do |f|
+        = f.text_field :quantity, :value => item.quantity, :class => 'tiny-size'
+        = f.submit 'Update', :class => 'btn btn-small'
+    %td.price= Store::Price.new(price: item.total_price).single
+  - unless item.cart_item_accessory.blank?
+    %tr.accessory_row
+      %td.image
+        = image_tag 'http://placehold.it/124x124', :alt => item.cart_item_accessory.accessory.name, :height => 124, :width => 124
+      %td.desc
+        = item.cart_item_accessory.accessory.name
+      %td.qty
+        = item.cart_item_accessory.quantity
+- unless @order.nil? || @order.delivery.nil?
+  %tr
+    %td.image
+      = image_tag "delivery.png", :alt => @order.delivery.full_name
+    %td.desc
+      = @order.delivery.full_name
+      = link_to purge_estimate_order_build_path, method: :delete, remote: true, :title => 'Remove item' do
+        %i.fa.fa-times-circle
+      %div= @order.delivery_address.country
+    %td.qty
+    %td.price= Store::Price.new(price:@order.delivery.price).single
+- if Store::settings.tax_breakdown
+  %tr
+    %td{colspan: "2"}
+    \ 
+    %td.stronger Subtotal:
+    %td.stronger
+      .align-right= Store::Price.new(price: @cart_total).single
+  %tr
+    %td{colspan: "2", rowspan: "1"}
+    \ 
+    %td.stronger= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
+    %td.stronger
+      .align-right= Store::Price.new(price: (@cart_total*Store::tax_rate)).single
+%tr
+  %td{colspan: "2", rowspan: "2"}
+    .alert.alert-info
+      Shipping cost will be calculated later in the order process.
+%tr
+  %td.stronger Total:
+  %td.stronger
+    .size-16.align-right.total_price= Store::Price.new(price: @cart_total, tax_type: 'gross').single

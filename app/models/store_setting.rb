@@ -21,19 +21,32 @@
 #  alert_active             :boolean                default(false)
 #  alert_type               :string(255)            default('orange')
 #  alert_message            :text                   default('Type your alert message here...')
+#  theme_name               :string(255)
 #  created_at               :datetime               not null
 #  updated_at               :datetime               not null
 #
 class StoreSetting < ActiveRecord::Base
-
   attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, 
   :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes,
-  :alert_active, :alert_type, :alert_message
+  :alert_active, :alert_type, :alert_message, :theme_name
 
-  has_one :attachment,                                                  as: :attachable, :dependent => :destroy
+    has_one :attachment,                                                  as: :attachable, dependent: :destroy
 
-  validates :name, :email, :tax_name, :currency, :tax_rate,             :presence => true
+    validates :name, :email, :tax_name, :currency, 
+    :tax_rate, :theme_name,                                               presence: true
 
-  accepts_nested_attributes_for :attachment
+    accepts_nested_attributes_for :attachment
+
+    before_save :reset_settings
   
+    def theme
+        @@theme ||= Theme.new(self.theme_name)
+    end
+
+    private
+
+    def reset_settings
+        @@theme = nil
+        Store::reset_settings
+    end
 end

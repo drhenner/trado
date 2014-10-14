@@ -8,7 +8,7 @@
       .checkout-container
         .row
           .span10.offset1
-            = render partial: 'shared/flash/store'
+            = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
             / ==========
             / = Header =
             / ==========
@@ -60,7 +60,7 @@
                     %th
                       .align-right Total
                 %tbody
-                  = render :partial => 'orders/cart'
+                  = render partial: theme_presenter.page_template_path('orders/cart'), format: [:html]
             %hr/
             - unless @cart.cart_items.empty?
               %p.right-align
@@ -68,5 +68,5 @@
                 = link_to "Continue", next_wizard_path, :class => 'btn btn-primary higher bold'
     / /main content
 / /container
-= render partial: 'orders/delivery_service_prices/estimate/modal', format: [:html]
+= render partial: theme_presenter.page_template_path('orders/delivery_service_prices/estimate/modal'), format: [:html]
 #validateCartItem

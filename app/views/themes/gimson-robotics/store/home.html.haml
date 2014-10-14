@@ -1,6 +1,6 @@
 - content_for :title, 'Home'
 - content_for :page_title, 'The Linear Actuator and Electric Motor specialist'
-= render partial: 'shared/flash/store'
+= render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
 / ==========
 / = Slider Revolution =
 / ==========

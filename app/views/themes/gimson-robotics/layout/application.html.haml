@@ -26,8 +26,8 @@
           var s = document.getElementsByTagName('script')[0];
           s.parentNode.insertBefore(wf, s);
       })();
-    = stylesheet_link_tag :application, "data-turbolinks-track" => true
-    = javascript_include_tag :application, "data-turbolinks-track" => true 
+    = stylesheet_link_tag "themes/#{Store::settings.theme.name}/application", "data-turbolinks-track" => true
+    = javascript_include_tag "themes/#{Store::settings.theme.name}/application", "data-turbolinks-track" => true 
     %link{href: "/stylesheets/font.css", rel: "stylesheet", media: "screen"}/
   %body
     /[if lt IE 7]
@@ -83,7 +83,7 @@
               / ==========
               .span3
                 #cartContainer.cart-container
-                  = render partial: 'carts/cart', format: [:html]
+                  = render partial: theme_presenter.page_template_path('carts/cart'), format: [:html]
       / ==========
       / = Main container =
       / ==========
