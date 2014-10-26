@@ -6,7 +6,7 @@ gem 'pg'
 
 # Production gems
 group :production do
-  gem 'lograge'
+  # gem 'lograge'
   gem 'unicorn-worker-killer'
 end
 
