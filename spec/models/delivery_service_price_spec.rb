@@ -21,17 +21,21 @@ describe DeliveryServicePrice do
 
     it { expect(subject).to ensure_length_of(:description).is_at_most(180) }
 
-    describe "Default scope" do
-        let!(:delivery_service_price_1) { create(:delivery_service_price, price: '1.22') }
-        let!(:delivery_service_price_2) { create(:delivery_service_price, price: '5.67') }
-        let!(:delivery_service_price_3) { create(:delivery_service_price, price: '110.23') }
+    describe "Retrieving the related delivery service prices for a country" do
+        let!(:delivery_service_1) { create(:delivery_service_with_countries) }
+        let!(:delivery_service_2) { create(:delivery_service_with_country) }
+        let!(:delivery_service_price_1) { create(:delivery_service_price, active: true, delivery_service: delivery_service_1) }
+        let!(:delivery_service_price_2) { create(:delivery_service_price, active: true, delivery_service: delivery_service_1) }
+        let!(:delivery_service_price_3) { create(:delivery_service_price, active: true, delivery_service: delivery_service_2) }
+        let!(:cart) { create(:cart, delivery_service_prices: [delivery_service_price_1.id, delivery_service_price_2.id, delivery_service_price_3.id])}
 
-        it "should return an array of products ordered by descending weighting" do
-            expect(DeliveryServicePrice.last(3)).to match_array([delivery_service_price_1, delivery_service_price_2, delivery_service_price_3])
+        it "should return delivery service prices which are destined for a predetermined country" do
+            expect(DeliveryServicePrice.find_collection(cart, 'United Kingdom')).to match_array([delivery_service_price_1, delivery_service_price_2])
         end
+
     end
 
-    describe "Listing all shippings" do
+    describe "Listing all delivery service price" do
         let!(:delivery_service_price_1) { create(:delivery_service_price, active: true) }
         let!(:delivery_service_price_2) { create(:delivery_service_price) }
         let!(:delivery_service_price_3) { create(:delivery_service_price, active: true) }
@@ -52,21 +56,21 @@ describe DeliveryServicePrice do
 
     describe "Displaying a delivery service description" do
 
-        context "if the delivery service has a description value" do
+        context "if the delivery service price has a description value" do
             let!(:delivery_service) { create(:delivery_service, description: 'Hi this is a delivery service description.', active: true) }
-            let(:delivery_service_price) { create(:delivery_service_price, active: true, delivery_service_id: delivery_service.id, description: 'This is a delivery service price description.') }
-
-            it "should return the delivery service description" do
-                expect(delivery_service_price.full_description).to eq 'Hi this is a delivery service description.'
-            end
-        end
-
-        context "if the delivery service has a nil description value" do
-            let!(:delivery_service) { create(:delivery_service, description: nil, active: true) }
             let(:delivery_service_price) { create(:delivery_service_price, active: true, delivery_service_id: delivery_service.id, description: 'This is a delivery service price description.') }
 
             it "should return the delivery service price description" do
                 expect(delivery_service_price.full_description).to eq 'This is a delivery service price description.'
+            end
+        end
+
+        context "if the delivery service price has a nil description value" do
+            let!(:delivery_service) { create(:delivery_service, description: 'Hi this is a delivery service description.', active: true) }
+            let(:delivery_service_price) { create(:delivery_service_price, active: true, delivery_service_id: delivery_service.id, description: nil) }
+
+            it "should return the delivery service description" do
+                expect(delivery_service_price.full_description).to eq 'Hi this is a delivery service description.'
             end
         end
     end

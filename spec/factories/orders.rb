@@ -2,7 +2,6 @@ FactoryGirl.define do
     factory :order do
         ip_address { Faker::Internet.ip_v4_address }
         email { Faker::Internet.email }
-        status { 'active' }
         sequence(:tax_number) { |n| n }
         shipping_status { 'pending' }
         shipping_date { Date.new(2014, 1, 29) }
@@ -29,10 +28,21 @@ FactoryGirl.define do
             after(:create) do |order, evaluator|
                 create(:order_item, quantity: 5, order: order)
             end
+
+            factory :addresses_pending_order do
+                after(:create) do |order, evaluator|
+                    create(:address, addressable_type: 'OrderBillAddress', order: order)
+                    create(:address, addressable_type: 'OrderShipAddress', order: order)
+                end
+            end
         end
 
         factory :ipn_order do
             transactions { [create(:transaction, payment_status: 'pending', gross_amount: '234.71')] }
+            after(:create) do |order, evaluator|
+                create(:address, addressable_type: 'OrderBillAddress', order: order)
+                create(:address, addressable_type: 'OrderShipAddress', order: order)
+            end
         end
 
         factory :undispatched_complete_order do
@@ -51,11 +61,35 @@ FactoryGirl.define do
             after(:create) do |order, evaluator|
                 create(:order_item, quantity: 5, order: order)
             end
+
+            factory :addresses_complete_order do
+                after(:create) do |order, evaluator|
+                    create(:address, addressable_type: 'OrderBillAddress', order: order)
+                    create(:address, addressable_type: 'OrderShipAddress', order: order)
+                end
+            end
         end
 
         factory :failed_order do
             # has_many through relationship generation
             transactions { [create(:transaction, payment_status: 'failed')] }
+            shipping_status { 'pending' }
+
+            after(:create) do |order, evaluator|
+                create(:order_item, quantity: 5, order: order)
+            end
+
+            factory :addresses_failed_order do
+                after(:create) do |order, evaluator|
+                    create(:address, addressable_type: 'OrderBillAddress', order: order)
+                    create(:address, addressable_type: 'OrderShipAddress', order: order)
+                end
+            end
+        end
+
+        factory :fatal_failed_order do
+            # has_many through relationship generation
+            transactions { [create(:fatal_transaction, payment_status: 'failed')] }
             shipping_status { 'pending' }
 
             after(:create) do |order, evaluator|
@@ -95,6 +129,13 @@ FactoryGirl.define do
 
         factory :delivery_address_order do
             after(:create) do |order, evaluator|
+                create(:address, addressable_type: 'OrderShipAddress', order: order)
+            end
+        end
+
+        factory :addresses_order do
+            after(:create) do |order, evaluator|
+                create(:address, addressable_type: 'OrderBillAddress', order: order)
                 create(:address, addressable_type: 'OrderShipAddress', order: order)
             end
         end

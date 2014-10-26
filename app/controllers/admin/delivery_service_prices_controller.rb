@@ -7,7 +7,7 @@ class Admin::DeliveryServicePricesController < ApplicationController
 
   def index
     @delivery_service = DeliveryService.includes(:prices).find(params[:delivery_service_id])
-    @delivery_service_prices = @delivery_service.prices.active
+    @delivery_service_prices = @delivery_service.prices.active.order(price: :asc)
   end
 
 
@@ -69,11 +69,11 @@ class Admin::DeliveryServicePricesController < ApplicationController
 
   private
 
-    def set_delivery_service_price
-      @delivery_service_price = DeliveryServicePrice.find(params[:id])
-    end
+  def set_delivery_service_price
+    @delivery_service_price = DeliveryServicePrice.find(params[:id])
+  end
 
-    def set_delivery_service
-      @delivery_service = DeliveryService.find(params[:delivery_service_id])
-    end
+  def set_delivery_service
+    @delivery_service = DeliveryService.find(params[:delivery_service_id])
+  end
 end

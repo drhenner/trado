@@ -9,7 +9,7 @@ module OrderHelper
       "<span class='label label-#{class_name} label-small'>#{status.capitalize}</span>".html_safe
     end
 
-    def order_link cart
-        return cart.order.nil? ? new_order_path : order_build_path(:order_id => cart.order.id, :id => 'review')
+    def selected_country cart, order_address
+        order_address.nil? ? current_cart.estimate_country_name : order_address.country
     end
 end

@@ -73,7 +73,6 @@ gem 'newrelic_rpm'
 
 # Misc
 gem 'global'
-gem 'wicked'
 gem 'protected_attributes'
 gem 'tzinfo-data'
 gem 'active_presenter'

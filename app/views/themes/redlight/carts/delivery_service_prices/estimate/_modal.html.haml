@@ -4,16 +4,15 @@
     %h3#estimateDeliveryModalLabel
       %span.light Estimate
       Shipping
-  = form_for @order, url: estimate_order_build_path, :html => { method: :patch, :remote => true, :class => 'remote-form' } do |f|
+  = form_for current_cart, url: estimate_carts_path, html: { method: :patch, remote: true, :class => 'remote-form' } do |f|
     .modal-body
       .control-group
-        = f.fields_for :delivery_address do |ff|
-          = ff.label :country, :class => 'control-label'
-          .controls.update-delivery-service-price
-            = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }), { :include_blank => 'Please select...'})
+        = f.label 'Country', :class => 'control-label'
+        .controls.update-delivery-service-price
+          = f.select(:estimate_country_name, options_for_select(Country.all.map { |country| [country.name, country.name] }), { include_blank: 'Please select...'})
       .delivery-service-prices
         .control-group
-          = f.label :delivery_id, :class => 'control-label' do
+          = f.label :estimate_delivery_id, :class => 'control-label' do
             Shipping options
           .controls
             %p.delivery-service-price-notice Select a country to view the available delivery services.

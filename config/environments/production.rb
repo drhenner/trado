@@ -25,7 +25,8 @@ Trado::Application.configure do
                                 'products.js',
                                 'admin/soca.datepicker.js',
                                 'typeahead.js/dist/typeahead.jquery.min.js',
-                                'custom-redactor-settings.js'
+                                'custom-redactor-settings.js',
+                                'theia-sticky-sidebar/js/theia-sticky-sidebar.js'
                               ]
 
   # Generate digests for assets URLs

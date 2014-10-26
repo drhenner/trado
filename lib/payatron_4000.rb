@@ -27,6 +27,13 @@ module Payatron4000
             session[:cart_id] = nil
         end      
 
+        # Unlinks the order from the cart stored in session, making it inactive
+        #
+        # @param order [Object]
+        def decommission_order order
+            order.update_column(:cart_id, nil)
+        end
+
         # Increments the order count attribute for each product in an order by one
         # The order count attribute is used for determing popularity in the store sorting tool
         #
@@ -35,6 +42,20 @@ module Payatron4000
             products.each do |product|
                 product.increment!(:order_count)
             end
+        end
+
+        # A list of fatal error codes for an order
+        # If the passed in error code parameter is included in the fatal codes array, return true
+        #
+        # @param error_code [Integer] payment error code
+        # @return [Boolean]
+        def fatal_error_code? error_code
+            @fatal_codes =
+            [
+                10412, # PayPal: Payment has already been made for this InvoiceID.
+                10415 # PayPal: A successful transaction has already been completed for this token.
+            ]
+            return @fatal_codes.include?(error_code) ? true : false
         end
     end  
 end

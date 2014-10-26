@@ -47,6 +47,8 @@ trado.app =
                     $element =  $("select[name*='" + key + "']");
                 }
                 $errorTarget = '.error-explanation';
+                //cleans the value
+                key = key.split('_').join(' ');
                 // updates the error messages
                 if ($element.parent().next().is($errorTarget)) 
                 {
@@ -121,12 +123,13 @@ trado.app =
         {
             if (this.value !== "") 
             {
-                $.ajax('/order/delivery_service_prices/update', 
+                $.ajax('/carts/delivery_service_prices/update', 
                 {
                     type: 'GET',
                     data: 
                     {
-                        'country_id': this.value
+                        'country_id': this.value,
+                        'object_type': this.name.split('[')[0]
                     },
                     dataType: 'html',
                     success: function(data) 

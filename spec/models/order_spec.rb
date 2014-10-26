@@ -14,30 +14,38 @@ describe Order do
     it { expect(subject).to have_one(:billing_address).class_name('Address').conditions(addressable_type: 'OrderBillAddress').dependent(:destroy) }
 
     # Validations
-    context "if the order has a an associated completed transaction record" do
-        before { subject.stub(:completed?) { true } }
-        it { expect(subject).to validate_presence_of(:actual_shipping_cost) }
-    end
-
-    context "if the status of the order is 'active' or 'confirm'" do
-        before { subject.stub(:active_or_confirm?) { true } }
-        it { expect(subject).to validate_inclusion_of(:terms).in_array([true]).with_message('You must tick the box in order to complete your order.') }
-    end
-
-    context "if the current order status is at review or shipping" do
-        before { subject.stub(:active_or_review_or_shipping?) { true } }
-        it { expect(subject).to validate_presence_of(:delivery_id).with_message('service must be selected.') }
-    end
-
-    context "if current order status is at shipping" do
-        before { subject.stub(:active_or_shipping?) { true } }
-        it { expect(subject).to validate_presence_of(:email).with_message('is required') }
-        it { expect(subject).to allow_value("test@test.com").for(:email) }
-        it { expect(subject).to_not allow_value("test@test").for(:email).with_message(/invalid/) }
-    end
+    before { subject.stub(:completed?) { true } }
+    it { expect(subject).to validate_presence_of(:actual_shipping_cost) }
+    it { expect(subject).to validate_inclusion_of(:terms).in_array([true]).with_message('You must tick the box in order to place your order.') }
+    it { expect(subject).to validate_presence_of(:delivery_id).with_message('Delivery option must be selected.') }
+    it { expect(subject).to validate_presence_of(:email).with_message('is required') }
+    it { expect(subject).to allow_value("test@test.com").for(:email) }
+    it { expect(subject).to_not allow_value("test@test").for(:email).with_message(/invalid/) }
 
     # Nested attributes
     it { expect(subject).to accept_nested_attributes_for(:delivery_address) }
+    it { expect(subject).to accept_nested_attributes_for(:billing_address) }
+
+    describe "Default scope" do
+        let!(:order_1) { create(:order, created_at: 1.hour.ago) }
+        let!(:order_2) { create(:order, created_at: 6.hours.ago) }
+        let!(:order_3) { create(:order, created_at: Time.now) }
+
+        it "should return an array of orders ordered by descending created at value" do
+            expect(Order.last(3)).to match_array([order_3, order_1, order_2])
+        end
+    end
+
+    describe "Retrieving records which have associated transaction records" do
+        let!(:order_1) { create(:order) }
+        let!(:order_2) { create(:pending_order) }
+        let!(:order_3) { create(:complete_order) }
+        let!(:order_4) { create(:failed_order) }
+
+        it "should return order records which have at least one associated transaction record" do
+            expect(Order.active).to match_array [order_2, order_3, order_4]
+        end
+    end
 
     describe "When adding cart_items to an order" do
         let(:cart) { create(:full_cart) }
@@ -67,6 +75,9 @@ describe Order do
             order.calculate(cart, tax)
         end
 
+        it "should update the order's cart_id attribute" do
+            expect(order.cart_id).to eq cart.id
+        end
         it "should update the order's net amount attribute" do
             expect(order.net_amount).to eq cart.total_price
         end
@@ -87,110 +98,6 @@ describe Order do
 
         it "should return false if there are no associated transaction records which have a their payment_status attribute set to 'Completed'" do
             expect(pending.completed?).to eq false
-        end
-    end
-
-    describe "Multi form methods" do
-        let(:order_1) { create(:order, status: 'active') }
-        let(:order_2) { create(:order, status: 'billing') }
-        let(:order_3) { create(:order, status: 'shipping') }
-        let(:order_4) { create(:order, status: 'payment') }
-        let(:order_5) { create(:order, status: 'confirm') }
-        let(:order_6) { create(:order, status: 'review') }
-        let(:order_7) { build(:order, status: 'review') }
-
-        it "should return true for an active order" do
-            expect(order_1.active?).to eq true
-        end
-
-        context "if the order is a current record" do
-
-            it "should return true for a review or shipping or active order" do
-                expect(order_6.active_or_review_or_shipping?).to eq true
-                expect(order_3.active_or_review_or_shipping?).to eq true
-                expect(order_1.active_or_review_or_shipping?).to eq true
-            end
-        end
-
-        context "if the order is a new record" do
-
-            it "should return true for a review order" do
-                expect(order_7.active_or_review_or_shipping?).to eq false
-            end
-        end
-        
-        it "should return true for a billing or active order" do
-            expect(order_1.active_or_billing?).to eq true
-            expect(order_2.active_or_billing?).to eq true
-        end
-        it "should return true for a shipping or active order" do
-            expect(order_1.active_or_shipping?).to eq true
-            expect(order_3.active_or_shipping?).to eq true
-        end
-        it "should return true for a payment or active order" do
-            expect(order_1.active_or_payment?).to eq true
-            expect(order_4.active_or_payment?).to eq true
-        end
-        it "should return true for a payment or active order" do
-            expect(order_1.active_or_confirm?).to eq true
-            expect(order_5.active_or_confirm?).to eq true
-        end
-    end
-
-    describe "During a daily scheduled task" do
-
-        context "if the orders are more than 12 hours old but their status is set to active" do
-            let!(:order_1) { create(:order, updated_at: 11.hours.ago) }
-            let!(:order_2) { create(:order, updated_at: 13.hours.ago) }
-            let!(:order_3) { create(:order, updated_at: 28.hours.ago) }
-
-            it "should select the correct orders" do
-                expect(Order.clear_orders).to match_array([])
-            end
-
-            it "should not remove any orders" do
-                expect{
-                    Order.clear_orders
-                }.to change(Order, :count).by(0)
-            end
-        end
-
-        context "if the orders are more than 12 years old and their status is not set to active" do
-            let!(:order_1) { create(:order, updated_at: 11.hours.ago, status: 'shipping') }
-            let!(:order_2) { create(:order, updated_at: 13.hours.ago, status: 'review') }
-            let!(:order_3) { create(:order, updated_at: 28.hours.ago, status: 'billing') }
-
-            it "should select the correct orders" do
-                expect(Order.clear_orders).to match_array([order_2, order_3])
-            end
-
-            it "should remove the orders" do
-                expect{
-                    Order.clear_orders
-                }.to change(Order, :count).by(-2)
-            end
-        end
-    end
-
-    describe "After creating a new order" do
-        let(:order) { create(:order) }
-
-        it "should call create_addresses method after" do
-            Order._create_callbacks.select { |cb| cb.kind.eql?(:after) }.map(&:raw_filter).include?(:create_addresses).should == true
-        end
-
-        it "should create a new billing_address and delivery_address record" do
-            expect{
-                order
-            }.to change(Address, :count).by(2)
-        end
-
-        it "should have the correct type for the billing_address record" do
-            expect(order.billing_address.addressable_type).to eq 'OrderBillAddress'
-        end
-
-        it "should have the correct type for the delivery_address record" do
-            expect(order.delivery_address.addressable_type).to eq 'OrderShipAddress'
         end
     end
 end
