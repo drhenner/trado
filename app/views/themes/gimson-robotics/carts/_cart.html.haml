@@ -1,4 +1,4 @@
-- @cart_total = @order.nil? || @order.delivery.nil? ? current_cart.total_price : (current_cart.total_price + @order.delivery.price)
+- @cart_total = current_cart.estimate_delivery.nil? ? current_cart.total_price : (current_cart.total_price + current_cart.estimate_delivery.price)
 - current_cart.cart_items.each do |item|
   %tr
     %td.image
