@@ -21,12 +21,12 @@
       .span5
         .product-preview
           .picture
-            = image_tag @product.attachments.first.file.large, :id => "mainPreviewImg", :alt => @product.name, :width => 500, :height => 375
+            = image_tag @product.attachments.first.file.large, id: "mainPreviewImg", alt: @product.name, width: 500, height: 375
           .thumbs.clearfix
             - @product.attachments.each_with_index do |image, index|
               .thumb{:class => "#{ "active" if index == 0 }"}
                 %a{href: "#mainPreviewImg"}
-                  = image_tag image.file.large, :width => 940, :height => 940
+                  = image_tag image.file.large, width: 940, height: 940
       / ==========
       / = Title and short desc =
       / ==========
@@ -38,22 +38,22 @@
           %p= raw @product.short_description
           %hr/
           .row
-            = form_for @cart_item, :html => { :method => :post, :remote => true, :class => 'form form-inline clearfix product_sku_form' } do |f|
+            = form_for [current_cart, @cart_item], html: { method: :post, remote: true, :class => 'form form-inline clearfix product_sku_form' } do |f|
               .span5
                 = Store::Price.new(price: @skus.first.price).markup 
                 .options
                   - unless @product.single && @product.accessories.active.empty?
                     %div Options:
                   - if @product.single
-                    = f.hidden_field :sku_id, :value => @product.skus.first.id
+                    = f.hidden_field :sku_id, value: @product.skus.first.id
                   - else
                     = f.select :sku_id, options_for_select(@skus.map { |sku| [sku_attribute_values(sku, sku.product.single), sku.id ] } )
                   - unless @product.accessories.active.empty?
                     = f.fields_for @cart_item_accessory do |ff|
-                      = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), :prompt => "No accessory (+£0.00)"
+                      = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), prompt: "No accessory (+£0.00)"
                 .numbered
                   Quantity:
-                  = f.text_field :quantity, :value => 1, :class => 'tiny-size'
+                  = f.text_field :quantity, value: 1, :class => 'tiny-size'
                   %span.clickable.add-one.fa.fa-plus-square
                   %span.clickable.remove-one.fa.fa-minus-square
               .span2
@@ -63,7 +63,7 @@
                   - else 
                     %span.btn.btn-danger Out of Stock
                 - if @skus.first.stock > 0
-                  = button_tag(:type => 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
+                  = button_tag(type: 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
                     %i.fa.fa-shopping-cart
                     \  Add To Cart
                 - else
@@ -117,7 +117,7 @@
               .product-inner
                 .product-img
                   .picture
-                    = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
+                    = link_to (image_tag product.attachments.first.file.large, alt: product.name, width: 540, height: 374), [product.category, product]
                 .main-titles.no-margin
                   %h4.no-margin.isotope--title= link_to (truncate product.name, length: 35), [product.category, product]
                   = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range

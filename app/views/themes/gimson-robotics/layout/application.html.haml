@@ -48,8 +48,8 @@
             .span6.sub-menu
               %ul
                 - page_list.each do | page|
-                  %li{ :class => active_page?('pages', page.template_type, page.id) }
-                    = link_to page.menu_title, send("#{page.slug.split('-').join('_')}_path"), title: page.title
+                  %li{ :class => active_page?(controller: 'pages', slug: page.slug) }
+                    = link_to page.render_menu_title, p_path(slug: page.slug), title: page.title
 
       / ==========
       / = Main Menu / navbar =
@@ -83,7 +83,7 @@
               / ==========
               .span3
                 #cartContainer.cart-container
-                  = render partial: theme_presenter.page_template_path('carts/cart'), format: [:html]
+                  = render partial: theme_presenter.page_template_path('carts/popup'), format: [:html]
       / ==========
       / = Main container =
       / ==========
@@ -106,8 +106,8 @@
                 %ul.nav
                   %li= link_to 'Home', root_path
                   - page_list.each do | page|
-                    %li{ :class => active_page?('pages', page.template_type, page.id) }
-                      = link_to page.menu_title, send("#{page.slug.split('-').join('_')}_path"), title: page.title
+                    %li{ :class => active_page?(controller: 'pages', slug: page.slug) }
+                      = link_to page.render_menu_title, p_path(slug: page.slug), title: page.title
               .span4
                 .main-titles.lined
                   %h3.title

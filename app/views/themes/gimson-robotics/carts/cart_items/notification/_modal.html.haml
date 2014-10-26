@@ -16,6 +16,6 @@
         %b= "#{@cart_item.cart_item_accessory.accessory.name}" 
   .modal-footer
     %a.btn.btn-primary.higher.bold{"data-dismiss" => "modal"} Continue Shopping
-    = link_to order_link(current_cart), :class => 'btn btn-danger pull-right bold higher' do
+    = link_to mycart_carts_path, :class => 'btn btn-danger pull-right bold higher' do
       View Cart
       %i.fa.fa-shopping-cart
