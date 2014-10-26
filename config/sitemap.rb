@@ -7,8 +7,8 @@ SitemapGenerator::Sitemap.sitemaps_path = 'shared/'
 
 SitemapGenerator::Sitemap.create do
 
-    Page.find_each do |page|
-        add send("#{page.slug.split('-').join('_')}_path"), :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
+    Page.active.find_each do |page|
+        add p_path(slug: page.slug), :lastmod => Time.now, :changefreq => 'monthly', :priority => 1
     end
 
     Category.find_each do |category|
