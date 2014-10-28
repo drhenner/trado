@@ -42,7 +42,7 @@
                             Email
                             %span.red-clr.bold *
                           .controls
-                            = f.text_field :email, :class => 'span4', id: 'email'
+                            = f.text_field :email, id: 'email'
                             = errors_for @order, :email
                         .control-group
                           = ff.label :company, :class => 'control-label' do
@@ -117,6 +117,15 @@
                     = image_tag 'paypal-icon.png'
                     .controls
                       = radio_button_tag :payment_type, 'express-checkout', checked: true
+                    - if Store::settings.cheque
+                      .controls
+                        = radio_button_tag :payment_type, 'cheque'
+                        Cheque
+                    - if Store::settings.bank_transfer
+                      .controls
+                        = radio_button_tag :payment_type, 'bank-transfer'
+                        Bank transfer
+
                   %h3 Billing address
                   %hr
                   = f.fields_for :billing_address do |fff|
@@ -127,32 +136,32 @@
                             First name
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :first_name, :class => 'span4', :id => 'billing_first_name'
+                            = fff.text_field :first_name, :id => 'billing_first_name'
                             = errors_for @order, 'billing_address.first_name'
                         .control-group
                           = fff.label :telephone, :class => 'control-label' do
                             Telephone
                           .controls
-                            = fff.text_field :telephone, :class => 'span4', :id => 'billing_telephone'
+                            = fff.text_field :telephone, :id => 'billing_telephone'
                             = errors_for @order, 'billing_address.telephone'
                         .control-group
                           = f.label :tax_number, :class => 'control-label' do
                             Tax number
                           .controls
-                            = f.text_field :tax_number, :class => 'span4', :id => 'tax_number'
+                            = f.text_field :tax_number, :id => 'tax_number'
                             = errors_for @order, 'billing_address.tax_number'
                         .control-group
                           = fff.label :city, :class => 'control-label' do
                             City
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :city, :class => 'span4', :id => 'billing_city'
+                            = fff.text_field :city, :id => 'billing_city'
                             = errors_for @order, 'billing_address.city'
                         .control-group
                           = fff.label :county, :class => 'control-label' do
                             County
                           .controls
-                            = fff.text_field :county, :class => 'span4', :id => 'billing_county'
+                            = fff.text_field :county, :id => 'billing_county'
                             = errors_for @order, 'billing_address.county'
                       .span3
                         .control-group
@@ -160,27 +169,27 @@
                             Last name
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :last_name, :class => 'span4', :id => 'billing_last_name'
+                            = fff.text_field :last_name, :id => 'billing_last_name'
                             = errors_for @order, 'billing_address.last_name'
                         .control-group
                           = fff.label :company, :class => 'control-label' do
                             Company
                           .controls
-                            = fff.text_field :company, :class => 'span4', :id => 'billing_company'
+                            = fff.text_field :company, :id => 'billing_company'
                             = errors_for @order, 'billing_address.company'
                         .control-group
                           = fff.label :address, :class => 'control-label' do
                             Street address
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :address, :class => 'span4', :id => 'billing_address'
+                            = fff.text_field :address, :id => 'billing_address'
                             = errors_for @order, 'billing_address.address'
                         .control-group
                           = fff.label :postcode, :class => 'control-label' do
                             Postcode
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :postcode, :class => 'span4', :id => 'billing_postcode'
+                            = fff.text_field :postcode, :id => 'billing_postcode'
                             = errors_for @order, 'billing_address.postcode'
                         .control-group
                           = fff.label :country, :class => 'control-label' do
