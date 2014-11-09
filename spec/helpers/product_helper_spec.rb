@@ -5,16 +5,16 @@ describe ProductHelper do
     store_setting
 
     describe '#sku_atttribute_values' do
-        let!(:attribute_type) { create(:attribute_type, measurement: 'kg') } 
+        let!(:attribute_type) { create(:attribute_type) } 
 
         context "if the product is single" do
             let!(:product) { create(:product, active: true, single: false) }
             before(:each) do
-                create(:sku, attribute_value: '55.4', active: true, product_id: product.id, attribute_type_id: attribute_type.id)
+                create(:sku, attribute_value: '55.4g', active: true, product_id: product.id, attribute_type_id: attribute_type.id)
             end
 
             it "should return a string" do
-                expect(helper.sku_attribute_values(product.skus.first, product.single)).to eq "55.4 kg"
+                expect(helper.sku_attribute_values(product.skus.first, product.single)).to eq "55.4g"
             end
         end
 

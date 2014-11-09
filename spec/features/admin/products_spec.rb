@@ -26,28 +26,6 @@ feature 'Product management' do
         end
     end
 
-    scenario 'should display an index of attribute types' do
-        attribute_type
-
-        visit admin_products_path
-        within '.page-header' do
-            find(:xpath, "//a[@title='Attribute types']").click
-        end
-        expect(current_path).to eq admin_products_skus_attribute_types_path
-        within 'h2' do
-            expect(page).to have_content 'Attribute types'
-        end
-        within '#breadcrumbs li.current' do
-            expect(page).to have_content 'Attribute types'
-        end
-        within 'thead tr th:first-child' do
-            expect(page).to have_content 'Name'
-        end
-        within 'tbody tr td:first-child' do
-            expect(page).to have_content attribute_type.name
-        end
-    end
-
     scenario 'should add a new product (published)', js: true do
         accessory = create(:accessory)
         product_1 = create(:product_sku_attachment)
@@ -135,18 +113,6 @@ feature 'Product management' do
         end 
         within '.alert.alert-success' do
             expect(page).to have_content 'Your product has been published successfully. It is now live in your store.'
-        end
-    end
-
-    scenario 'should display a warning if there are no SKU attribute types when trying to create a new product' do
-        
-        visit admin_products_path
-        expect{
-            find('.page-header a:first-child').click
-        }.to_not change(Product, :count)
-        expect(current_path).to eq admin_products_path
-        within '.alert.alert-warning' do
-            expect(page).to have_content "You must have at least one attribute type record before creating your first product. Create one <a href=\"/admin/products/skus/attribute_types/new\">now</a>."
         end
     end
 
@@ -333,7 +299,7 @@ feature 'Product management' do
         end
 
         expect(find('#sku-fields')).to have_selector('tr', count: 3)
-        find('#sku-fields tr:last-child td:last-child a:last-child').click
+        find('#sku-fields tr:last-child td:last-child a:last-child').trigger('click')
         expect(find('#sku-fields')).to have_selector('tr', count: 2)
         expect(product_skus.skus.count).to eq 2
         within '.sku-destroy-alert' do
