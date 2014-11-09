@@ -115,6 +115,7 @@
                   %hr
                   .control-group
                     = image_tag 'paypal-icon.png'
+                    Payment by Debit or Credit Card (PayPal account not required)
                     .controls
                       = radio_button_tag :payment_type, 'express-checkout', checked: true
                     - if Store::settings.cheque
