@@ -96,7 +96,7 @@
                             Country
                             %span.red-clr.bold *
                           .controls.update-delivery-service-price
-                            = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, selected_country(current_cart, @order.delivery_address)), { include_blank: 'Please select...'})
+                            = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, selected_country(current_cart, @order.delivery_address.country)), { include_blank: 'Please select...'})
                             = errors_for @order, 'delivery_address.country'
                   .delivery-service-prices
                     .control-group
@@ -196,7 +196,7 @@
                             Country
                             %span.red-clr.bold *
                           .controls
-                            = fff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name ] }, selected: selected_country(current_cart, @order.billing_address)), { include_blank: 'Please select...'})
+                            = fff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name ] }, selected: selected_country(current_cart, @order.billing_address.country)), { include_blank: 'Please select...'})
                             = errors_for @order, 'billing_address.country'
                   = f.check_box :terms, checked: false
                   = errors_for @order, :terms
@@ -242,7 +242,10 @@
                           Delivery:
                           %div.normal= current_cart.estimate_delivery.full_name unless current_cart.estimate_delivery.nil?
                         %td.stronger
-                          .align-right= Store::Price.new(price: cart_delivery_price(current_cart.estimate_delivery)).single
+                          - if current_cart.estimate_delivery.nil?
+                            No method selected
+                          - else
+                            = Store::Price.new(price: current_cart.estimate_delivery.price).single
                       - if Store::settings.tax_breakdown
                         %tr.no-border
                           %td.stronger{colspan: "3"}= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
