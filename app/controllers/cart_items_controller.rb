@@ -48,7 +48,7 @@ class CartItemsController < ApplicationController
   end
 
   def set_delivery_services
-    current_cart.calculate_delivery_services
+    current_cart.calculate_delivery_services(Store::tax_rate)
   end
 
   def set_validate_cart_item
