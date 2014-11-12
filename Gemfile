@@ -35,10 +35,9 @@ group :test do
   gem 'database_cleaner'
   gem 'shoulda-matchers'
   gem 'faker'
-  # gem 'spork'
-  # gem 'guard-rspec', :require => false
-  # gem 'guard-spork'
-  # gem 'email_spec'
+  gem 'email_spec'
+  gem 'mysql2'
+  gem 'sqlite3'
 end
 
 group :development, :test do
