@@ -57,9 +57,25 @@
   </div>
   <div class="row">
     <div class="twelvecol">
+      <div class="form-group">
+        <%= f.label :short_description %>
+        <%= f.text_area :short_description, :rows => 8, :class => 'form-control redactor' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelvecol">
+      <div class="form-group">
+        <%= f.label "Technical details" %>
+        <%= f.text_area :specification, :rows => 8, :class => 'form-control redactor' %>
+      </div>
+    </div>
+  </div>
+  <div class="row">
+    <div class="twelvecol">
       <div class="form-group form-last">
-        <%= f.label :description %>
-        <%= f.text_area :description, :rows => 8, :class => 'form-control' %>
+        <%= f.label "Product description" %>
+        <%= f.text_area :description, :rows => 8, :class => 'form-control redactor' %>
       </div>
     </div>
   </div>
