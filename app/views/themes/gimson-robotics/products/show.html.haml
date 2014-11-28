@@ -42,9 +42,9 @@
               .span5
                 = Store::Price.new(price: @skus.first.price).markup 
                 .options
-                  - unless @product.single && @product.accessories.active.empty?
+                  - unless @product.single? && @product.accessories.active.empty?
                     %div Options:
-                  - if @product.single
+                  - if @product.single?
                     = f.hidden_field :sku_id, value: @product.skus.first.id
                   - else
                     = f.select :sku_id, options_for_select(@skus.map { |sku| [render_variants(sku), sku.id ] } )
