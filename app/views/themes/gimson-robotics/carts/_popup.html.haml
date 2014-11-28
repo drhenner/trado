@@ -24,7 +24,7 @@
           %strong
             = link_to item.sku.product.name, [item.sku.product.category, item.sku.product]
           %div
-            = sku_attribute_values(item.sku, item.sku.product.single)
+            = render_variants(item.sku) unless item.sku.product.single?
             - unless item.cart_item_accessory.blank?
               = "<i class='icon-power-cord'></i> #{item.cart_item_accessory.accessory.name}".html_safe
           %span.light-clr.qty

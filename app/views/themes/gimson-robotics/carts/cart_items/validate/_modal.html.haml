@@ -9,7 +9,7 @@
       Unable to add the following item to your cart:
     %p
       %b= sku.product.name
-      = "(#{sku_attribute_values(sku, sku.product.single)})" unless sku.product.single
+      = render_variants(sku) unless sku.product.single?
     %p 
       There are only
       %b= sku.stock

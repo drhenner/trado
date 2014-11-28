@@ -9,7 +9,7 @@
     %p
       = "#{@quantity} x" 
       %b= "#{@cart_item.sku.product.name}"
-      = "(#{sku_attribute_values(@cart_item.sku, @cart_item.sku.product.single)})" unless @cart_item.sku.product.single
+      = render_variants(@cart_item.sku) unless @cart_item.sku.product.single?
     - unless @cart_item.cart_item_accessory.nil?
       %p
         = "#{@quantity} x"
