@@ -16,28 +16,31 @@ class Admin::Skus::VariantsController < ApplicationController
                 count: params[type.name.downcase.to_sym].split(/,\s*/).count,
             }
         end.reject(&:nil?)
+        if @variants.empty?
+            render json: { errors: ['Variant options can\'t be blank'] }, status: 422
+        else
+            @total_possible_skus = @variants.map do |v| 
+                v[:values].count == 0 ? 1 : v[:values].count
+            end.inject(:*)
 
-        @total_possible_skus = @variants.map do |v| 
-            v[:values].count == 0 ? 1 : v[:values].count
-        end.inject(:*)
-
-        @skus = []
-        @total_possible_skus.times do
-            sku = @product.skus.build
-            sku.save(validate: false)
-            @skus << sku
-        end
-        @variants.each_with_index do |variant, index|
-            possible_variants = @total_possible_skus/variant[:count]
-            values = variant[:values]*possible_variants
-            values = index != 0 ? values.sort_by!{|v| v.downcase } : values
-            @skus.zip(values).each do |sku, value|
-                break if value.nil?
-                SkuVariant.create(sku_id: sku.id, name: value, variant_type_id: variant[:id])
+            @skus = []
+            @total_possible_skus.times do
+                sku = @product.skus.build
+                sku.save(validate: false)
+                @skus << sku
             end
+            @variants.each_with_index do |variant, index|
+                possible_variants = @total_possible_skus/variant[:count]
+                values = variant[:values]*possible_variants
+                values = index != 0 ? values.sort_by!{|v| v.downcase } : values
+                @skus.zip(values).each do |sku, value|
+                    break if value.nil?
+                    SkuVariant.create(sku_id: sku.id, name: value, variant_type_id: variant[:id])
+                end
+            end
+            
+            render partial: 'admin/products/skus/variants/create', format: [:js], locals: { sku_count: @total_skus }
         end
-
-        render partial: 'admin/products/skus/variants/create', format: [:js], locals: { sku_count: @total_possible_skus }
     end
 
     def update
@@ -53,8 +56,10 @@ class Admin::Skus::VariantsController < ApplicationController
     end
 
     def destroy
-        @product.skus.active.destroy_all
-
+        binding.pry
+        @product.skus.active.each do |sku|
+            Store.active_archive(CartItem, :sku_id, sku)
+        end
         render partial: 'admin/products/skus/variants/destroy', format: [:js]
     end
 
