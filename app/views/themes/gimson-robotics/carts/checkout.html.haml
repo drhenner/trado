@@ -198,10 +198,7 @@
                           .controls.update-delivery-service-price
                             = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, selected_country(current_cart, @order.delivery_address.country)), { include_blank: 'Please select...'})
                             = errors_for @order, 'delivery_address.country'
-                  = f.check_box :terms, checked: false
-                  = errors_for @order, :terms
-                  %p Tick this box to acknowledge that you have read and agree with our terms and conditions.
-                  = f.submit 'Place Order', :class => 'btn btn-primary higher bold'
+                 
               .span4.sidebar
                 .theiaStickySidebar
                   %h3 Order summary
@@ -255,6 +252,11 @@
                         %td.stronger{colspan: "3"} Order Total:
                         %td.stronger
                           .size-16.align-right.total_price= Store::Price.new(price: @cart_total[:gross_amount], tax_type: 'net').single
+                  = f.check_box :terms, checked: false
+                  = errors_for @order, :terms
+                  Tick this box to acknowledge that you have read and agree with our terms and conditions.
+                  %p
+                    = f.submit 'Place Order', :class => 'btn btn-primary higher bold confirm_order'
 
     / /main content
 / /container

@@ -263,6 +263,22 @@ header
         font-size: 25px;
         margin-bottom: 20px;
     }
+    table.order-summary
+    {
+        tbody
+        {
+            tr
+            {
+                td
+                {
+                    &:last-child
+                    {
+                        text-align: right;
+                    }
+                }
+            }
+        }
+    }
     .accessory_row
     {
         td 
@@ -299,10 +315,7 @@ header
             }
         }
     }
-    td[colspan="3"]:not(.border-colspan)
-    {
-        border:0;
-    }
+
     &.payment-method
     {
         a:hover
