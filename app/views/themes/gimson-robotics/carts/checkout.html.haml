@@ -97,38 +97,35 @@
                           .controls
                             = fff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name ] }, selected: selected_country(current_cart, @order.billing_address.country)), { include_blank: 'Please select...'})
                             = errors_for @order, 'billing_address.country'
-                  .delivery-service-prices
-                    .control-group
-                      = f.label :delivery_id, :class => 'control-label' do
-                        Delivery options
-                        %span.red-clr.bold *
-                      .controls
-                        - unless @delivery_id.nil?
-                          = render partial: theme_presenter.page_template_path("carts/delivery_service_prices/fields"), format: [:html], locals: { delivery_service_prices: @delivery_service_prices, delivery_id: @delivery_id, field_target: 'order[delivery_id]' }
-                        - else
-                          %p.delivery_service_price_notice Select a country to view the available delivery services.
-                          .control-group
-                            .controls
-                              = errors_for @order, :delivery_id
                   %h3 Payment details
                   %hr
-                  .control-group
-                    = image_tag 'paypal-icon.png'
-                    Payment by Debit or Credit Card (PayPal account not required)
+                  .control-group.payment-options
                     .controls
-                      = radio_button_tag :payment_type, 'express-checkout', checked: true
+                      .checkbox
+                        = radio_button_tag :payment_type, 'express-checkout', checked: true
+                        = image_tag 'paypal-icon.png'
+                        %p
+                          Payment by Debit or Credit Card (PayPal account not required)
                     - if Store::settings.cheque
                       .controls
-                        = radio_button_tag :payment_type, 'cheque'
-                        Cheque
+                        .checkbox
+                          = radio_button_tag :payment_type, 'cheque'
+                          Cheque
                     - if Store::settings.bank_transfer
                       .controls
-                        = radio_button_tag :payment_type, 'bank-transfer'
-                        Bank transfer
+                        .checkbox
+                          = radio_button_tag :payment_type, 'bank-transfer'
+                          Bank transfer
                   %h3 Delivery address
                   %hr
                   = f.fields_for :delivery_address do |ff|
                     .row
+                      .span6
+                        .control-group
+                          .controls
+                            .checkbox
+                              = check_box_tag :use_billing_address
+                              Use the billing address
                       .span3
                         .control-group
                           = ff.label :first_name, :class => 'control-label' do
@@ -198,7 +195,19 @@
                           .controls.update-delivery-service-price
                             = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, selected_country(current_cart, @order.delivery_address.country)), { include_blank: 'Please select...'})
                             = errors_for @order, 'delivery_address.country'
-                 
+                    .delivery-service-prices
+                      .control-group
+                        = f.label :delivery_id, :class => 'control-label' do
+                          Delivery options
+                          %span.red-clr.bold *
+                        .controls
+                          - unless @delivery_id.nil?
+                            = render partial: theme_presenter.page_template_path("carts/delivery_service_prices/fields"), format: [:html], locals: { delivery_service_prices: @delivery_service_prices, delivery_id: @delivery_id, field_target: 'order[delivery_id]' }
+                          - else
+                            %p.delivery_service_price_notice Select a country to view the available delivery services.
+                            .control-group
+                              .controls
+                                = errors_for @order, :delivery_id
               .span4.sidebar
                 .theiaStickySidebar
                   %h3 Order summary
@@ -215,7 +224,7 @@
                       - current_cart.cart_items.each do |item|
                         %tr
                           %td.image
-                            = image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 124, :width => 124
+                            = image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 75, :width => 75
                           %td.desc
                             = item.sku.product.name
                             %div= render_variants(item.sku) unless item.sku.product.single?
@@ -252,9 +261,12 @@
                         %td.stronger{colspan: "3"} Order Total:
                         %td.stronger
                           .size-16.align-right.total_price= Store::Price.new(price: @cart_total[:gross_amount], tax_type: 'net').single
-                  = f.check_box :terms, checked: false
-                  = errors_for @order, :terms
-                  Tick this box to acknowledge that you have read and agree with our terms and conditions.
+                  .control-group
+                    .controls
+                      .checkbox
+                        = f.check_box :terms, checked: false
+                        = errors_for @order, :terms
+                        Tick this box to acknowledge that you have read and agree with our terms and conditions.
                   %p
                     = f.submit 'Place Order', :class => 'btn btn-primary higher bold confirm_order'
 

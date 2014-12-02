@@ -82,6 +82,26 @@
       </fieldset>
     </div>
     <div class="threecol">
+      <h3>Payment options</h3>
+      <p>Select the payment options you wish to offer for your store.</p>
+    </div>
+    <div class="ninecol last">
+      <fieldset class="widget widget-content">
+        <div class="checkbox blocked">
+          <label>
+            <%= f.check_box :cheque %>
+            Cheque
+          </label>
+        </div>
+        <div class="checkbox blocked">
+          <label>
+            <%= f.check_box :bank_transfer %>
+            Bank transfer
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="threecol">
       <h3>PayPal</h3>
       <p>Select the currency you will be accepting with your PayPal account.</p>
     </div>

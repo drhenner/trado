@@ -271,11 +271,44 @@ header
             {
                 td
                 {
+                    &.image
+                    {
+                        width:85px;
+                    }
+
+                    &.qty
+                    {
+                        width:15%;
+                    }
+
+                    &.price
+                    {
+                        width:20%;
+                    }
                     &:last-child
                     {
                         text-align: right;
                     }
                 }
+            }
+        }
+    }
+    .control-group.payment-options
+    {
+        margin-bottom: 25px;
+
+        .controls .checkbox
+        {
+            margin-bottom: 12px;
+
+            input[type=radio]
+            {
+                margin:0 12px 0 0;
+            }
+
+            p
+            {
+                margin-top:7px;
             }
         }
     }
