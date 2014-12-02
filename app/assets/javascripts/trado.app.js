@@ -80,7 +80,7 @@ trado.app =
 
     duplicateAddress: function() 
     {
-        $('.use-billing-address').change(function() 
+        $('#use_billing_address').change(function() 
         {
             if (this.checked) 
             {
