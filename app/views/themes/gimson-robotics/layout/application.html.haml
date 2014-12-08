@@ -108,17 +108,17 @@
                   - page_list.each do | page|
                     %li{ :class => active_page?(controller: 'pages', slug: page.slug) }
                       = link_to page.render_menu_title, p_path(slug: page.slug), title: page.title
-              .span4
-                .main-titles.lined
-                  %h3.title
-                    %span.light Newsletter
-                    Signup
-                %p Sign up for our newsletter below
-                / Begin MailChimp Signup Form
-                %form.form.form-inline{action: "", method: "post"}
-                  %input.required.email{name: "EMAIL", placeholder: "Enter your e-mail address", type: "email", value: ""}/
-                  %input.btn.btn-primary{name: "subscribe", type: "submit", value: "Send"}/
-                / End mc_embed_signup
+              / .span4
+              /   .main-titles.lined
+              /     %h3.title
+              /       %span.light Newsletter
+              /       Signup
+              /   %p Sign up for our newsletter below
+              /   / Begin MailChimp Signup Form
+              /   %form.form.form-inline{action: "", method: "post"}
+              /     %input.required.email{name: "EMAIL", placeholder: "Enter your e-mail address", type: "email", value: ""}/
+              /     %input.btn.btn-primary{name: "subscribe", type: "submit", value: "Send"}/
+              /   / End mc_embed_signup
         / /upper footer
         / ==========
         / = Bottom Footer =

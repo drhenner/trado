@@ -25,6 +25,8 @@
               #tourStep4.form-inline.sorting-by
                 %label.black-clr{for: "isotopeSorting"} Sort:
                 %select#isotopeSorting.span3
+                  %option{value: ""} Sort products by..
+                  %option{value: "{\"sortBy\":\"popularity\", \"sortAscending\":\"false\"}"} Popularity
                   %option{value: "{\"sortBy\":\"price\", \"sortAscending\":\"true\"}"} By Price (Low to High) ↑
                   %option{value: "{\"sortBy\":\"price\", \"sortAscending\":\"false\"}"} By Price (High to Low) ↓
                   %option{value: "{\"sortBy\":\"name\", \"sortAscending\":\"true\"}"} By Name (Low to High) ↑
@@ -44,7 +46,7 @@
                 / ==========
                 / = Single Product =
                 / ==========
-                .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price}
+                .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price, "data-popularity" => product.order_count }
                   .product
                     .product-inner
                       .product-img
