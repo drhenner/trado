@@ -425,3 +425,16 @@ header
 {
     margin-top:40px;
 }
+.latest-news
+{
+    a
+    {
+        color: #008e99;
+
+        &:hover
+        {
+            text-decoration: underline;
+            color:#004F55;
+        }
+    }
+}
