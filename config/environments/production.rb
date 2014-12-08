@@ -26,7 +26,6 @@ Trado::Application.configure do
                                 'admin/soca.datepicker.js',
                                 'admin/chart.js',
                                 'typeahead.js/dist/typeahead.jquery.min.js',
-                                'custom-redactor-settings.js',
                                 'theia-sticky-sidebar/js/theia-sticky-sidebar.js'
                               ]
 

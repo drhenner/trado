@@ -12,6 +12,7 @@
       / = Main Title =
       / ==========
       .span12
+        = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
         %h3
           %span.light= @page.title
         %hr    

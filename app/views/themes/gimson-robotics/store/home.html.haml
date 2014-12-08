@@ -1,12 +1,12 @@
 - content_for :title, 'Home'
 - content_for :page_title, 'The Linear Actuator and Electric Motor specialist'
-= render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
 .container
   / ==========
   / = Most Popular products =
   / ==========
   .most-popular.blocks-spacer
     .container
+      = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
       / ==========
       / = Title =
       / ==========

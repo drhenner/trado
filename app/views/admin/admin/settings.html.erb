@@ -118,7 +118,7 @@
       <p>Enable and set the web tracking code for your store. </p>
     </div>
     <div class="ninecol last">
-      <fieldset class="widget widget-content widget-last">
+      <fieldset class="widget widget-content">
         <div class="form-group">
           <%= f.label 'Web tracking code' %>
           <%= f.text_field :ga_code, :class => 'form-control' %>
@@ -132,6 +132,34 @@
         <div class="radio">
           <label>
             <%= f.radio_button :ga_active, false %>
+            Disabled
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="threecol">
+      <h3>Alert message</h3>
+      <p>Set an alert message for your store, visible on the home, contact and delivery pages.</p>
+    </div>
+    <div class="ninecol last">
+      <fieldset class="widget widget-content widget-last">
+        <div class="form-group">
+          <%= f.label 'Type' %>
+          <%= f.select :alert_type, options_for_select([['Medium', 'warning'],['High', 'danger']], @settings.alert_type ), { include_blank: false }, { :class => 'form-control' } %>
+        </div>
+        <div class="form-group">
+          <%= f.label 'Message' %>
+          <%= f.text_field :alert_message, :class => 'form-control' %>
+        </div>
+        <div class="radio">
+          <label>
+            <%= f.radio_button :alert_active, true %>
+            Enabled
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <%= f.radio_button :alert_active, false %>
             Disabled
           </label>
         </div>
