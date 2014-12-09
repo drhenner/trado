@@ -54,13 +54,13 @@
     }
     #new_order
     {
-        .confirm_order
+        .checkout_order
         {
             width:100%;
         }
     }
 }
-#paypalModal, #confirmOrderModal {
+#checkoutOrderModal, #confirmOrderModal {
     .modal-body p {
         text-align: center;
     }

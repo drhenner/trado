@@ -60,6 +60,7 @@ class OrdersController < ApplicationController
           Payatron4000::Paypal.assign_paypal_token(params[:token], params[:PayerID], @order) 
         else
           flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'
+          Rails.logger.warning "Missing PayPal verification variables for order ##{@order.id}."
           redirect_to checkout_carts_url
         end
       end

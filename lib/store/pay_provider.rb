@@ -26,6 +26,8 @@ module Store
         def provider
             if @provider == 'express-checkout'
                 return Payatron4000::Paypal
+            elsif @provider == 'cheque' || @provider == 'bank-transfer'
+                return Payatron4000::Generic
             end
         end
 
@@ -33,7 +35,7 @@ module Store
         #
         # @return [String] redirect url
         def build
-            provider.build(order, cart, ip_address)
+            provider.build(cart, order, ip_address)
         end
 
         # Triggers the complete method, under the respective payment provider class

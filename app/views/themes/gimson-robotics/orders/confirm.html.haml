@@ -19,9 +19,6 @@
                     %h1
                       %span.light Confirm
                       Order
-                .span2
-                  .right-align
-                    = image_tag 'webmarket/buttons/security.jpg', :alt => 'Security', :width => 92, :height => 65
             .row
               .span3
                 %h3 Delivery address
@@ -66,6 +63,7 @@
                 %hr
                   - if session[:payment_type] == 'express-checkout'
                     = image_tag 'paypal-icon.png'
+            %hr
             %h3 Order details
             %table.table.table-items
               %thead
@@ -75,20 +73,23 @@
                     .align-center Quantity
                   %th
                     .align-right Price
+                  %th
+                    .align-right Total
               %tbody
                 - current_cart.cart_items.each do |item|
                   %tr
                     %td.image
-                      = image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 124, :width => 124
+                      = image_tag item.sku.product.attachments.first.file.medium, alt: item.sku.product.name
                     %td.desc
                       = item.sku.product.name
                       %div= render_variants(item.sku) unless item.sku.product.single?
                     %td.qty= item.quantity
                     %td.price= Store::Price.new(price: item.total_price).single
+                    %td.price= Store::Price.new(price: item.total_price).single
                   - unless item.cart_item_accessory.blank?
                     %tr.accessory_row
                       %td.image
-                        = image_tag 'http://placehold.it/124x124', :height => 124, :width => 124
+                        = image_tag 'http://placehold.it/124x124', height: 124, width: 124
                       %td.desc
                         = item.cart_item_accessory.accessory.name
                       %td.qty
@@ -123,8 +124,8 @@
                   %td.stronger
                     .size-16.align-right.total_price= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single
             %p.right-align  
-              = link_to 'EDIT ORDER', checkout_carts_path, :class => 'btn higher bold'
-              = link_to 'CONFIRM ORDER', complete_order_path(@order), method: :post, :class => 'btn btn-primary higher bold confirm_order'
+              = link_to 'Edit Order', checkout_carts_path, :class => 'btn higher bold'
+              = link_to 'Confirm Order', complete_order_path(@order), method: :post, :class => 'btn btn-primary higher bold confirm_order'
     / /main content
 / /container
 #confirmOrderModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "confirmOrderModal", role: "dialog", tabindex: "-1"}

@@ -268,7 +268,15 @@
                         = errors_for @order, :terms
                         Tick this box to acknowledge that you have read and agree with our terms and conditions.
                   %p
-                    = f.submit 'Place Order', :class => 'btn btn-primary higher bold confirm_order', tabindex: 23
+                    = f.submit 'Place Order', :class => 'btn btn-primary higher bold checkout_order', tabindex: 23
 
     / /main content
 / /container
+#checkoutOrderModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "checkoutOrderModal", role: "dialog", tabindex: "-1"}
+  .modal-header
+    %h3#checkoutOrderModal
+      %span.light Validating
+      your order
+  .modal-body
+    %p Please wait while we validate your order and redirect you to your chosen payment provider.
+    %div.loading-block
