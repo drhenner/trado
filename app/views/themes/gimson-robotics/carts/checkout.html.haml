@@ -35,13 +35,13 @@
                             First name
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :first_name, :id => 'billing_first_name', tabindex: 1
+                            = fff.text_field :first_name, :id => 'billing_first_name', tabindex: 1, :class => 'copy-billing', 'data-field-name' => 'first-name'
                             = errors_for @order, 'billing_address.first_name'
                         .control-group
                           = fff.label :telephone, :class => 'control-label' do
                             Telephone
                           .controls
-                            = fff.text_field :telephone, :id => 'billing_telephone', tabindex: 3
+                            = fff.text_field :telephone, :id => 'billing_telephone', tabindex: 3, :class => 'copy-billing', 'data-field-name' => 'telephone'
                             = errors_for @order, 'billing_address.telephone'
                         .control-group
                           = f.label :tax_number, :class => 'control-label' do
@@ -54,13 +54,13 @@
                             City
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :city, :id => 'billing_city', tabindex: 7
+                            = fff.text_field :city, :id => 'billing_city', tabindex: 7, :class => 'copy-billing', 'data-field-name' => 'city'
                             = errors_for @order, 'billing_address.city'
                         .control-group
                           = fff.label :county, :class => 'control-label' do
                             County
                           .controls
-                            = fff.text_field :county, :id => 'billing_county', tabindex: 9
+                            = fff.text_field :county, :id => 'billing_county', tabindex: 9, :class => 'copy-billing', 'data-field-name' => 'county'
                             = errors_for @order, 'billing_address.county'
                       .span3
                         .control-group
@@ -68,27 +68,27 @@
                             Last name
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :last_name, :id => 'billing_last_name', tabindex: 2
+                            = fff.text_field :last_name, :id => 'billing_last_name', tabindex: 2, :class => 'copy-billing', 'data-field-name' => 'last-name'
                             = errors_for @order, 'billing_address.last_name'
                         .control-group
                           = fff.label :company, :class => 'control-label' do
                             Company
                           .controls
-                            = fff.text_field :company, :id => 'billing_company', tabindex: 4
+                            = fff.text_field :company, :id => 'billing_company', tabindex: 4, :class => 'copy-billing', 'data-field-name' => 'company'
                             = errors_for @order, 'billing_address.company'
                         .control-group
                           = fff.label :address, :class => 'control-label' do
                             Street address
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :address, :id => 'billing_address', tabindex: 6
+                            = fff.text_field :address, :id => 'billing_address', tabindex: 6, :class => 'copy-billing', 'data-field-name' => 'address'
                             = errors_for @order, 'billing_address.address'
                         .control-group
                           = fff.label :postcode, :class => 'control-label' do
                             Postcode
                             %span.red-clr.bold *
                           .controls
-                            = fff.text_field :postcode, :id => 'billing_postcode', tabindex: 8
+                            = fff.text_field :postcode, :id => 'billing_postcode', tabindex: 8, :class => 'copy-billing', 'data-field-name' => 'postcode'
                             = errors_for @order, 'billing_address.postcode'
                         .control-group
                           = fff.label :country, :class => 'control-label' do
@@ -132,7 +132,7 @@
                             First name
                             %span.red-clr.bold *
                           .controls
-                            = ff.text_field :first_name, :class => 'use-billing', id: 'delivery_first_name', tabindex: 12
+                            = ff.text_field :first_name, id: 'delivery_first_name', tabindex: 12, 'data-field-name' => 'delivery-first-name'
                             = errors_for @order, 'delivery_address.first_name'
                         .control-group
                           = f.label :email, :class => 'control-label' do
@@ -145,20 +145,20 @@
                           = ff.label :company, :class => 'control-label' do
                             Company
                           .controls
-                            = ff.text_field :company, :class => 'use-billing', id: 'delivery_company', tabindex: 16
+                            = ff.text_field :company, id: 'delivery_company', tabindex: 16, 'data-field-name' => 'delivery-company'
                             = errors_for @order, 'delivery_address.company'
                         .control-group
                           = ff.label :city, :class => 'control-label' do
                             City
                             %span.red-clr.bold *
                           .controls
-                            = ff.text_field :city, :class => 'use-billing', id: 'delivery_city', tabindex: 18
+                            = ff.text_field :city, id: 'delivery_city', tabindex: 18, 'data-field-name' => 'delivery-city'
                             = errors_for @order, 'delivery_address.city'
                         .control-group
                           = ff.label :county, :class => 'control-label' do
                             County
                           .controls
-                            = ff.text_field :county, :class => 'use-billing', id: 'delivery_county', tabindex: 20
+                            = ff.text_field :county, id: 'delivery_county', tabindex: 20, 'data-field-name' => 'delivery-county'
                             = errors_for @order, 'delivery_address.county'
                       .span3
                         .control-group
@@ -166,27 +166,27 @@
                             Last name
                             %span.red-clr.bold *
                           .controls
-                            = ff.text_field :last_name, :class => 'use-billing', id: 'delivery_last_name', tabindex: 13
+                            = ff.text_field :last_name, id: 'delivery_last_name', tabindex: 13, 'data-field-name' => 'delivery-last-name'
                             = errors_for @order, 'delivery_address.last_name'
                         .control-group
                           = ff.label :telephone, :class => 'control-label' do
                             Telephone
                           .controls
-                            = ff.text_field :telephone, :class => 'use-billing', id: 'delivery_telephone', tabindex: 15
+                            = ff.text_field :telephone, id: 'delivery_telephone', tabindex: 15, 'data-field-name' => 'delivery-telephone'
                             = errors_for @order, 'delivery_address.telephone'
                         .control-group
                           = ff.label :address, :class => 'control-label' do
                             Street address
                             %span.red-clr.bold *
                           .controls
-                            = ff.text_field :address, :class => 'use-billing', id: 'delivery_address', tabindex: 17
+                            = ff.text_field :address, id: 'delivery_address', tabindex: 17, 'data-field-name' => 'delivery-address'
                             = errors_for @order, 'delivery_address.address'
                         .control-group
                           = f.label :postcode, :class => 'control-label' do
                             Postcode
                             %span.red-clr.bold *
                           .controls
-                            = ff.text_field :postcode, :class => 'use-billing', id: 'delivery_postcode', tabindex: 19
+                            = ff.text_field :postcode, id: 'delivery_postcode', tabindex: 19, 'data-field-name' => 'delivery-postcode'
                             = errors_for @order, 'delivery_address.postcode'
                         .control-group
                           = ff.label :country, :class => 'control-label' do

@@ -84,18 +84,16 @@ trado.app =
         {
             if (this.checked) 
             {
-                $('.use-billing').each(function() 
+                $('.copy-billing').each(function() 
                 {
-                    return $(this).val($(this).next('div').text());
-                });
-                $('.field_with_errors').each(function() 
-                {
-                    return $(this).children('input').val($(this).next('div').text());
+                    fieldValue = $(this).val();
+                    fieldAttribute = $(this).attr('data-field-name');
+                    $('input[data-field-name="delivery-' + fieldAttribute + '"]').val(fieldValue);
                 });
             } 
             else 
             {
-                return $('.use-billing').val('');
+                return $('input[data-field-name*="delivery-"').val('');
             }
         });
     },
