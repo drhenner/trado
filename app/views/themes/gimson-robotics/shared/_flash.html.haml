@@ -1,4 +1,4 @@
-- if Store::settings.alert_active
+- if Store::settings.alert_active && visible_alert
     %div.alert{:class => "alert-#{Store::settings.alert_type} in fade" }
         = raw Store::settings.alert_message
         %a.close{"data-dismiss" => "alert", :href => "#"} &times;

@@ -12,7 +12,7 @@
       / = Main Title =
       / ==========
       .span12
-        = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
+        = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html], locals: { visible_alert: @page.visible_alert }
         %h3
           %span.light= @page.title
         %hr    

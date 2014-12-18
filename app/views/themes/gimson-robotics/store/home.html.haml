@@ -6,7 +6,7 @@
   / ==========
   .most-popular.blocks-spacer
     .container
-      = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html]
+      = render partial: theme_presenter.page_template_path('shared/flash'), format: [:html], locals: { visible_alert: true }
       / ==========
       / = Title =
       / ==========

@@ -72,6 +72,26 @@
       </fieldset>
     </div>
     <div class="threecol">
+      <h3>Alert visibility</h3>
+      <p>Set if the store alert message is visible on the page.</p>
+    </div>
+    <div class="ninecol last">
+      <fieldset class="widget widget-content widget-last">
+        <div class="radio">
+          <label>
+            <%= f.radio_button :visible_alert, true %>
+            Visible
+          </label>
+        </div>
+        <div class="radio">
+          <label>
+            <%= f.radio_button :visible_alert, false %>
+            Hidden
+          </label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="threecol">
       <h3>Template</h3>
       <p>Select the template this page will use on your storefront.</p>
     </div>

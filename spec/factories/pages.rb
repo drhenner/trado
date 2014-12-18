@@ -8,6 +8,7 @@ FactoryGirl.define do
         slug { Faker::Lorem.characters(10) }
         active { true }
         sequence(:sorting) { |n| n }
+        visible_alert { true }
 
         factory :standard_page do
             template_type { 0 }

@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141218132633) do
+ActiveRecord::Schema.define(version: 20141218140748) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -206,6 +206,7 @@ ActiveRecord::Schema.define(version: 20141218132633) do
     t.integer  "template_type"
     t.string   "menu_title"
     t.integer  "sorting",          default: 0
+    t.boolean  "visible_alert",    default: false
   end
 
   create_table "permissions", force: true do |t|

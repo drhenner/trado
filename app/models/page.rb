@@ -17,12 +17,13 @@
 #  active                   :boolean
 #  template_type            :integer            default(0)
 #  sorting                  :integer            default(0)
+#  visible_alert            :boolean
 #  created_at               :datetime           not null
 #  updated_at               :datetime           not null
 #
 class Page < ActiveRecord::Base
     attr_accessible :title, :menu_title, :content, :page_title, :meta_description, 
-    :slug, :active, :template_type, :sorting
+    :slug, :active, :template_type, :sorting, :visible_alert
 
     validates :title, :content, :page_title, :meta_description, :menu_title,                presence: true
     validates :title, :slug, :menu_title,                                                   uniqueness: true
