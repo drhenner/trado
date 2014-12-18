@@ -33,7 +33,7 @@ class Address < ActiveRecord::Base
   belongs_to :addressable,                                          polymorphic: true
 
   validates :first_name, :last_name, 
-  :address, :city, :postcode, :country,                             presence: true
+  :address, :city, :postcode, :country, :telephone,                 presence: true
 
   # Combines the first and last name of an address
   #
