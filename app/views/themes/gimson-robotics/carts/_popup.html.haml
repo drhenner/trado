@@ -39,15 +39,15 @@
       - if Store::settings.tax_breakdown
         .line
           .row-fluid
-            .span6 Subtotal
-            .span6.align-right= Store::Price.new(price: current_cart.total_price, tax_type: 'net').single
+            .span6.light Subtotal
+            .span6.align-right.light= Store::Price.new(price: current_cart.total_price, tax_type: 'net').single
         .line
           .row-fluid
-            .span6= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
-            .span6.align-right= Store::Price.new(price: (current_cart.total_price*Store::tax_rate)).single
+            .span6.light= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
+            .span6.align-right.light= Store::Price.new(price: (current_cart.total_price*Store::tax_rate)).single
       .line
         .row-fluid
-          .span6 Total
+          .span6.size-16 Total
           .span6.align-right.size-16= Store::Price.new(price: current_cart.total_price, tax_type: 'gross').single
     .proceed
       = link_to mycart_carts_path, :class => 'btn btn-danger pull-right bold higher' do
