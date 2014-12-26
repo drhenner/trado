@@ -31,26 +31,27 @@
                         %h4.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
                         = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range
                         %p= product.meta_description
-.darker-stripe.blocks-spacer.more-space.latest-news.with-shadows
-  .container
-    .row
-      .span12
-        .main-titles.center-align
-          %h2.title
-            %span#tweetsLeft.clickable.fa.fa-chevron-left
-            \   
-            %span.light Latest
-            News    
-            %span#tweetsRight.clickable.fa.fa-chevron-right
-    .row
-      .span12
-        .carouFredSel{"data-autoplay" => "false", "data-nav" => "tweets"}
-          - @news_items.each_slice(2) do |slice|
-            .slide
-              .row
-                - slice.each do |news_item|
-                  .span6
-                    .news-item
-                      .published= news_item.published_date.strftime('%d. %m, %Y')
-                      %h6= news_item.headline
-                      %p= raw news_item.content
+- unless @news_items.empty?
+  .darker-stripe.blocks-spacer.more-space.latest-news.with-shadows
+    .container
+      .row
+        .span12
+          .main-titles.center-align
+            %h2.title
+              %span#tweetsLeft.clickable.fa.fa-chevron-left
+              \   
+              %span.light Latest
+              News    
+              %span#tweetsRight.clickable.fa.fa-chevron-right
+      .row
+        .span12
+          .carouFredSel{"data-autoplay" => "false", "data-nav" => "tweets"}
+            - @news_items.each_slice(2) do |slice|
+              .slide
+                .row
+                  - slice.each do |news_item|
+                    .span6
+                      .news-item
+                        .published= news_item.published_date.strftime('%d. %m, %Y')
+                        %h6= news_item.headline
+                        %p= raw news_item.content
