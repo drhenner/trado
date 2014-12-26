@@ -38,11 +38,11 @@
         .span12
           .main-titles.center-align
             %h2.title
-              %span#tweetsLeft.clickable.fa.fa-chevron-left
+              %span#tweetsLeft.clickable.fa.fa-chevron-left{'data-toggle' => 'tooltip', title: 'Forward', 'data-placement' => 'bottom'}
               \   
               %span.light Latest
               News    
-              %span#tweetsRight.clickable.fa.fa-chevron-right
+              %span#tweetsRight.clickable.fa.fa-chevron-right{'data-toggle' => 'tooltip', title: 'Back', 'data-placement' => 'bottom'}
       .row
         .span12
           .carouFredSel{"data-autoplay" => "false", "data-nav" => "tweets"}
