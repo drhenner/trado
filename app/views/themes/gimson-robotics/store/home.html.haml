@@ -13,18 +13,24 @@
             %h2.title
               %span.light Featured
               Products
-      .row
-        - @featured_products.each do |product|
-          .span4
-            .product
-              .product-inner
-                .product-img
-                  .picture
-                    = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :height => 412, :width => 540), [product.category, product]
-                .main-titles.no-margin
-                  %h4.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
-                  = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range
-                  %p= product.meta_description
+            .arrows
+              %a#featuredItemsLeft.fa.fa-chevron-left{:href => "#", :style => "display: inline-block;"}
+              %a#featuredItemsRight.fa.fa-chevron-right{:href => "#", :style => "display: inline-block;"}
+      .carouFredSel{'data-autoplay' => false, 'data-nav' => 'featuredItems'}
+        - @featured_products.each_slice(3) do |slice|
+          .slide
+            .row
+              - slice.each do |product|
+                .span4
+                  .product
+                    .product-inner
+                      .product-img
+                        .picture
+                          = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :height => 412, :width => 540), [product.category, product]
+                      .main-titles.no-margin
+                        %h4.no-margin.isotope--title= link_to (truncate product.name, :length => 35), [product.category, product]
+                        = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range
+                        %p= product.meta_description
 .darker-stripe.blocks-spacer.more-space.latest-news.with-shadows
   .container
     .row
