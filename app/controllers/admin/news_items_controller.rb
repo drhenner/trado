@@ -34,6 +34,7 @@ class Admin::NewsItemsController < ApplicationController
     end
 
     def destroy
+        @news_item.destroy
         flash_message :success, "News item was successfully deleted."
         redirect_to admin_news_items_url
     end
