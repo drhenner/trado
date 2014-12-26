@@ -36,6 +36,11 @@
       <i class="icon-file-2"></i>
     <% end %>
   </li>
+  <li class="<%= active_controller?(controller: 'admin/news_items') %>">
+    <%= link_to admin_news_items_path, 'data-toggle' => 'tooltip', 'data-placement' => 'right', 'data-original-title' => 'News' do %>
+      <i class="icon-newspaper"></i>
+    <% end %>
+  </li>
   <li>
     <%= link_to root_path, 'data-toggle' => 'tooltip', 'data-placement' => 'right', 'data-original-title' => 'Storefront', target: '_blank' do %>
       <i class="icon-screen"></i>

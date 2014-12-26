@@ -3,9 +3,9 @@ class StoreController < ApplicationController
   skip_before_action :authenticate_user!
 
   def home
-  	@new_products = Product.active.published.order(created_at: :desc).first(8)
-    @featured_products = Product.active.published.where(featured: true).first(4)
-    
+    @featured_products = Product.active.published.where(featured: true).first(6)
+    @news_items = NewsItem.all
+
     render theme_presenter.page_template_path('store/home'), layout: theme_presenter.layout_template_path
   end
 end

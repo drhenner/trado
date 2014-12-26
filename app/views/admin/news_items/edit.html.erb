@@ -1,0 +1,16 @@
+<% content_for :title, 'Edit news item' %>
+<% content_for :breadcrumb, 'Edit' %>
+<% breadcrumb_add 'News', admin_news_items_path %>
+
+<div class="twelvecol">
+  <div class="page-header">
+    <h2 class="widget widget-header">Edit news item</h2>
+  </div>
+  <%= form_for [:admin, @news_item], html: { role: 'form' } do |f| %>
+    <div class="threecol"></div>
+    <div class="ninecol last">
+      <%= render partial: 'shared/errors', locals: { object: @news_item } %>
+    </div>
+    <%= render partial: 'form', locals: { f: f } %>
+  <% end %>
+</div>

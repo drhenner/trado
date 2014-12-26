@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20141218140748) do
+ActiveRecord::Schema.define(version: 20141226070206) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -140,10 +140,12 @@ ActiveRecord::Schema.define(version: 20141218140748) do
     t.datetime "updated_at",          null: false
   end
 
-  create_table "items", force: true do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+  create_table "news_items", force: true do |t|
+    t.string   "headline"
+    t.text     "content"
+    t.datetime "published_date"
+    t.datetime "created_at"
+    t.datetime "updated_at"
   end
 
   create_table "notifications", force: true do |t|
@@ -318,6 +320,7 @@ ActiveRecord::Schema.define(version: 20141218140748) do
     t.string   "alert_type",                                   default: "warning"
     t.string   "theme_name",                                   default: "redlight"
     t.string   "paypal_currency_code",                         default: "GBP"
+    t.text     "introduction"
   end
 
   create_table "taggings", force: true do |t|

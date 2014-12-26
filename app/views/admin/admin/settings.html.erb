@@ -142,7 +142,7 @@
       <p>Set an alert message for your store.</p>
     </div>
     <div class="ninecol last">
-      <fieldset class="widget widget-content widget-last">
+      <fieldset class="widget widget-content">
         <div class="form-group">
           <%= f.label 'Type' %>
           <%= f.select :alert_type, options_for_select([['Medium', 'warning'],['High', 'danger']], @settings.alert_type ), { include_blank: false }, { :class => 'form-control' } %>
@@ -162,6 +162,18 @@
             <%= f.radio_button :alert_active, false %>
             Disabled
           </label>
+        </div>
+      </fieldset>
+    </div>
+    <div class="threecol">
+      <h3>Store introduction</h3>
+      <p>Set the introuduction message for your store.</p>
+    </div>
+    <div class="ninecol last">
+      <fieldset class="widget widget-content widget-last">
+        <div class="form-group">
+          <%= f.label 'Content' %>
+          <%= f.text_area :introduction, :class => 'form-control redactor' %>
         </div>
       </fieldset>
       <div class="form-action">

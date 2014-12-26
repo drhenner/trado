@@ -66,6 +66,7 @@ Trado::Application.routes.draw do
       post '/paypal/ipn' => 'transactions#paypal_ipn'
       mount RedactorRails::Engine => '/redactor_rails'
       resources :accessories, :categories, except: :show
+      resources :news_items, path: 'news', except: :show
       resources :products, except: [:show, :create] do
         resources :attachments, except: :index
         resources :skus, except: [:index, :show] do

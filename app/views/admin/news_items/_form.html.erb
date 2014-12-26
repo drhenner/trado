@@ -1,0 +1,31 @@
+<div class="threecol">
+  <h3>News item details</h3>
+  <p>Set the headline and content for your news item.</p>
+</div>
+<div class="ninecol last">
+  <fieldset class="widget widget-content">
+    <div class="form-group">
+      <%= f.label :headline %>
+      <%= f.text_field :headline, :class => 'form-control' %>
+    </div>
+    <div class="form-group">
+      <%= f.label :content %>
+      <%= f.text_area :content, :class => 'form-control redactor', rows: 8 %>
+    </div>
+  </fieldset>
+</div>
+<div class="threecol">
+  <h3>Publishing</h3>
+  <p>Set up the published date for your news item.</p>
+</div>
+<div class="ninecol last">
+  <fieldset class="widget widget-content widget-last">
+    <div class="form-group">
+      <%= f.label :published_date %>
+      <%= f.text_field :published_date, :class => 'form-control datepicker', autocomplete: 'off', value: (@news_item.published_date.blank? ? '' : @news_item.published_date.strftime('%d/%m/%Y')) %>
+    </div>
+  </fieldset>
+  <div class="form-action">
+    <%= f.submit 'Submit', :class => 'btn btn-blue btn-large' %>
+  </div>
+</div>
