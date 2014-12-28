@@ -1,58 +1,21 @@
 <% content_for :title, "Your #{Store::settings.name} order ##{@order.id}" %>
 <% content_for :header_1, Store::settings.name %>
-<% content_for :header_2, "Order confirmation" %>
+<% content_for :header_2, "Order ##{@order.id} confirmation" %>
 
-Order #<%= @order.id %>
-
-Hello,
-
-Thanks for your order. We'll let you know once your item(s) have dispatched.
-
-Your delivery option
----------------------
-<%= @order.delivery.full_name %>
-
-Your order will be sent to
----------------------
-<%= @order.delivery_address.full_name %>
-
-<%= @order.delivery_address.address %>
-<%= @order.delivery_address.city %>
-<%= @order.delivery_address.postcode %>
-<%= @order.delivery_address.country %>
-
-<%= @order.delivery_address.telephone %>
-
-Payment method
----------------------
-
-Your billing address
----------------------
-<%= @order.billing_address.full_name %>
-
-<%= @order.billing_address.address %>
-<%= @order.billing_address.city %>
-<%= @order.billing_address.postcode %>
-<%= @order.billing_address.country %>
-
-<%= @order.billing_address.telephone %>
-
-Order details
----------------------
-Order #<%= @order.id %>
-Placed on <%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y") %>
-
-<% @order.order_items.each do |item| %>
-    <%= item.sku.product.name %> | <%= Store::Price.new(price: item.price, tax_type: 'net').single %> | <%= item.quantity %> | <%= Store::Price.new(price: item.total_price, tax_type: 'net').single %>
-<% end %>
-
-Subtotal: <%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %>
-Delivery & handling: <%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %>
-Total before <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %>
-<%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %>
-Total: <%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %>
-
-Questions about your order? Contact support@trado.io, quoting your order number.
-
-Thanks for shopping with us!
-<%= Store::settings.name %>
+<style type="text/css">
+.price { letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 15px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0; font-weight:bold; }
+.price span { display: block; color: #003366 !important; font-size: 13px; margin-top:5px; }
+</style>
+<tr>
+    <td><%= image_tag "#{Settings.email.root}/clear.gif", :style => 'block', :width => '50', :height => '30' %></td>
+    <td align="left" width="500">
+        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Hello <%= @order.delivery_address.full_name %>,</p> 
+        <br/>
+        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Thanks for your order. We'll let you know once your item(s) have dispatched.</p>
+        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Questions about your order? Contact <a href="mailto:support@gimsonrobotics.co.uk" style="color:#e54b5d;text-decoration:none;margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">support@gimsonrobotics.co.uk</a> and quote your order number.</p>
+        <br/>
+        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Thanks for shopping with us!</p>
+        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><strong><%= Store::settings.name %> team</strong></p>
+    </td>
+    <td><%= image_tag "#{Settings.email.root}/clear.gif", :style => 'block', :width => '50', :height => '30' %></td>
+</tr>

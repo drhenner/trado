@@ -29,6 +29,7 @@ Your delivery address
 
 Payment method
 ---------------------
+<%= "PayPal" unless @order.express_token.nil? %>
 
 Your billing address
 ---------------------
@@ -56,4 +57,4 @@ Total before <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order
 <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %>
 Total: <%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %>
 
-If you would like assistance with your order, please don't hesitate to contact us at support@trado.io, quoting your order number.
+If you would like assistance with your order, please don't hesitate to contact us at support@gimsonrobotics.co.uk, quoting your order number.

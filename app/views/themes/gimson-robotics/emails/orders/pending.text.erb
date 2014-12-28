@@ -24,6 +24,7 @@ Your order will be sent to
 
 Payment method
 ---------------------
+<%= "PayPal" unless @order.express_token.nil? %>
 
 Your billing address
 ---------------------
@@ -51,6 +52,6 @@ Total before <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order
 <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %>
 Total: <%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %>
 
-Questions about your order? Contact support@trado.io, quoting your order number.
+Questions about your order? Contact support@gimsonrobotics.co.uk and quote your order number.
 
 <% content_for :additional_info, 'This email confirms the order you have placed, it is not a confirmation of the payment status being completed. You will receive a follow up email shortly when your payment has cleared.' %>
