@@ -3,7 +3,7 @@
 # The order table handles all the data associated to a current, completed or failed order. 
 # It is updated throughout the order process and discarded if the order is not completed within 2 days. 
 # Each order has an associated transaction which contains more information on the payment process. 
-
+  
 # == Schema Information
 #
 # Table name: orders
@@ -23,6 +23,7 @@
 #  tax_amount                             :decimal              precision(8), scale(2) 
 #  gross_amount                           :decimal              precision(8), scale(2) 
 #  terms                                  :boolean
+#  consignment_number                     :string(255)
 #  created_at                             :datetime             not null
 #  updated_at                             :datetime             not null
 #
@@ -32,16 +33,18 @@ class Order < ActiveRecord::Base
   attr_accessible :shipping_status, :shipping_date, :actual_shipping_cost, 
   :email, :delivery_id, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
-  :delivery_address_attributes, :billing_address_attributes, :created_at
+  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number
   
   has_many :order_items,                                                dependent: :delete_all
   has_many :transactions,                                               dependent: :delete_all
   has_many :products,                                                   through: :order_items
+  has_many :skus,                                                       through: :order_items
 
   belongs_to :cart
   belongs_to :delivery,                                                 class_name: 'DeliveryServicePrice'
   has_one :delivery_address,                                            -> { where addressable_type: 'OrderShipAddress'}, class_name: 'Address', dependent: :destroy
   has_one :billing_address,                                             -> { where addressable_type: 'OrderBillAddress'}, class_name: 'Address', dependent: :destroy
+  has_one :delivery_service,                                            through: :delivery
 
   validates :actual_shipping_cost,                                      presence: true, :if => :completed?
   validates :email,                                                     presence: { message: 'is required' }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }

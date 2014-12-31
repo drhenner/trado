@@ -39,7 +39,7 @@ class Admin::Skus::VariantsController < ApplicationController
                 end
             end
             
-            render partial: 'admin/products/skus/variants/create', format: [:js], locals: { sku_count: @total_skus }
+            render partial: 'admin/products/skus/variants/create', format: [:js], locals: { sku_count: @total_possible_skus }
         end
     end
 
@@ -52,7 +52,7 @@ class Admin::Skus::VariantsController < ApplicationController
         @variant_count = @delete_variants.count
         @delete_variants.destroy_all
 
-        render partial: 'admin/products/skus/variants/update', format: [:js], locals: { variant_count: @variant_count}
+        render partial: 'admin/products/skus/variants/update', format: [:js], locals: { variant_count: @variant_count }
     end
 
     def destroy
