@@ -1,3 +1,5 @@
+require 'sidekiq/web'
+
 Trado::Application.routes.draw do
 
   root to: 'store#home'
@@ -64,7 +66,10 @@ Trado::Application.routes.draw do
   namespace :admin do
       root to: "admin#dashboard"
       post '/paypal/ipn' => 'transactions#paypal_ipn'
-      mount RedactorRails::Engine => '/redactor_rails'
+      authenticate :user do
+        mount RedactorRails::Engine => '/redactor_rails'
+        mount Sidekiq::Web => '/sidekiq'
+      end
       resources :accessories, :categories, except: :show
       resources :news_items, path: 'news', except: :show
       resources :products, except: [:show, :create] do

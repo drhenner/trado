@@ -1,6 +1,6 @@
-source 'http://rubygems.org'
+source 'https://rubygems.org'
 
-gem 'rails', '4.1.0'
+gem 'rails', '4.2.0'
 
 gem 'pg'
 
@@ -23,6 +23,7 @@ group :development do
     gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
     gem 'colorize'
+    gem 'capistrano-sidekiq'
 end
 
 group :test do
@@ -54,6 +55,7 @@ gem 'haml-rails'
 gem 'jquery-rails'
 gem 'uglifier', '>= 1.0.3'
 gem 'asset_sync'
+gem 'sprockets', '2.11.0'
 
 # Web server
 gem 'unicorn', :platforms => :ruby
@@ -68,6 +70,11 @@ gem 'activesupport-json_encoder'
 # Logging/Monitoring
 gem 'rollbar'
 gem 'newrelic_rpm'
+
+# Background processing
+gem 'sidekiq'
+gem 'sidekiq-failures'
+gem 'sinatra', :require => nil
 
 # Misc
 gem 'global'
@@ -84,6 +91,7 @@ gem 'redactor-rails'
 
 # Transaction handler
 gem 'activemerchant'
+gem 'offsite_payments'
 
 # Authenication
 gem 'devise'

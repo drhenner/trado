@@ -2,7 +2,6 @@ class Admin::TransactionsController < ApplicationController
 
   skip_before_action :authenticate_user!, only: :paypal_ipn
 
-  # Integrations have been extracted into a separate gem (https://github.com/Shopify/offsite_payments) and will no longer be loaded by ActiveMerchant 2.x.
   include ActiveMerchant::Billing::Integrations
 
   def edit

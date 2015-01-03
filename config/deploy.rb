@@ -10,6 +10,7 @@ set :branch, 'gimsonrobotics'
 server domain, :app, :web, :db, :primary => true
 
 require 'capistrano-unicorn'
+require 'capistrano/sidekiq'
 
 # Bundler for remote gem installs
 require "bundler/capistrano"
@@ -76,7 +77,7 @@ namespace :rollbar do
 end
 
 # additional settings
-default_run_options[:pty] = true
+default_run_options[:pty] = false
 
 after :deploy, 'configure:application'
 after 'configure:application', 'configure:database'
