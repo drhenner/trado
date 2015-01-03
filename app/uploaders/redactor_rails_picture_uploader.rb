@@ -13,6 +13,12 @@ class RedactorRailsPictureUploader < CarrierWave::Uploader::Base
     storage :file
   end
   # Override the directory where uploaded files will be stored.
+  if Rails.env.production?
+    storage :fog
+  else  
+    storage :file
+  end
+  
   # This is a sensible default for uploaders that are meant to be mounted:
   def store_dir
     if Rails.env.production?
