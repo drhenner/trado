@@ -16,8 +16,8 @@
 class NewsItem < ActiveRecord::Base
     attr_accessible :headline, :content, :published_date
 
-    validate :headline, :content, :published_date,              presence: true
-    validate :headline,                                         uniqueness: true
+    validates :headline, :content, :published_date,              presence: true
+    validates :headline,                                         uniqueness: true
 
     default_scope { order(published_date: :desc) }
 end
