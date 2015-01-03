@@ -8,7 +8,7 @@ class Admin::TransactionsController < ApplicationController
   def edit
     @transaction = Transaction.includes(:order).find(params[:id])
     @order = @transaction.order
-    render :partial => 'admin/orders/transactions/edit', :format => [:js]
+    render partial: 'admin/orders/transactions/edit', format: [:js]
   end
 
   def update
@@ -16,9 +16,10 @@ class Admin::TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.update_attributes(params[:transaction])
-        format.js { render :partial => 'admin/orders/transactions/update', :format => [:js] }
+        format.js { render partial: 'admin/orders/transactions/update', format: [:js] }
+        Mailatron4000::Orders.confirmation_email(@transaction.order)
       else 
-        format.json { render :json => { :errors => @transaction.errors.full_messages}, :status => 422 } 
+        format.json { render json: { errors: @transaction.errors.full_messages}, status: 422 } 
       end
     end
   end
@@ -35,9 +36,7 @@ class Admin::TransactionsController < ApplicationController
       else
         transaction.failed!
       end
-      if transaction.save
-        Mailatron4000::Orders.confirmation_email(transaction.order) rescue Rollbar.report_message("PayPal IPN: Order #{transaction.order.id} confirmation email failed to send", "info", :order => transaction.order)
-      end
+      Mailatron4000::Orders.confirmation_email(transaction.order) if transaction.save
     end
 
     render nothing: true

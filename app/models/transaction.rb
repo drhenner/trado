@@ -24,11 +24,18 @@
 #
 class Transaction < ActiveRecord::Base
 
-  attr_accessible :fee, :gross_amount, :order_id, :payment_status, :payment_type, 
-  :tax_amount, :paypal_id, :transaction_type, :net_amount, :status_reason, :error_code
+    attr_accessible :fee, :gross_amount, :order_id, :payment_status, :payment_type, 
+    :tax_amount, :paypal_id, :transaction_type, :net_amount, :status_reason, :error_code
   
-  belongs_to :order
+    belongs_to :order
 
-  enum payment_status: [:pending, :completed, :failed]
+    enum payment_status: [:pending, :completed, :failed]
+
+    # If payment type is cheque or bank transfer, return true
+    #
+    # @return [Boolean]
+    def generic?
+        return payment_type == 'cheque' || payment_type == 'bank-transfer' ? true : false
+    end
   
 end

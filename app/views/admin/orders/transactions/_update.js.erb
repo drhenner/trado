@@ -1,6 +1,6 @@
 $('#transaction-form').modal('hide');
-$('tr#transaction_<%= @transaction.id %>').html('<%=j render partial: "admin/orders/transactions/table" %>');
-trado.animation.alert(
+$('tr#transaction_<%= @transaction.id %>').html('<%=j render partial: "admin/orders/transactions/single", format: [:html], locals: { transaction: @transaction } %>');
+soca.animation.alert(
     '.transaction-heading', 
     'success', 
     'transaction-update-alert',

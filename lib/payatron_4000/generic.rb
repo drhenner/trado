@@ -33,7 +33,6 @@ module Payatron4000
         end
 
         # Completes the order process by creating a transaction record, sending a confirmation email and redirects the user
-        # Rollbar is notified with the relevant data if the email fails to send
         #
         # @param order [Object]
         # @param session [Object]

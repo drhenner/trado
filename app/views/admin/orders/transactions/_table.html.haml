@@ -1,9 +1,0 @@
-%td= @transaction.transaction_type
-%td= @transaction.payment_type 
-%td= link_to @transaction.paypal_id, "#{Global.paypal.transaction_link}#{@transaction.paypal_id}", target: '_blank' if @transaction.paypal_id
-%td= status_label @transaction, @transaction.payment_status
-%td= @transaction.error_code.nil? ? "-" : @transaction.error_code
-%td= Store::Price.new(price: @transaction.fee, tax_type: 'net').single
-%td= Store::Price.new(price: @transaction.net_amount, tax_type: 'net').single
-%td= Store::Price.new(price: @transaction.gross_amount, tax_type: 'net').single
-%td.align-left= @transaction.updated_at.strftime('%B %-d, %Y, %I:%M %P')

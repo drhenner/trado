@@ -171,7 +171,7 @@
         </tbody>
       </table>
     </div>
-    <div class="widget-sub-heading">
+    <div class="widget-sub-heading transaction-heading">
       <h3>Transactions</h3>
     </div>
     <div class="table-responsive">
@@ -187,38 +187,13 @@
             <th>Net amount</th>
             <th>Gross amount</th>
             <th>Last updated</th>
+            <th></th>
           </tr>
         </thead>
         <tbody>
           <% @order.transactions.each do |transaction| %>
             <tr id="transaction_<%= transaction.id %>">
-              <td>
-                <%= transaction.transaction_type %>
-              </td>
-              <td>
-                <%= transaction.payment_type  %>
-              </td>
-              <td>
-                <%= link_to transaction.paypal_id, "#{Global.paypal.transaction_link}#{transaction.paypal_id}", :target => '_blank' if transaction.paypal_id %>
-              </td>
-              <td>
-                <%= status_label transaction, transaction.payment_status %>
-              </td>
-              <td>
-                <%= transaction.error_code.nil? ? "-" : transaction.error_code %>
-              </td>
-              <td>
-                <%= Store::Price.new(price: transaction.fee, tax_type: 'net').single %>
-              </td>
-              <td>
-                <%= Store::Price.new(price: transaction.net_amount, tax_type: 'net').single %>
-              </td>
-              <td>
-                <%= Store::Price.new(price: transaction.gross_amount, tax_type: 'net').single %>
-              </td>
-              <td class="align-left">
-                <%= transaction.updated_at.strftime('%B %-d, %Y, %I:%M %P') %>
-              </td>
+              <%= render partial: 'admin/orders/transactions/single', format: [:html], locals: { transaction: transaction } %>
             </tr>
           <% end %>
         </tbody>

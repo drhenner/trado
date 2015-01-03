@@ -1,0 +1,36 @@
+<td>
+    <%= transaction.transaction_type %>
+</td>
+<td>
+    <%= transaction.payment_type.titleize  %>
+</td>
+<td>
+    <% if transaction.paypal_id.nil? %>
+        -
+    <% else %>
+        <%= link_to transaction.paypal_id, "#{Global.paypal.transaction_link}#{transaction.paypal_id}", target: '_blank' %>
+    <% end %>
+</td>
+<td>
+    <%= status_label transaction, transaction.payment_status %>
+</td>
+<td>
+    <%= transaction.error_code.nil? ? "-" : transaction.error_code %>
+</td>
+<td>
+    <%= Store::Price.new(price: transaction.fee, tax_type: 'net').single %>
+</td>
+<td>
+    <%= Store::Price.new(price: transaction.net_amount, tax_type: 'net').single %>
+</td>
+<td>
+    <%= Store::Price.new(price: transaction.gross_amount, tax_type: 'net').single %>
+</td>
+<td>
+    <%= transaction.updated_at.strftime('%B %-d, %Y, %I:%M %P') %>
+</td>
+<% if transaction.generic? && transaction.pending? %>
+    <%= table_actions [:admin, @order, transaction], 'remote-edit' %>
+<% else %>
+    <td></td>
+<% end %>
