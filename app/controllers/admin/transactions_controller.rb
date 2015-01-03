@@ -15,8 +15,8 @@ class Admin::TransactionsController < ApplicationController
 
     respond_to do |format|
       if @transaction.update_attributes(params[:transaction])
-        format.js { render partial: 'admin/orders/transactions/update', format: [:js] }
         Mailatron4000::Orders.confirmation_email(@transaction.order)
+        format.js { render partial: 'admin/orders/transactions/update', format: [:js] }
       else 
         format.json { render json: { errors: @transaction.errors.full_messages}, status: 422 } 
       end
