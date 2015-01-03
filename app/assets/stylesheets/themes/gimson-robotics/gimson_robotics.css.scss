@@ -258,6 +258,13 @@ header
 }
 .checkout-container
 {
+    div
+    {
+        &.normal
+        {
+            font-weight: normal;
+        }
+    }
     h1
     {
         font-size: 25px;

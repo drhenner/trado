@@ -24,11 +24,6 @@
                 %h3 Delivery address
                 %hr
                 = @delivery_address.full_name
-                %br
-                = @order.email           
-                %br
-                = @delivery_address.telephone
-                %br
                 = @delivery_address.company
                 %br
                 = @delivery_address.address
@@ -40,13 +35,13 @@
                 = @delivery_address.county
                 %br
                 = @delivery_address.country
+                %br
+                %br
+                = @delivery_address.telephone
               .span3
                 %h3 Billing address
                 %hr
                 = @billing_address.full_name       
-                %br
-                = @billing_address.telephone
-                %br
                 = @billing_address.company
                 %br
                 = @billing_address.address
@@ -58,11 +53,17 @@
                 = @billing_address.county
                 %br
                 = @billing_address.country
+                %br
+                %br
+                = @billing_address.telephone
+                = @order.email  
               .span4
                 %h3 Payment details
                 %hr
                   - if session[:payment_type] == 'express-checkout'
                     = image_tag 'paypal-icon.png'
+                  - else
+                    = session[:payment_type].titleize
             %hr
             %h3 Order details
             %table.table.table-items
@@ -88,12 +89,12 @@
                     %td.price= Store::Price.new(price: item.total_price).single
                   - unless item.cart_item_accessory.blank?
                     %tr.accessory_row
-                      %td.image
-                        = image_tag 'http://placehold.it/124x124', height: 124, width: 124
+                      %td
+                        %div
+                          = image_tag 'gimson-robotics/including-accessory.jpg'
                       %td.desc
                         = item.cart_item_accessory.accessory.name
                       %td.qty
-                        = item.cart_item_accessory.quantity
                 - if Store::settings.tax_breakdown
                   %tr
                     %td{colspan: "2"}

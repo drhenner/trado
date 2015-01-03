@@ -2,6 +2,16 @@ module Payatron4000
 
     class Generic
 
+        # Redirects the user to the confirm order template
+        #
+        # @param cart [Object]
+        # @param order [Object]
+        # @param ip_address [String]
+        # @return [String] redirect url
+        def self.build cart, order, ip_address
+            return Rails.application.routes.url_helpers.confirm_order_url(order)
+        end
+
         # Upon successfully completing an order a new transaction record is created, stock is updated for the relevant SKU
         #
         # @param order[Object]
@@ -26,9 +36,9 @@ module Payatron4000
         # Rollbar is notified with the relevant data if the email fails to send
         #
         # @param order [Object]
-        # @param payment_type [String]
         # @param session [Object]
-        def self.complete order, payment_type, session
+        # @param payment_type [String]
+        def self.complete order, session, payment_type
             Payatron4000::decommission_order(order)
             Payatron4000::Generic.successful(order, payment_type)
             Payatron4000::destroy_cart(session)

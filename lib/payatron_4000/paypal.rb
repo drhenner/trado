@@ -100,7 +100,8 @@ module Payatron4000
         #
         # @param order [Object]
         # @param session [Object
-        def self.complete order, session
+        # @param payment_type [String]
+        def self.complete order, session, payment_type
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
                                               Payatron4000::Paypal.express_purchase_options(order)
           )
