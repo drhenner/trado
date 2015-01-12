@@ -12,6 +12,10 @@ server domain, :app, :web, :db, :primary => true
 require 'capistrano-unicorn'
 require 'capistrano/sidekiq'
 
+# Cron jobs
+set :whenever_command, "bundle exec whenever"
+require "whenever/capistrano"
+
 # Bundler for remote gem installs
 require "bundler/capistrano"
 
@@ -40,10 +44,10 @@ namespace :configure do
   task :database, :roles => :app do
     run "yes | cp /home/configs/database.yml /home/gimsonrobotics/current/config"
   end
-  desc "Update crontab configuration"
-  task :crontab, :roles => :app do
-    run "cd /home/gimsonrobotics/current && whenever --update-crontab gimson_robotics"
-  end
+  # desc "Update crontab configuration"
+  # task :crontab, :roles => :app do
+  #   run "cd /home/gimsonrobotics/current && whenever --update-crontab gimson_robotics"
+  # end
 end
 namespace :database do
     desc "Migrate the database"
@@ -81,8 +85,8 @@ default_run_options[:pty] = false
 
 after :deploy, 'configure:application'
 after 'configure:application', 'configure:database'
-after 'configure:database', 'configure:crontab'
-after 'configure:crontab', 'database:migrate'
+after 'configure:database', 'database:migrate'
+# after 'configure:crontab', 'database:migrate'
 after 'database:migrate', 'assets:bower'
 after 'assets:bower', 'assets:compile'
 after 'assets:compile', 'assets:refresh_sitemaps'
