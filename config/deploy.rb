@@ -13,7 +13,7 @@ require 'capistrano-unicorn'
 require 'capistrano/sidekiq'
 
 # Cron jobs
-set :whenever_command, "bundle exec whenever"
+set :whenever_command, "whenever"
 require "whenever/capistrano"
 
 # Bundler for remote gem installs
