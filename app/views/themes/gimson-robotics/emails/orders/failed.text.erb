@@ -1,9 +1,7 @@
 <% content_for :header_1, Store::settings.name %>
-<% content_for :header_2, "Order unsuccessful" %>
+<% content_for :header_2, "Order ##{@order.id} unsuccessful" %>
 
-Order #<%= @order.id %>
-
-Hello,
+Hello <%= @order.delivery_address.full_name %>,
 
 Unfortunately your order was unsuccessful. 
 
@@ -19,12 +17,10 @@ Your delivery option
 Your delivery address
 ---------------------
 <%= @order.delivery_address.full_name %>
-
 <%= @order.delivery_address.address %>
 <%= @order.delivery_address.city %>
 <%= @order.delivery_address.postcode %>
 <%= @order.delivery_address.country %>
-
 <%= @order.delivery_address.telephone %>
 
 Payment method
@@ -34,17 +30,14 @@ Payment method
 Your billing address
 ---------------------
 <%= @order.billing_address.full_name %>
-
 <%= @order.billing_address.address %>
 <%= @order.billing_address.city %>
 <%= @order.billing_address.postcode %>
 <%= @order.billing_address.country %>
-
 <%= @order.billing_address.telephone %>
 
 Order details
 ---------------------
-Order #<%= @order.id %>
 Placed on <%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y") %>
 
 <% @order.order_items.each do |item| %>
@@ -52,9 +45,11 @@ Placed on <%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b
 <% end %>
 
 Subtotal: <%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %>
-Delivery & handling: <%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %>
-Total before <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %>
+Delivery: <%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %>
 <%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %>
 Total: <%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %>
 
 If you would like assistance with your order, please don't hesitate to contact us at support@gimsonrobotics.co.uk, quoting your order number.
+
+Regards
+<%= Store::settings.name %> team

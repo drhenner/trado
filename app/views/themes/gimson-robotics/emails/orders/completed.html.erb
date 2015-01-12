@@ -67,6 +67,16 @@
                         <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 35px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Order details</h3>
                     </td>
                 </tr>
+                <tr>
+                  <td>
+                    <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Placed on <%= @order.created_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y") %></p>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %>
+                    </td>
+                </tr>
             </tbody>
         </table>
         <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">

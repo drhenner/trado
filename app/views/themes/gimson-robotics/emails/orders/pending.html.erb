@@ -51,6 +51,166 @@
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= "PayPal" unless @order.express_token.nil? %></p>
                 </td>
             </tr>
+            <tr>
+                <td><%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '20' %></td>
+                <td><%= image_tag "#{Settings.email.root}/clear.gif", :style => 'display:block;border:0;outline:0;', width: '1', height: '20' %></td>
+            </tr>
+        </table>
+        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
+            <tbody>
+                <tr>
+                    <td>
+                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 35px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Order details</h3>
+                    </td>
+                </tr>
+                <tr>
+                  <td>
+                    <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Placed on <%= @order.created_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y") %></p>
+                  </td>
+                </tr>
+                <tr>
+                    <td>
+                      <%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %>
+                    </td>
+                </tr>
+            </tbody>
+        </table>
+        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">
+          <thead>
+            <tr>
+              <th style="text-align:left;" colspan="2">Item</th>
+              <th style="text-align:center;">
+                Quantity
+              </th>
+              <th style="text-align:center;">
+                Price
+              </th>
+            </tr>
+          </thead>
+          <tbody>
+            <tr>
+              <td height="5" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
+              <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+              <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+            </tr>
+            <tr>
+              <td height="10" colspan="2" width="1"></td>
+              <td height="10" width="1"></td>
+              <td height="10" width="1"></td>
+            </tr>
+            <% @order.order_items.each do |item| %>
+              <tr>
+                <td width="85">
+                  <%= image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, height: 75, width: 75 %>
+                </td>
+                <td style="text-align:left;">
+                  <%= item.sku.product.name %>
+                  <div>
+                  </div>
+                </td>
+                <td style="text-align:center;">
+                  <%= item.quantity %>
+                </td>
+                <td style="text-align:center;">
+                  <%= Store::Price.new(price: item.price).single %>
+                </td>
+              </tr>
+              <% unless item.order_item_accessory.blank? %>
+                <tr>
+                  <td width="85">
+                    <%= image_tag "#{Settings.email.root}/product-accessory.png", style: 'display:block;border:0;outline:0;', height: 75, width: 75 %>
+                  </td>
+                  <td>
+                    <%= item.order_item_accessory.accessory.name %>
+                  </td>
+                  <td></td>
+                </tr>
+              <% end %>
+              <tr>
+                <td height="5" colspan="2" width="1"></td>
+                <td height="5" width="1"></td>
+                <td height="5" width="1"></td>
+              </tr>
+              <tr>
+                <td height="5" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
+                <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+                <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+              </tr>
+              <tr>
+                <td height="5" colspan="2" width="1"></td>
+                <td height="5" width="1"></td>
+                <td height="5" width="1"></td>
+              </tr>
+            <% end %>
+            <tr>
+              <td height="5" colspan="2" width="1"></td>
+              <td height="5" width="1"></td>
+              <td height="5" width="1"></td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td>
+                Subtotal:
+              </td>
+              <td style="text-align:center;">
+                <%= Store::Price.new(price: @order.net_amount).single %>
+              </td>
+            </tr>
+            <tr>
+              <td height="10" colspan="2" width="1"></td>
+              <td height="10" width="1"></td>
+              <td height="10" width="1"></td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td>
+                Delivery:
+              </td>
+              <td style="text-align:center;">
+                <%= Store::Price.new(price: @order.delivery.price).single %>
+              </td>
+            </tr>
+            <tr>
+              <td height="10" colspan="2" width="1"></td>
+              <td height="10" width="1"></td>
+              <td height="10" width="1"></td>
+            </tr>
+            <tr>
+              <td colspan="2"></td>
+              <td>
+                <%= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):" %>
+              </td>
+              <td style="text-align:center;">
+                <%= Store::Price.new(price: @order.tax_amount).single %>
+              </td>
+            </tr>
+            <tr>
+              <td height="10" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
+              <td height="10" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+              <td height="10" width="1" style="border-bottom:1px solid #eeeeee;"></td>
+            </tr>
+            <tr>
+              <td height="10" colspan="2" width="1"></td>
+              <td height="10" width="1"></td>
+              <td height="10" width="1"></td>
+            </tr>
+            <tr style="font-weight:bold; font-size:15px;">
+              <td colspan="2"></td>
+              <td>
+                Total:
+              </td>
+              <td style="text-align:center;">
+                <%= Store::Price.new(price: @order.gross_amount).single %>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
+            <tbody>
+                <tr>
+                    <td><%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '30' %></td>
+                </tr>
+            </tbody>
         </table>
         <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Questions about your order? Contact <a href="mailto:support@gimsonrobotics.co.uk" style="color:#e54b5d;text-decoration:none;margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">support@gimsonrobotics.co.uk</a> and quote your order number.</p>
         <br/>
