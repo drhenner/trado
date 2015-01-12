@@ -6,23 +6,18 @@ Hello <%= @order.delivery_address.full_name %>,
 
 Thanks for your order. We'll let you know once your payment has cleared and your order has been confirmed.
 
-Your delivery option
----------------------
-<%= @order.delivery.full_name %>
-
 Your order will be sent to
 ---------------------
 <%= @order.delivery_address.full_name %>
-
 <%= @order.delivery_address.address %>
 <%= @order.delivery_address.city %>
 <%= @order.delivery_address.postcode %>
 <%= @order.delivery_address.country %>
 <%= @order.delivery_address.telephone %>
 
-Payment method
+Your delivery option
 ---------------------
-<%= "PayPal" unless @order.express_token.nil? %>
+<%= @order.delivery.full_name %>
 
 Your billing address
 ---------------------
@@ -32,6 +27,14 @@ Your billing address
 <%= @order.billing_address.postcode %>
 <%= @order.billing_address.country %>
 <%= @order.billing_address.telephone %>
+
+Payment method
+---------------------
+<%= "PayPal" unless @order.express_token.nil? %>
+
+Contact email
+---------------------
+<%= @order.email %>
 
 Order details
 ---------------------

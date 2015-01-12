@@ -10,11 +10,7 @@ Your order was unsuccessful for the following reason(s):
 <%= @order.transactions.last.status_reason %>
 <% end %>
 
-Your delivery option
----------------------
-<%= @order.delivery.full_name %>
-
-Your delivery address
+Your order will be sent to
 ---------------------
 <%= @order.delivery_address.full_name %>
 <%= @order.delivery_address.address %>
@@ -23,9 +19,9 @@ Your delivery address
 <%= @order.delivery_address.country %>
 <%= @order.delivery_address.telephone %>
 
-Payment method
+Your delivery option
 ---------------------
-<%= "PayPal" unless @order.express_token.nil? %>
+<%= @order.delivery.full_name %>
 
 Your billing address
 ---------------------
@@ -35,6 +31,14 @@ Your billing address
 <%= @order.billing_address.postcode %>
 <%= @order.billing_address.country %>
 <%= @order.billing_address.telephone %>
+
+Payment method
+---------------------
+<%= "PayPal" unless @order.express_token.nil? %>
+
+Contact email
+---------------------
+<%= @order.email %>
 
 Order details
 ---------------------

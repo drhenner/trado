@@ -5,10 +5,6 @@ Hello <%= @order.delivery_address.full_name %>,
 
 We thought you'd like to know that we've dispatched your item(s). Your order is on the way, and can no longer be changed.
 
-Your delivery option
----------------------
-<%= @order.delivery.full_name %>
-
 Your order will be sent to
 ---------------------
 <%= @order.delivery_address.full_name %>
@@ -18,17 +14,17 @@ Your order will be sent to
 <%= @order.delivery_address.country %>
 <%= @order.delivery_address.telephone %>
 
+Your delivery option
+---------------------
+<%= @order.delivery.full_name %>
+
 <% unless @order.consignment_number.nil? || @order.delivery_service.tracking_url.nil? %>
 Tracking
 ---------------------
 <%= @order.consignment_number %>
 <%= Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number) %>
+
 <% end %>
-
-Payment method
----------------------
-<%= "PayPal" unless @order.express_token.nil? %>
-
 Your billing address
 ---------------------
 <%= @order.billing_address.full_name %>
@@ -37,6 +33,14 @@ Your billing address
 <%= @order.billing_address.postcode %>
 <%= @order.billing_address.country %>
 <%= @order.billing_address.telephone %>
+
+Payment method
+---------------------
+<%= "PayPal" unless @order.express_token.nil? %>
+
+Contact email
+---------------------
+<%= @order.email %>
 
 Order details
 ---------------------
