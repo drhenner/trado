@@ -110,6 +110,7 @@ module Payatron4000
             Payatron4000::Paypal.successful(response, order)
             Payatron4000::destroy_cart(session)
             order.reload
+            binding.pry
             Mailatron4000::Orders.confirmation_email(order)
             return Rails.application.routes.url_helpers.success_order_url(order)
           else

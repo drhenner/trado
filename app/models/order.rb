@@ -122,7 +122,21 @@ class Order < ActiveRecord::Base
   #
   # @return [Boolean]
   def paypal?
-    payment_type == 'paypal' ? true : false
+    payment_type == 'express-checkout' ? true : false
+  end
+
+  # Returns true if order payment type is bank transfer
+  #
+  # @return [Boolean]
+  def bank_transfer?
+    payment_type == 'bank-transfer' ? true : false
+  end
+
+  # Returns true if order payment type is cheque
+  #
+  # @return [Boolean]
+  def cheque?
+    payment_type == 'cheque' ? true : false
   end
 
   def self.dashboard_data

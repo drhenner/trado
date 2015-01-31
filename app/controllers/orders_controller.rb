@@ -53,14 +53,12 @@ class OrdersController < ApplicationController
 
     def set_and_validate_order
       @order = Order.includes(:delivery_address, :billing_address).find(params[:id])
-      if session[:payment_type].nil?
-        redirect_to checkout_carts_url
-      elsif session[:payment_type] == 'express-checkout'
+      if session[:payment_type] == 'express-checkout'
         if params[:token] && params[:PayerID]
           Payatron4000::Paypal.assign_paypal_token(params[:token], params[:PayerID], @order) 
         else
           flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'
-          Rails.logger.warning "Missing PayPal verification variables for order ##{@order.id}."
+          Rails.logger.warn "Missing PayPal verification variables for order ##{@order.id}."
           redirect_to checkout_carts_url
         end
       end

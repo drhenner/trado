@@ -30,11 +30,23 @@ Your billing address
 
 Payment method
 ---------------------
-<%= "PayPal" unless @order.express_token.nil? %>
+<%= @order.payment_type.titleize %>
 
 Contact email
 ---------------------
 <%= @order.email %>
+
+<% if @order.cheque? %>
+Payment details
+---------------------
+Please send a cheque for the total order amount payable to Gimson Robotics Ltd to the address in the footer of this email.
+<% elsif @order.bank_transfer? %>
+Payment details
+---------------------
+Payee name: Gimson Robotics Ltd
+Account number: 76125424
+Sort code: 60-17-24
+<% end %>
 
 Order details
 ---------------------

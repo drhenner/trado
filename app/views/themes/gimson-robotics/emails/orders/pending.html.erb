@@ -19,7 +19,7 @@
                 <td><%= image_tag "#{Settings.email.root}/clear.gif", :style => 'display:block;border:0;outline:0;', :width => '1', :height => '10' %></td>
             </tr>
             <tr>
-                <td width="250">
+                <td width="250" valign="top">
                     <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your order will be sent to</h3>
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.full_name %></p> 
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.address %></p> 
@@ -28,7 +28,7 @@
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.country %></p>
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.telephone %></p>
                 </td>
-                <td width="250">
+                <td width="250" valign="top">
                     <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your billing address</h3>
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.full_name %></p> 
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.address %></p> 
@@ -43,13 +43,19 @@
                 <td><%= image_tag "#{Settings.email.root}/clear.gif", :style => 'display:block;border:0;outline:0;', :width => '1', :height => '10' %></td>
             </tr>
             <tr>
-                <td width="250">
+                <td width="250" valign="top">
                     <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your delivery option</h3>
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery.full_name %></p>
                 </td>
-                <td width="250">
+                <td width="250" valign="top">
                     <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Payment method</h3>
-                    <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= "PayPal" unless @order.express_token.nil? %></p>
+                    <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">
+                      <% if @order.paypal? %>
+                        <%= image_tag "#{Settings.email.root}/paypal-icon.png", style: 'display:block;border:0;outline:0;', width: 82, height: 31 %>
+                      <% else %>
+                        <%= @order.payment_type.titleize %>
+                      <% end %>
+                    </p>
                 </td>
             </tr>
             <tr>
@@ -57,11 +63,21 @@
                 <td><%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
             </tr>
             <tr>
-                <td width="250">
+                <td width="250" valign="top">
                     <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Contact email</h3>
                     <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.email %></p>
                 </td>
-                <td width="250"></td>
+                <td width="250" vlaign="top">
+                    <% if @order.cheque? %>
+                      <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Payment details</h3>
+                      <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Please send a cheque for the total order amount payable to <strong>Gimson Robotics Ltd</strong> to the address in the footer of this email.</p>
+                    <% elsif @order.bank_transfer? %>
+                      <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Payment details</h3>
+                      <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Payee name: <strong>Gimson Robotics Ltd.</strong></p>
+                      <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Account no.: <strong>76125424</strong></p>
+                      <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Sort code: <strong>60-17-24</strong></p>
+                    <% end %>
+                </td>
             </tr>
             <tr>
                 <td><%= image_tag "#{Settings.email.root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '20' %></td>

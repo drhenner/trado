@@ -34,7 +34,7 @@ Your billing address
 
 Payment method
 ---------------------
-<%= "PayPal" unless @order.express_token.nil? %>
+<%= @order.payment_type.titleize %>
 
 Contact email
 ---------------------
