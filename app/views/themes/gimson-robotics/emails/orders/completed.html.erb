@@ -1,6 +1,7 @@
 <% content_for :title, "Your #{Store::settings.name} order ##{@order.id}" %>
 <% content_for :header_1, Store::settings.name %>
 <% content_for :header_2, "Order ##{@order.id} confirmation" %>
+<% content_for :additional_info, "By placing this order you will have agreed to our terms and conditions. If you are a consumer ordering from the European Union then directive 2011/83/EU will apply to your order (also known as The Directive on Consumer Rights). This includes the right to return an item within 14 days of receipt, provided the item is not customised or assembled to-order. If you wish to request a cancellation please use the cancel form here, ensuring that it is sent as soon as possible within the 14 day limit. Returns/cancellations will not be accepted if the items have been modified or damaged by the user. We require that customers cover the return postage costs of any non-faulty returned items." %>
 
 <style type="text/css">
 .price { letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 15px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0; font-weight:bold; }
