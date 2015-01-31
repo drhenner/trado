@@ -33,6 +33,8 @@ $(document).on('page:change page:load', function()
     $('.redactor').redactor({
         replaceDivs: false,
         convertDivs: false,
+        linebreaks: true,
+        paragraphize: true,
         minHeight: 300
     });
     $('[data-toggle=tooltip]').tooltip('hide');
