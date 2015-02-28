@@ -19,8 +19,10 @@
 
 # Learn more: http://github.com/javan/whenever
 set :output, "/home/gimsonrobotics/current/log/schedule.log"
-job_type :rbenv_rake, %Q{PATH=$PATH:/usr/local/bin && bash -lc bundle exec rake :task --silent :output }
-job_type :rbenv_runner, %Q{PATH=$PATH:/usr/local/bin && bash -lc bundle exec rails runner :task --silent :output }
+job_type :rbenv_rake, %Q{export PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/bin:$PATH; eval "$(rbenv init -)"; \
+                         cd :path && bundle exec rake :task --silent :output }
+job_type :rbenv_rake, %Q{export PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/bin:$PATH; eval "$(rbenv init -)"; \
+                         cd :path && bundle exec rails runner :task --silent :output }
 
 every 1.day, :at => '4:10am' do
     rbenv_runner "Cart.clear_carts"
