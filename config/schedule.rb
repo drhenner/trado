@@ -36,7 +36,7 @@ every 1.day, :at => '9:00 am' do
     rbenv_runner "Mailatron4000::Stock.notify"
 end
 
-every 1.min do
+every 1.minute do
     rbenv_runner "Cart.clear_carts"
 end
 
