@@ -28,6 +28,9 @@
 #  updated_at               :datetime           not null
 #
 class Product < ActiveRecord::Base
+  include ActiveScope
+  include HasSlug
+  
   attr_accessible :name, :page_title, :meta_description, :description, :weighting, :sku, :part_number,
   :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
   :featured, :short_description, :related_ids, :specification, :status, :active, :order_count, :variant_ids
@@ -71,12 +74,6 @@ class Product < ActiveRecord::Base
   scope :search,                                              ->(query, page, per_page_count, limit_count) { where("name LIKE :search OR sku LIKE :search", search: "%#{query}%").limit(limit_count).page(page).per(per_page_count) }
 
   enum status: [:draft, :published]
-
-  include ActiveScope
-  
-  extend FriendlyId
-  friendly_id :name, use: [:slugged, :finders]
-
 
   # Find all associated variants by their variant type
   # @param variant_type [String]
