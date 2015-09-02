@@ -30,8 +30,7 @@ class Accessory < ActiveRecord::Base
   has_many :accessorisations,                             dependent: :delete_all
   has_many :products,                                     through: :accessorisations
 
-  validates :name, :part_number, :weight,
-  :price,                                                 presence: true, uniqueness: { scope: :active }
+  validates :name, :part_number,                          presence: true, uniqueness: { scope: :active }
   validates :part_number,                                 numericality: { only_integer: true, greater_than_or_equal_to: 1 }
 
   after_update :update_cart_item_accessories_weight
