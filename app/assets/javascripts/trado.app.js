@@ -88,12 +88,12 @@ trado.app =
                 {
                     fieldValue = $(this).val();
                     fieldAttribute = $(this).attr('data-field-name');
-                    $('input[data-field-name="delivery-' + fieldAttribute + '"]').val(fieldValue);
+                    $('[data-field-name="delivery-' + fieldAttribute + '"]').val(fieldValue).trigger('change');
                 });
             } 
             else 
             {
-                return $('input[data-field-name*="delivery-"').val('');
+                return $('[data-field-name*="delivery-"').val('');
             }
         });
     },
