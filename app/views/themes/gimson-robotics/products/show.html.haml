@@ -106,7 +106,7 @@
       / = Related products =
       / ==========
       .row
-        - @product.category.products.published.first(4).each do |product|
+        - @product.related.published.first(4).each do |product|
           - if product == @product
             - next
           / ==========
