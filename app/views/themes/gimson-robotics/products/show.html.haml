@@ -107,8 +107,7 @@
       / ==========
       .row
         - @product.related.published.first(4).each do |product|
-          - if product == @product
-            - next
+          - next if product == @product
           / ==========
           / = Products =
           / ==========
