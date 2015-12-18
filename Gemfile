@@ -90,7 +90,7 @@ gem 'kaminari'
 gem 'redactor-rails'
 
 # Transaction handler
-gem 'activemerchant'
+gem 'activemerchant', '1.43.3'
 gem 'offsite_payments'
 
 # Authenication

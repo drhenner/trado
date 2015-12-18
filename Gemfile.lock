@@ -40,16 +40,19 @@ GEM
       rails-dom-testing (~> 1.0, >= 1.0.5)
       rails-html-sanitizer (~> 1.0, >= 1.0.2)
     active_presenter (3.2.2)
-    active_utils (3.0.0)
-      activesupport (>= 3.2)
+    active_utils (2.2.3)
+      activesupport (>= 2.3.11)
       i18n
     activejob (4.2.5)
       activesupport (= 4.2.5)
       globalid (>= 0.3.0)
-    activemerchant (1.56.0)
-      activesupport (>= 3.2.14, < 5.1)
+    activemerchant (1.43.3)
+      active_utils (~> 2.0, >= 2.0.1)
+      activesupport (>= 2.3.14, < 5.0.0)
       builder (>= 2.1.2, < 4.0.0)
-      i18n (>= 0.6.9)
+      i18n (~> 0.5)
+      json (~> 1.7)
+      money (< 7.0.0)
       nokogiri (~> 1.4)
     activemodel (4.2.5)
       activesupport (= 4.2.5)
@@ -447,13 +450,13 @@ GEM
     newrelic_rpm (3.14.1.311)
     nokogiri (1.6.7.1)
       mini_portile2 (~> 2.0.0.rc2)
-    offsite_payments (2.1.0)
-      actionpack (>= 3.2.20, < 5.0.0)
-      active_utils (~> 3.0.0)
+    offsite_payments (2.0.1)
+      active_utils (~> 2.2.0)
       activesupport (>= 3.2.14, < 5.0.0)
       builder (>= 2.1.2, < 4.0.0)
       i18n (~> 0.5)
-      money (>= 5.0.0, < 7.0.0)
+      json (~> 1.7)
+      money (< 7.0.0)
       nokogiri (~> 1.4)
     orm_adapter (0.5.0)
     parallel (1.6.1)
@@ -675,7 +678,7 @@ PLATFORMS
 
 DEPENDENCIES
   active_presenter
-  activemerchant
+  activemerchant (= 1.43.3)
   activesupport-json_encoder
   asset_sync
   auto_strip_attributes (~> 2.0)
