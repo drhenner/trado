@@ -30,7 +30,8 @@ Trado::Application.configure do
                                 'admin/soca.datepicker.js',
                                 'admin/chart.js',
                                 'typeahead.js/dist/typeahead.jquery.min.js',
-                                'theia-sticky-sidebar/js/theia-sticky-sidebar.js'
+                                'theia-sticky-sidebar/js/theia-sticky-sidebar.js',
+                                'themes'
                               ]
 
   # Generate digests for assets URLs
