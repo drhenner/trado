@@ -3,7 +3,7 @@ set :user, 'root'
 set :scm, 'git'
 set :repository, 'git@bitbucket.org:Jellyfish_boy/gimson-robotics.git'
 set :scm_verbose, true
-set :domain, '188.166.96.209'
+set :domain, '128.199.60.130'
 set :deploy_to, '/home/gimsonrobotics/'
 set :branch, 'gimsonrobotics'
 
