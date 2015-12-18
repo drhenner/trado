@@ -129,7 +129,7 @@
             <% @order.order_items.each do |item| %>
               <tr>
                 <td width="85">
-                  <%= image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, height: 75, width: 75 %>
+                  <%= image_tag item.sku.product.attachments.first.file.medium, :alt => item.sku.product.name, height: 75, width: 75 %>
                 </td>
                 <td style="text-align:left;">
                   <%= item.sku.product.name %>

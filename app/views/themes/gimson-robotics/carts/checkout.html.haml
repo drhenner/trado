@@ -220,7 +220,7 @@
                       - current_cart.cart_items.each do |item|
                         %tr
                           %td.image
-                            = image_tag item.sku.product.attachments.first.file.square, :alt => item.sku.product.name, :height => 75, :width => 75
+                            = image_tag item.sku.product.attachments.first.file.medium, :alt => item.sku.product.name, :height => 75, :width => 75
                           %td.desc
                             = item.sku.product.name
                             %div= render_variants(item.sku) unless item.sku.product.single?
