@@ -2,8 +2,8 @@
   .modal-header
     %button.close{"aria-hidden" => "true", "data-dismiss" => "modal", type: "button"} ×
     %h3#estimateDeliveryModalLabel
-      %span.light Estimate
-      Shipping
+      %span.light Select
+      Delivery Method
   = form_for current_cart, url: estimate_carts_path, html: { method: :patch, remote: true, :class => 'remote-form' } do |f|
     .modal-body
       .control-group

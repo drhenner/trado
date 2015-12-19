@@ -25,7 +25,7 @@
             = form_for @order, url: confirm_carts_path, html: { method: :post, :class => 'row form-checkout remote-form' } do |f|
               .span6.content
                 .theiaStickySidebar
-                  %h3 Billing address
+                  %h3 Purchase details
                   %hr
                   = f.fields_for :billing_address do |fff|
                     .row
