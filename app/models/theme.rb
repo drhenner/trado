@@ -14,6 +14,7 @@ class Theme
     end
 
     def views
+        puts Rails.root.join('app/views/', page_root)
         files = Dir.chdir(Rails.root.join('app/views/', page_root)){ Dir.glob("**/*") }
         files.map do |path| 
             next if path.include?('layout') || path.include?('mailer')
@@ -26,8 +27,6 @@ class Theme
             path = path.join('/')
             path
         end.compact
-    rescue
-        puts Rails.root.join('app/views/', page_root)
     end
 
     def emails
