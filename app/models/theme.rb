@@ -15,6 +15,7 @@ class Theme
 
     def views
         puts Rails.root.join('app/views/', page_root)
+        return ["store/home"]
     end
 
     def emails
