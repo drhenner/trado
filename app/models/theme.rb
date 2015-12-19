@@ -26,6 +26,8 @@ class Theme
             path = path.join('/')
             path
         end.compact
+    rescue
+        puts Rails.root.join('app/views/', page_root)
     end
 
     def emails
