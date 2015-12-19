@@ -7,5 +7,5 @@ $('.product-description div.price').html('<%=j Store::Price.new(price: (@sku.pri
     $('.add-to-cart').replaceWith("<%=j link_to('<i class=\'fa fa-envelope\'></i> Notify me'.html_safe, notify_category_product_sku_path(@sku.product.category, @sku.product, @sku), :class => 'btn btn-warning pull-right notify-me', remote: true) %>");
 <% else %>
     $('.stock').html('<span class="btn btn-success">In Stock</span>');
-    $('.notify-me').replaceWith("<button class=\"btn btn-danger pull-right add-to-cart\" type=\"submit\"><i class=\"fa fa-shopping-cart\"></i> &nbsp; Add To Cart</button>");
+    $('.notify-me').replaceWith("<button class=\"btn btn-danger pull-right add-to-cart\" type=\"submit\"><i class=\"fa fa-shopping-cart\"></i> &nbsp; Add To Basket</button>");
 <% end %>

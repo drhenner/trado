@@ -1,6 +1,6 @@
 .cart
   %p.items
-    Cart
+    Basket
     %span.dark-clr
       (
       = current_cart.cart_items.sum('quantity')
@@ -51,7 +51,7 @@
           .span6.align-right.size-16= Store::Price.new(price: current_cart.total_price, tax_type: 'gross').single
     .proceed
       = link_to mycart_carts_path, :class => 'btn btn-danger pull-right bold higher' do
-        View Cart
+        View Basket
         %i.fa.fa-shopping-cart
       %span
         Shipping costs are calculated based on location

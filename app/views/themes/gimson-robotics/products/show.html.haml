@@ -65,7 +65,7 @@
                 - if @skus.first.stock > 0
                   = button_tag(type: 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
                     %i.fa.fa-shopping-cart
-                    \  Add To Cart
+                    \  Add To Basket
                 - else
                   = link_to notify_category_product_sku_path(@product.category, @product, @skus.first), :class => 'btn btn-warning pull-right notify-me', remote: true do
                     %i.fa.fa-envelope
