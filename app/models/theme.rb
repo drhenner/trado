@@ -15,18 +15,6 @@ class Theme
 
     def views
         puts Rails.root.join('app/views/', page_root)
-        files = Dir.chdir(Rails.root.join('app/views/', page_root)){ Dir.glob("**/*") }
-        files.map do |path| 
-            next if path.include?('layout') || path.include?('mailer')
-            path = path.split('.')[0].split('/')
-            if path.last.include?('_')
-                formatted_file = path.last.delete('_')
-                path.delete(path.last)
-                path << formatted_file
-            end
-            path = path.join('/')
-            path
-        end.compact
     end
 
     def emails
