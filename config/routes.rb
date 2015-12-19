@@ -5,7 +5,7 @@ Trado::Application.routes.draw do
   root to: 'store#home'
 
   # Custom routes
-  get '/carts/delivery_service_prices/update' => 'delivery_service_prices#update'
+  get '/baskets/delivery_service_prices/update' => 'delivery_service_prices#update'
   get '/product/skus' => 'skus#update'
   get '/product/accessories' => 'accessories#update'
   get '/search' => 'search#results'
@@ -39,7 +39,7 @@ Trado::Application.routes.draw do
     end
   end
   
-  resources :carts, only: [] do
+  resources :carts, only: [], path: 'baskets' do
     collection do
       get 'mycart'
       get 'checkout'
