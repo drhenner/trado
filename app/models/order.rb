@@ -49,7 +49,7 @@ class Order < ActiveRecord::Base
   validates :actual_shipping_cost,                                      presence: true, :if => :completed?
   validates :email,                                                     presence: { message: 'is required' }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :delivery_id,                                               presence: { message: 'Delivery option must be selected.'}                                                                                                                  
-  validates :terms,                                                     inclusion: { :in => [true], message: 'You must tick the box in order to place your order.' }
+  validates :terms,                                                     inclusion: { :in => [true], message: 'Please confirm your acceptance of our terms and conditions to complete your order.' }
 
   scope :active,                                                        -> { includes(:transactions).where.not(transactions: { order_id: nil } ) }
 
