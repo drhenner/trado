@@ -14,7 +14,7 @@ class Theme
     end
 
     def views
-        puts Rails.root.join('app/views/', page_root)
+        Rollbar.log('debug', Rails.root.join('app/views/', page_root))
         return ["store/home"]
     end
 
