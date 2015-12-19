@@ -59,9 +59,9 @@
               .span2
                 %div.stock
                   - if @skus.first.stock > 0
-                    %span.btn.btn-success In Stock
+                    %span.btn.btn-success.no-hover In Stock
                   - else 
-                    %span.btn.btn-danger Out of Stock
+                    %span.btn.btn-danger.no-hover Out of Stock
                 - if @skus.first.stock > 0
                   = button_tag(type: 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
                     %i.fa.fa-shopping-cart
