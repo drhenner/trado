@@ -22,7 +22,6 @@ group :development do
     gem 'metric_fu'
     gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
-    gem 'colorize'
     gem 'capistrano-sidekiq'
 end
 
@@ -125,3 +124,5 @@ gem 'turbolinks'
 
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
+
+gem 'colorize'
