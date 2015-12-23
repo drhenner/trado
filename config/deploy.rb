@@ -1,10 +1,10 @@
 set :application, 'gimson_robotics'
-set :user, 'root'
+set :user, 'rails'
 set :scm, 'git'
 set :repository, 'git@bitbucket.org:Jellyfish_boy/gimson-robotics.git'
 set :scm_verbose, true
 set :domain, '128.199.60.130'
-set :deploy_to, '/home/gimsonrobotics/'
+set :deploy_to, '/home/rails/'
 set :branch, 'gimsonrobotics'
 
 server domain, :app, :web, :db, :primary => true
@@ -38,31 +38,31 @@ set :default_environment, {
 namespace :configure do
   desc "Setup application configuration"
   task :application, :roles => :app do
-      run "yes | cp /home/configs/settings.yml /home/gimsonrobotics/current/config"
+      run "yes | cp /home/configs/settings.yml #{deploy_to}/current/config"
   end
   desc "Setup database configuration"
   task :database, :roles => :app do
-    run "yes | cp /home/configs/database.yml /home/gimsonrobotics/current/config"
+    run "yes | cp /home/configs/database.yml #{deploy_to}/current/config"
   end
   # desc "Update crontab configuration"
   # task :crontab, :roles => :app do
-  #   run "cd /home/gimsonrobotics/current && whenever --update-crontab gimson_robotics"
+  #   run "cd #{deploy_to}/current && whenever --update-crontab gimson_robotics"
   # end
 end
 namespace :database do
     desc "Migrate the database"
     task :migrate, :roles => :app do
-      run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
+      run "cd #{deploy_to}/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
     end
 end
 namespace :assets do
     desc "Install Bower dependencies"
     task :bower, :roles => :app do
-      run "cd /home/gimsonrobotics/current && bower install --allow-root"
+      run "cd #{deploy_to}/current && bower install --allow-root"
     end 
     desc "Compile assets"
     task :compile, :roles => :app do
-        run "cd /home/gimsonrobotics/current && RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
+        run "cd #{deploy_to}/current && RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
     end
     desc "Generate sitemap"
     task :refresh_sitemaps do
