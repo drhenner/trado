@@ -10,7 +10,7 @@
 //= require trado.admin
 //= require turbolinks
 
-var taxRate = "<%= Store::settings.tax_rate %>";
+var taxRate = "<%= Store::settings.nil? ? 20 : Store::settings.tax_rate %>";
      
 ready = function()
 {

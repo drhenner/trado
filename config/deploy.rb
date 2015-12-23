@@ -3,8 +3,8 @@ set :user, 'rails'
 set :scm, 'git'
 set :repository, 'git@bitbucket.org:Jellyfish_boy/gimson-robotics.git'
 set :scm_verbose, true
-set :domain, '128.199.60.130'
-set :deploy_to, '/home/rails/'
+set :domain, '188.166.73.108'
+set :deploy_to, '/home/rails'
 set :branch, 'gimsonrobotics'
 
 server domain, :app, :web, :db, :primary => true
@@ -58,7 +58,7 @@ end
 namespace :assets do
     desc "Install Bower dependencies"
     task :bower, :roles => :app do
-      run "cd #{deploy_to}/current && bower install --allow-root"
+      run "cd #{deploy_to}/current && bower install"
     end 
     desc "Compile assets"
     task :compile, :roles => :app do
@@ -81,6 +81,7 @@ namespace :rollbar do
 end
 
 # additional settings
+default_run_options[:shell] = '/bin/bash --login'
 default_run_options[:pty] = false
 
 after :deploy, 'configure:application'
