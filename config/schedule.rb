@@ -1,4 +1,4 @@
-set :output, "/home/gimsonrobotics/current/log/schedule.log"
+set :output, "/home/rails/current/log/schedule.log"
 
 job_type :rbenv_rake, %Q{export PATH=/opt/rbenv/shims:/opt/rbenv/bin:/usr/bin:$PATH; eval "$(rbenv init -)"; \
                          cd :path && RAILS_ENV=production bundle exec rake :task --silent :output }
