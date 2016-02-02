@@ -1,8 +1,4 @@
 <div class="price">
-  <%= price %>
-<<<<<<< HEAD
-  <span class="tax-suffix"><%= "(#{gross} inc #{Store::settings.tax_name})" unless gross.nil? %></span>
-=======
-  <span class="tax-suffix"><%= "#{gross} inc #{Store.settings.tax_name}" unless gross.nil? %></span>
->>>>>>> master
+    <%= price %>
+    <span class="tax-suffix"><%= "#{gross} inc #{Store.settings.tax_name}" unless gross.nil? %></span>
 </div>
