@@ -6,7 +6,7 @@ describe Category do
     it { expect(subject).to have_many(:products) }
     it { expect(subject).to have_many(:skus).through(:products) }
 
-    #Validations
+    # Validations
     it { expect(subject).to validate_presence_of(:name) }
     it { expect(subject).to validate_presence_of(:description) }
     it { expect(subject).to validate_presence_of(:sorting) }
@@ -17,8 +17,8 @@ describe Category do
 
     it { expect(subject).to validate_uniqueness_of(:name) }
 
-    it { expect(subject).to ensure_length_of(:page_title).is_at_most(70) }
-    it { expect(subject).to ensure_length_of(:meta_description).is_at_most(150) }
+    it { expect(subject).to validate_length_of(:page_title).is_at_most(70) }
+    it { expect(subject).to validate_length_of(:meta_description).is_at_most(150) }
 
     describe "Listing all categories" do
         let!(:category_1) { create(:category) }

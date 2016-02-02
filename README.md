@@ -1,6 +1,8 @@
 #Trado
 
 [![Build Status](https://travis-ci.org/Jellyfishboy/trado.svg?branch=master)](https://travis-ci.org/Jellyfishboy/trado)
+[![Codacy Badge](https://api.codacy.com/project/badge/grade/1be726fe15224e0db13b49ba4240500f)](https://www.codacy.com/app/tomdallimore/trado)
+[![Codacy Badge](https://api.codacy.com/project/badge/coverage/1be726fe15224e0db13b49ba4240500f)](https://www.codacy.com/app/tomdallimore/trado)
 
 Trado is a lightweight, easy to use ecommerce platform; designed to allow developers to quickly deploy a premium ecommerce platform, while still benefiting from popular online tools such as PayPal and Google Analytics.
 
@@ -131,7 +133,7 @@ You will need to modify the following section in the *config/settings.yml* file,
 
 ##Asset management
 
-The asset management within Trado is not your typical setup. When deploying the application to the production server, the application assets are configured to be uploaded to an external storage server - the storage server has been configured as the same for image uploads to ensure a clean collection of resources. There are two reasons for this architechture choice: save web server storage and increase asset response time (response times will be explained further in the Content delivery network section).
+The asset management within Trado is not your typical setup. When deploying the application to the production server, the application assets are configured to be uploaded to an external storage server - the storage server has been configured as the same for image uploads to ensure a clean collection of resources. There are two reasons for this architecture choice: save web server storage and increase asset response time (response times will be explained further in the Content delivery network section).
 
 If you would like to modify the external storage server configuration to point to a different provider, consult the [**asset_sync**](https://github.com/rumblelabs/asset_sync) gem documentation and modify the global YAML setting file retrospectively.
 

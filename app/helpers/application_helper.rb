@@ -73,7 +73,7 @@ module ApplicationHelper
     #
     # @return [Object] breadcrumbs for the current page in the administration area
     def create_admin_breadcrumbs
-        @admin_breadcrumbs ||= [ { :title => Store::settings.name, :url => admin_root_path}]
+        @admin_breadcrumbs ||= [ { :title => Store.settings.name, :url => admin_root_path}]
     end
 
     # Add a new breadcrumb to the administration area breadcrumb object using the parameters
@@ -107,9 +107,9 @@ module ApplicationHelper
     # @return [String] HTML elements
     def table_actions object, *args
         show = args.include?('show')
-        edit = args.include?('edit') || args.include?('remote-edit')
+        edit = args.include?('edit')
         remote_edit = args.include?('remote-edit')
-        delete = args.include?('delete')  || args.include?('remote-delete')
+        delete = args.include?('delete')
         remote_delete = args.include?('remote-delete')
         order_record = Store.class_name(object.last) == 'Order'
         sku_record = Store.class_name(object.last) == 'Sku'

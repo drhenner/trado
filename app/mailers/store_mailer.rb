@@ -9,13 +9,12 @@ class StoreMailer < ActionMailer::Base
         @email = params[:email]
         @telephone = params[:telephone]
         @message = params[:message]
-        
-        mail(to: Store::settings.email, 
+        mail(to: Store.settings.email, 
             from: "#{@name} <#{@email}>",
             subject: "#{Store::settings.name} contact form message"
         ) do |format|
-            format.html { render "themes/#{Store::settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store::settings.theme.name}/layout/email" }
-            format.text { render "themes/#{Store::settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store::settings.theme.name}/layout/email" }
+            format.html { render "themes/#{Store.settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
+            format.text { render "themes/#{Store.settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
         end
     end
 end

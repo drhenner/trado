@@ -1,5 +1,5 @@
 puts '-----------------------------'
-Rails.logger.info 'Executing product seeds'.colorize(:green)
+puts 'Executing product seeds'.colorize(:green)
 
 category = Category.create({
     name: 'Category #1', 
@@ -72,10 +72,10 @@ Tagging.create([
         product_id: product_1.id
     }
 ])
-size_variant = VariantType.create({
+VariantType.create({
     name: 'Size',
 })
-color_variant = VariantType.create({
+VariantType.create({
         name: 'Color'
 })
 Attachment.create([

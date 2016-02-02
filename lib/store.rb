@@ -26,7 +26,7 @@ module Store
         #
         # @return [Decimal] tax rate value ready to be used in calculations
         def tax_rate
-            Store::settings.tax_rate/100
+            Store.settings.tax_rate/100
         end
 
         # Detects whether an integer is positive
@@ -64,6 +64,14 @@ module Store
         # @return [String] class name to string
         def class_name object
             return object.class.to_s.split(/(?=[A-Z])/).join(' ')
+        end
+
+        # Parse the object's parent class name into a element identifier safe string
+        #
+        # @params object [Object]
+        # @return [String] class name to string
+        def class_name_id object
+            return object.class.to_s.split(/(?=[A-Z])/).join('-').downcase
         end
 
         # Checks if the class record count is less than 2

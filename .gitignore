@@ -8,12 +8,13 @@ vendor/cache/*
 tmp/cache/*
 vendor/assets/components
 .gitkeep
-config/settings.yml
+config/secrets.yml
 db/test.sqlite3
 db/development.sqlite3
 doc/*
 .yardoc
 *.gitkeep
+coverage
 
 public/uploads/attachment
 public/assets

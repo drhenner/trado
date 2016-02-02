@@ -9,10 +9,10 @@ end
 require './lib/deep_struct'
 
 begin 
-    Settings = DeepStruct.new(YAML.load_file(Rails.env == 'test' ? "./config/settings.example.yml" : "./config/settings.yml"))
+    Settings = DeepStruct.new(YAML.load_file(Rails.env == 'test' ? "./config/secrets.example.yml" : "./config/secrets.yml"))
 rescue Exception => ex
-    puts "You must setup a configuration file in 'config/settings.yml' before running the application.".colorize(:red)
-    puts "Use the config/settings.example.yml file as a starting point.".colorize(:red)
+    puts "You must setup a configuration file in 'config/secrets.yml' before running the application.".colorize(:red)
+    puts "Use the config/secrets.example.yml file as a starting point.".colorize(:red)
     puts ex.message.colorize(:cyan)
 end
 
@@ -59,12 +59,6 @@ module Trado
     # This is necessary if your schema can't be completely dumped by the schema dumper,
     # like if you have constraints or database-specific column types
     # config.active_record.schema_format = :sql
-
-    # Enforce whitelist mode for mass assignment.
-    # This will create an empty whitelist of attributes available for mass-assignment for all models
-    # in your app. As such, your models will need to explicitly whitelist or blacklist accessible
-    # parameters by using an attr_accessible or attr_protected declaration.
-    config.active_record.whitelist_attributes = true
 
     # Stops connecting to database while precompiling assets on deployment with capistrano
     config.assets.initialize_on_precompile = true

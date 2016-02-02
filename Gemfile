@@ -22,6 +22,7 @@ group :development do
     gem 'metric_fu'
     gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
+    gem 'colorize'
     gem 'capistrano-sidekiq'
 end
 
@@ -33,7 +34,7 @@ group :test do
   gem 'capybara-screenshot'
   gem 'poltergeist'
   gem 'database_cleaner'
-  gem 'shoulda-matchers'
+  gem 'shoulda-matchers', '2.8.0'
   gem 'faker'
   gem 'email_spec'
 end
@@ -42,7 +43,6 @@ group :development, :test do
   gem 'jazz_hands', github: 'nixme/jazz_hands', branch: 'bring-your-own-debugger'
   gem 'pry-byebug'
   gem 'mysql2'
-  gem 'sqlite3'
 end
 
 # Assets
@@ -125,4 +125,5 @@ gem 'turbolinks'
 # To use ActiveModel has_secure_password
 gem 'bcrypt-ruby', '~> 3.0.0'
 
-gem 'colorize'
+# Test coverage by Codacy
+gem 'codacy-coverage', :require => false

@@ -1,9 +1,13 @@
 language: ruby
+sudo: false
 rvm:
-    - 2.1.2
+    - 2.2.2
 env:
-    - DB=mysql
-    - DB=postgresql
+    global:
+        - CODACY_PROJECT_TOKEN=ca837d25b0ac46e9975430b6ac12ac9d
+    matrix:
+        - DB=mysql
+        - DB=postgresql
 branches:
     only:
         - master
@@ -15,6 +19,7 @@ script:
     - bundle exec rspec spec/
 before_script:
     - cp config/database.travis.yml config/database.yml
+    - cp config/secrets.example.yml config/secrets.yml
     - mysql -e 'create database trado_test_db'      
     - psql -c 'create database trado_test_db' -U postgres
     - export DISPLAY=:99.0
