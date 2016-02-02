@@ -1,13 +1,11 @@
 class Admin::TransactionsController < ApplicationController
-
   skip_before_action :authenticate_user!, only: :paypal_ipn
-
   include ActiveMerchant::Billing::Integrations
 
   def edit
     @transaction = Transaction.includes(:order).find(params[:id])
     @order = @transaction.order
-    render partial: 'admin/orders/transactions/edit', format: [:js]
+    render json: { modal: render_to_string(partial: 'admin/orders/transactions/modal') }, status: 200
   end
 
   def update
