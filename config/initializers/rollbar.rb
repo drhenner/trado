@@ -1,6 +1,6 @@
 require 'rollbar/rails'
 Rollbar.configure do |config|
-  config.access_token = Settings.rollbar.access_token
+  config.access_token = Rails.application.secrets.rollbar_access_token
 
   # Without configuration, Rollbar is enabled by in all environments. 
   # To disable in specific environments, set config.enabled=false.
