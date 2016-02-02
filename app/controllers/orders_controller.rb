@@ -72,6 +72,8 @@ class OrdersController < ApplicationController
           Rails.logger.warn "Missing PayPal verification variables for order ##{@order.id}."
           redirect_to checkout_carts_url
         end
+      else
+        render theme_presenter.page_template_path('orders/confirm'), layout: theme_presenter.layout_template_path
       end
     end
 end

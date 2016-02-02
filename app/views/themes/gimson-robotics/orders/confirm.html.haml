@@ -23,7 +23,9 @@
               .span3
                 %h3 Delivery address
                 %hr
-                = @delivery_address.full_name
+                  %b
+                    = @delivery_address.full_name
+                %br
                 = @delivery_address.company
                 %br
                 = @delivery_address.address
@@ -41,7 +43,9 @@
               .span3
                 %h3 Purchase details
                 %hr
-                = @billing_address.full_name       
+                  %b
+                    = @billing_address.full_name  
+                %br     
                 = @billing_address.company
                 %br
                 = @billing_address.address
