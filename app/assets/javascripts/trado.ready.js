@@ -40,6 +40,8 @@ ready = function()
     trado.admin.newVariants();
     trado.admin.resetVariants();
     trado.admin.amendVariants();
+
+    trado.admin.editTransaction();
 };
 
 $(document).ready(ready);

@@ -613,17 +613,17 @@ trado.admin =
     {
         $('body').on('click', '.edit-transaction-record', function ()
         {
-            var orderId = $(this).attr('data-record-id');
+            var transactionId = $(this).attr('data-record-id');
             $.ajax(
             {
-                url: '/admin/orders/' + orderId + '/edit',
+                url: '/admin/transactions/' + transactionId + '/edit',
                 type: "GET",
                 dataType: "json",
                 success: function(data)
                 {
                     $('.main .container').removeClass('fadeIn');
-                    $('#order-modal').html(data.modal);
-                    soca.modal.standard('#order-form');
+                    $('#transaction-modal').html(data.modal);
+                    soca.modal.standard('#transaction-form');
                 }
             });
             return false;

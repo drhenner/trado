@@ -30,7 +30,7 @@
     <%= transaction.updated_at.strftime('%B %-d, %Y, %I:%M %P') %>
 </td>
 <% if transaction.generic? && transaction.pending? %>
-    <%= table_actions [:admin, @order, transaction], 'remote-edit' %>
+    <%= table_actions [:admin, transaction], 'remote-edit' %>
 <% else %>
     <td></td>
 <% end %>

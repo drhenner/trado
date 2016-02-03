@@ -4,7 +4,6 @@ class Admin::TransactionsController < ApplicationController
 
   def edit
     @transaction = Transaction.includes(:order).find(params[:id])
-    @order = @transaction.order
     render json: { modal: render_to_string(partial: 'admin/orders/transactions/modal') }, status: 200
   end
 
