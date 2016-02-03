@@ -54,4 +54,5 @@
         View Basket
         %i.fa.fa-shopping-cart
       %span
-        Shipping costs are calculated based on location
+        = link_to 'Click here', mycart_carts_path(delivery: 'active')
+        to select a delivery option and check prices

@@ -39,5 +39,5 @@ trado.modal =
                 return $.get(url.concat(id));
             }
         });
-    }
+    },
 }

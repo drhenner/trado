@@ -40,8 +40,14 @@ ready = function()
     $('#estimateDeliveryModal').on('hidden', function () 
     {
         $('.modal select').val("");
-        $('.delivery-service-prices .control-group .controls').html("<p class='delivery-service-price-notice'> elect a country to view the available delivery services.</p>");
+        $('.delivery-service-prices .control-group .controls').html("<p class='delivery-service-price-notice'> Select a country to view the available delivery services.</p>");
     });
+
+    var queryParams = trado.misc.getUrlVars();
+    if (queryParams['delivery'] === 'active')
+    {
+        $('#estimateDeliveryModal').modal('show');
+    }
 
     // Open specific tab when using an anchor ID
     var url = document.location.toString();
