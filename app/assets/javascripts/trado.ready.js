@@ -42,6 +42,7 @@ ready = function()
     trado.admin.amendVariants();
 
     trado.admin.editTransaction();
+    trado.admin.updateTransaction();
 };
 
 $(document).ready(ready);

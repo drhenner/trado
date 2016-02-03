@@ -1,9 +1,0 @@
-$('#transaction-form').modal('hide');
-$('tr#transaction_<%= @transaction.id %>').html('<%=j render partial: "admin/orders/transactions/single", format: [:html], locals: { transaction: @transaction } %>');
-soca.animation.alert(
-    '.transaction-heading', 
-    'success', 
-    'transaction-update-alert',
-    '<i class="icon-checkmark-circle"></i>Successfully updated transaction.',
-    5000
-)

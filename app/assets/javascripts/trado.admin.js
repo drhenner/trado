@@ -629,4 +629,32 @@ trado.admin =
             return false;
         });
     },
+
+    updateTransaction: function()
+    {
+        $("body").on("submit", '.edit_transaction', function() 
+        {
+            var transactionId = $(this).attr('id');
+            $.ajax(
+            {
+                url: '/admin/transactions/' + transactionId,
+                type: 'PATCH',
+                data: $(this).serialize(),
+                dataType: 'json',
+                success: function (data)
+                {
+                    $('#transaction-form').modal('hide');
+                    $('tr#transaction_' + transactionId).html(data.transaction);
+                    soca.animation.alert(
+                        '.transaction-heading', 
+                        'success', 
+                        'transaction-update-alert',
+                        '<i class="icon-checkmark-circle"></i>Successfully updated transaction.',
+                        5000
+                    )     
+                }
+            });
+            return false;
+        });
+    } 
 }
