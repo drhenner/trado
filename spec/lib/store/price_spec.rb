@@ -8,7 +8,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is true" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: true)
                 Store.settings
@@ -33,7 +33,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is false" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: false)
                 Store.settings
@@ -61,7 +61,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is true" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: true)
                 Store.settings
@@ -86,7 +86,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is false" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: false)
                 Store.settings
@@ -117,7 +117,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is true" do            
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: true, tax_name: 'VAT')
                 Store.settings
@@ -131,7 +131,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is false" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: false, tax_name: 'VAT')
                 Store.settings
@@ -149,7 +149,7 @@ describe Store::Price do
 
         context "if the tax breakdown Store setting is true" do
             before(:each) do
-                Store::reset_settings
+                Store.reset_settings
                 StoreSetting.destroy_all
                 create(:store_setting, tax_breakdown: true, tax_name: 'VAT')
                 Store.settings

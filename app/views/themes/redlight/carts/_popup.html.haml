@@ -43,7 +43,7 @@
         .line
           .row-fluid
             .span6= "#{Store.settings.tax_name} (#{Store.settings.tax_rate}%):"
-            .span6.align-right= Store::Price.new(price:(current_cart.total_price*Store::tax_rate)).single
+            .span6.align-right= Store::Price.new(price:(current_cart.total_price*Store.tax_rate)).single
       .line
         .row-fluid
           .span6 Total

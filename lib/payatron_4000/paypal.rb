@@ -25,7 +25,7 @@ module Payatron4000
             return EXPRESS_GATEWAY.redirect_url_for(response.token)
           else
             Payatron4000::Paypal.failed(response, order)
-            Payatron4000::decommission_order(order)
+            Payatron4000.decommission_order(order)
             return Rails.application.routes.url_helpers.failed_order_url(order)
           end
         end
@@ -105,10 +105,10 @@ module Payatron4000
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
                                               Payatron4000::Paypal.express_purchase_options(order)
           )
-          Payatron4000::decommission_order(order)
+          Payatron4000.decommission_order(order)
           if response.success?
             Payatron4000::Paypal.successful(response, order)
-            Payatron4000::destroy_cart(session)
+            Payatron4000.destroy_cart(session)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
             return Rails.application.routes.url_helpers.success_order_url(order)
@@ -136,8 +136,8 @@ module Payatron4000
                               :gross_amount             => response.params['PaymentInfo']['GrossAmount'],
                               :status_reason            => response.params['PaymentInfo']['PendingReason']
             ).save(validate: false)
-            Payatron4000::update_stock(order)
-            Payatron4000::increment_product_order_count(order.products)
+            Payatron4000.update_stock(order)
+            Payatron4000.increment_product_order_count(order.products)
         end
 
         
@@ -158,7 +158,7 @@ module Payatron4000
                               :status_reason              => response.message,
                               :error_code                 => response.params["error_codes"].to_i
             ).save(validate: false)
-            Payatron4000::increment_product_order_count(order.products)
+            Payatron4000.increment_product_order_count(order.products)
         end
 
         # A list of available currency codes for the PayPal payment system

@@ -34,13 +34,13 @@ class OrdersController < ApplicationController
     def retry
       set_order
       @error_code = @order.transactions.last.error_code
-      @order.update_column(:cart_id, current_cart.id) unless Payatron4000::fatal_error_code?(@error_code)
+      @order.update_column(:cart_id, current_cart.id) unless Payatron4000.fatal_error_code?(@error_code)
       redirect_to mycart_carts_url
     end
 
     def destroy
       set_order
-      Payatron4000::decommission_order(@order)
+      Payatron4000.decommission_order(@order)
       flash_message :success, "Your order has been cancelled."
       redirect_to root_url
     end

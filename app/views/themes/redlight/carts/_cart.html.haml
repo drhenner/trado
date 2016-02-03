@@ -46,7 +46,7 @@
     \ 
     %td.stronger{colspan: "2"}= "#{Store.settings.tax_name} (#{Store.settings.tax_rate}%):"
     %td.stronger
-      .align-right= Store::Price.new(price: (@cart_total*Store::tax_rate)).single
+      .align-right= Store::Price.new(price: (@cart_total*Store.tax_rate)).single
 %tr
   %td{colspan: "2", rowspan: "1"}
   \
