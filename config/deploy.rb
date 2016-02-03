@@ -38,7 +38,7 @@ set :default_environment, {
 namespace :configure do
   desc "Setup application configuration"
   task :application, :roles => :app do
-      run "yes | cp /home/configs/settings.yml #{deploy_to}/current/config"
+      run "yes | cp /home/configs/secrets.yml #{deploy_to}/current/config"
   end
   desc "Setup database configuration"
   task :database, :roles => :app do
