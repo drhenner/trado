@@ -42,7 +42,7 @@
   %td.stronger.light
     .align-right
       - if current_cart.estimate_delivery.nil?
-        No method selected
+        %a.estimate-delivery-service-price{style: 'cursor:pointer;'} No method selected
       - else
         = Store::Price.new(price: current_cart.estimate_delivery.price).single
 - if Store::settings.tax_breakdown
