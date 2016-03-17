@@ -16,7 +16,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
-  create_table "accessories", force: true do |t|
+  create_table "accessories", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at",                                         null: false
     t.datetime "updated_at",                                         null: false
@@ -27,14 +27,14 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.boolean  "active",                              default: true
   end
 
-  create_table "accessorisations", force: true do |t|
+  create_table "accessorisations", force: :cascade do |t|
     t.integer  "accessory_id"
     t.integer  "product_id"
     t.datetime "created_at",   null: false
     t.datetime "updated_at",   null: false
   end
 
-  create_table "addresses", force: true do |t|
+  create_table "addresses", force: :cascade do |t|
     t.string   "first_name"
     t.string   "last_name"
     t.string   "company"
@@ -53,7 +53,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.integer  "order_id"
   end
 
-  create_table "attachments", force: true do |t|
+  create_table "attachments", force: :cascade do |t|
     t.string   "file"
     t.integer  "attachable_id"
     t.string   "attachable_type"
@@ -62,7 +62,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.boolean  "default_record",  default: false
   end
 
-  create_table "cart_item_accessories", force: true do |t|
+  create_table "cart_item_accessories", force: :cascade do |t|
     t.integer  "cart_item_id"
     t.decimal  "price",        precision: 8, scale: 2
     t.integer  "quantity",                             default: 1
@@ -71,7 +71,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.datetime "updated_at",                                       null: false
   end
 
-  create_table "cart_items", force: true do |t|
+  create_table "cart_items", force: :cascade do |t|
     t.integer  "cart_id"
     t.datetime "created_at",                                     null: false
     t.datetime "updated_at",                                     null: false
@@ -81,14 +81,14 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.decimal  "weight",     precision: 8, scale: 2
   end
 
-  create_table "carts", force: true do |t|
+  create_table "carts", force: :cascade do |t|
     t.datetime "created_at",            null: false
     t.datetime "updated_at",            null: false
     t.integer  "estimate_delivery_id"
     t.string   "estimate_country_name"
   end
 
-  create_table "categories", force: true do |t|
+  create_table "categories", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at",                       null: false
@@ -100,13 +100,13 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.string   "meta_description"
   end
 
-  create_table "countries", force: true do |t|
+  create_table "countries", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "delivery_service_prices", force: true do |t|
+  create_table "delivery_service_prices", force: :cascade do |t|
     t.string   "code"
     t.decimal  "price",               precision: 8, scale: 2
     t.datetime "created_at",                                                 null: false
@@ -122,7 +122,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.integer  "delivery_service_id"
   end
 
-  create_table "delivery_services", force: true do |t|
+  create_table "delivery_services", force: :cascade do |t|
     t.string   "name"
     t.string   "description"
     t.string   "courier_name"
@@ -134,14 +134,14 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.string   "tracking_url"
   end
 
-  create_table "destinations", force: true do |t|
+  create_table "destinations", force: :cascade do |t|
     t.integer  "delivery_service_id"
     t.integer  "country_id"
     t.datetime "created_at",          null: false
     t.datetime "updated_at",          null: false
   end
 
-  create_table "news_items", force: true do |t|
+  create_table "news_items", force: :cascade do |t|
     t.string   "headline"
     t.text     "content"
     t.datetime "published_date"
@@ -149,7 +149,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.datetime "updated_at"
   end
 
-  create_table "notifications", force: true do |t|
+  create_table "notifications", force: :cascade do |t|
     t.string   "email"
     t.integer  "notifiable_id"
     t.datetime "created_at",                      null: false
@@ -159,16 +159,16 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.string   "notifiable_type"
   end
 
-  create_table "order_item_accessories", force: true do |t|
+  create_table "order_item_accessories", force: :cascade do |t|
     t.integer  "order_item_id"
-    t.decimal  "price",         precision: 10, scale: 0
+    t.decimal  "price",         precision: 10
     t.integer  "quantity"
     t.integer  "accessory_id"
-    t.datetime "created_at",                             null: false
-    t.datetime "updated_at",                             null: false
+    t.datetime "created_at",                   null: false
+    t.datetime "updated_at",                   null: false
   end
 
-  create_table "order_items", force: true do |t|
+  create_table "order_items", force: :cascade do |t|
     t.decimal  "price",      precision: 8, scale: 2
     t.integer  "quantity"
     t.integer  "sku_id"
@@ -178,7 +178,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.decimal  "weight",     precision: 8, scale: 2
   end
 
-  create_table "orders", force: true do |t|
+  create_table "orders", force: :cascade do |t|
     t.string   "email"
     t.datetime "shipping_date"
     t.datetime "created_at",                                               null: false
@@ -198,7 +198,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.string   "consignment_number"
   end
 
-  create_table "pages", force: true do |t|
+  create_table "pages", force: :cascade do |t|
     t.string   "title"
     t.text     "content"
     t.string   "page_title"
@@ -213,14 +213,14 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.boolean  "visible_alert",    default: false
   end
 
-  create_table "permissions", force: true do |t|
+  create_table "permissions", force: :cascade do |t|
     t.integer  "user_id"
     t.integer  "role_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "products", force: true do |t|
+  create_table "products", force: :cascade do |t|
     t.string   "name"
     t.text     "description"
     t.datetime "created_at",                       null: false
@@ -240,24 +240,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.string   "page_title"
   end
 
-  create_table "redactor_assets", force: true do |t|
-    t.integer  "user_id"
-    t.string   "data_file_name",               null: false
-    t.string   "data_content_type"
-    t.integer  "data_file_size"
-    t.integer  "assetable_id"
-    t.string   "assetable_type",    limit: 30
-    t.string   "type",              limit: 30
-    t.integer  "width"
-    t.integer  "height"
-    t.datetime "created_at"
-    t.datetime "updated_at"
-  end
-
-  add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree
-  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor_assetable_type", using: :btree
-
-  create_table "related_products", id: false, force: true do |t|
+  create_table "related_products", id: false, force: :cascade do |t|
     t.integer "product_id"
     t.integer "related_id"
   end
@@ -265,13 +248,13 @@ ActiveRecord::Schema.define(version: 20141231084040) do
   add_index "related_products", ["product_id", "related_id"], name: "index_related_products_on_product_id_and_related_id", unique: true, using: :btree
   add_index "related_products", ["related_id", "product_id"], name: "index_related_products_on_related_id_and_product_id", unique: true, using: :btree
 
-  create_table "roles", force: true do |t|
+  create_table "roles", force: :cascade do |t|
     t.string   "name",       default: "user"
     t.datetime "created_at",                  null: false
     t.datetime "updated_at",                  null: false
   end
 
-  create_table "sku_variants", force: true do |t|
+  create_table "sku_variants", force: :cascade do |t|
     t.integer  "sku_id"
     t.integer  "variant_type_id"
     t.string   "name"
@@ -279,7 +262,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.datetime "updated_at"
   end
 
-  create_table "skus", force: true do |t|
+  create_table "skus", force: :cascade do |t|
     t.decimal  "price",               precision: 8, scale: 2
     t.decimal  "cost_value",          precision: 8, scale: 2
     t.integer  "stock"
@@ -294,7 +277,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.boolean  "active",                                      default: true
   end
 
-  create_table "stock_adjustments", force: true do |t|
+  create_table "stock_adjustments", force: :cascade do |t|
     t.string   "description"
     t.integer  "adjustment",  default: 1
     t.integer  "sku_id"
@@ -303,7 +286,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.integer  "stock_total"
   end
 
-  create_table "store_settings", force: true do |t|
+  create_table "store_settings", force: :cascade do |t|
     t.string   "name",                                         default: "Trado"
     t.string   "email",                                        default: "admin@example.com"
     t.string   "currency",                                     default: "£"
@@ -325,20 +308,20 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.text     "introduction"
   end
 
-  create_table "taggings", force: true do |t|
+  create_table "taggings", force: :cascade do |t|
     t.integer  "tag_id"
     t.integer  "product_id"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "tags", force: true do |t|
+  create_table "tags", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
   end
 
-  create_table "transactions", force: true do |t|
+  create_table "transactions", force: :cascade do |t|
     t.string   "paypal_id"
     t.string   "transaction_type"
     t.string   "payment_type"
@@ -354,7 +337,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
     t.integer  "error_code"
   end
 
-  create_table "users", force: true do |t|
+  create_table "users", force: :cascade do |t|
     t.string   "email",                  default: "",       null: false
     t.string   "encrypted_password",     default: "",       null: false
     t.string   "reset_password_token"
@@ -374,7 +357,7 @@ ActiveRecord::Schema.define(version: 20141231084040) do
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
-  create_table "variant_types", force: true do |t|
+  create_table "variant_types", force: :cascade do |t|
     t.string   "name"
     t.datetime "created_at", null: false
     t.datetime "updated_at", null: false
