@@ -84,7 +84,7 @@ gem "auto_strip_attributes", "~> 2.0"
 gem 'kaminari'
 
 # RTE
-gem 'redactor-rails'
+gem "wysiwyg-rails"
 
 # Transaction handler
 gem 'activemerchant', '1.43.3'

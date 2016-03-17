@@ -53,6 +53,7 @@ $(document).on('page:change page:load', function()
     //     convertDivs: false,
     //     minHeight: 300
     // });
+    $('.redactor').froalaEditor();
     $('[data-toggle=tooltip]').tooltip('hide');
     $('.main .container').removeClass('fadeOut').addClass('animated fadeIn');
 });
