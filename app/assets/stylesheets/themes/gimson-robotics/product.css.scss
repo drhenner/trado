@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .add_to_cart, .notify_me {
     @include transition-property(display);
     @include transition-timing-function(ease-in);

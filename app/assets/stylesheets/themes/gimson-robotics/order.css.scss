@@ -1,3 +1,5 @@
+@import "compass/css3";
+
 .total_price {
     @include transition-property(color);
     @include transition-timing-function(ease-in);
