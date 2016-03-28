@@ -13,8 +13,8 @@ class StoreMailer < ActionMailer::Base
             from: "#{@name} <#{@email}>",
             subject: "#{Store::settings.name} contact form message"
         ) do |format|
-            format.html { render "admin/emails/store/contact_message", layout: "admin/layouts/email" }
-            format.text { render "admin/emails/store/contact_message", layout: "admin/layouts/email" }
+            format.html { render "admin/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/contact" }
+            format.text { render "admin/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/contact" }
         end
     end
 end
