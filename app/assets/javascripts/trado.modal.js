@@ -15,7 +15,7 @@ trado.modal =
     
     open: function(trigger, target)
     {
-        $(trigger).click(function() 
+        $(trigger).on('click', function() 
         {
            $(target).modal('show');
            return false;
