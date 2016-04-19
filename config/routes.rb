@@ -111,6 +111,15 @@ Trado::Application.routes.draw do
       patch '/profile/update' => 'users#update'
   end
 
+  namespace :api, constraints: { format: 'json' } do
+    resources :attachments, only: [] do
+      collection do
+        post :delete_s3_froala_upload
+        get :s3_froala_uploads
+      end
+    end
+  end
+
   # # redirect unknown URLs to 404 error page
   # match '*path', via: :all, to: 'errors#show', code: 404
 

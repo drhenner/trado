@@ -132,3 +132,6 @@ gem 'colorize'
 
 # server management
 gem 'foreman'
+
+# aws
+gem 'aws-sdk', '~> 2'

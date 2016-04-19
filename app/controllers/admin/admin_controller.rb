@@ -9,11 +9,13 @@ class Admin::AdminController < ApplicationController
 
     def settings
         set_setting
+        amazon_signature
         @settings.build_attachment unless @settings.attachment
     end
 
     def update
         set_setting
+        amazon_signature
         respond_to do |format|
           if @settings.update(params[:store_setting])
             flash_message :success, 'Store settings were successfully updated.'

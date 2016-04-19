@@ -18,5 +18,6 @@ Rails.application.config.assets.precompile += [ 'administration.js',
                                 'admin/chart.js',
                                 'typeahead.js/dist/typeahead.jquery.min.js',
                                 'theia-sticky-sidebar/js/theia-sticky-sidebar.js',
-                                'themes'
+                                'themes',
+                                'editor-styles.css'
                               ]

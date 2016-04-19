@@ -7,11 +7,13 @@ class Admin::PagesController < ApplicationController
 
   def edit
     set_page
+    amazon_signature
     list_template_types
   end
 
   def update
     set_page
+    amazon_signature
     list_template_types
     params[:page][:slug] = Store.parameterize_slug(params[:page][:slug])
     if @page.update(params[:page])

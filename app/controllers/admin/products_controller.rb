@@ -20,6 +20,7 @@ class Admin::ProductsController < ApplicationController
     set_product
     set_skus
     set_attachments
+    amazon_signature
   end
 
   def update
@@ -27,6 +28,7 @@ class Admin::ProductsController < ApplicationController
     set_product
     set_skus
     set_attachments
+    amazon_signature
     @product.attributes = params[:product]
     @product.save(validate: false)
     if params[:commit] == "Save"

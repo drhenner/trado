@@ -1,0 +1,23 @@
+<script>
+  $('.redactor').froalaEditor({
+        imageUploadToS3: {
+            bucket: '<%= @aws_sig[:bucket] %>',
+            // Your bucket region.
+            region: 's3-eu-west-1',
+            keyStart: '<%= @aws_sig[:key_start] %>',
+            callback: function (url, key) {
+              // The URL and Key returned from Amazon.
+                console.log (url);
+                console.log (key);
+            },
+            params: {
+                acl: '<%= @aws_sig[:acl] %>', // ACL according to Amazon Documentation.
+                AWSAccessKeyId: '<%= @aws_sig[:access_key] %>', // Access Key from Amazon.
+                policy: '<%= @aws_sig[:policy] %>', // Policy string computed in the backend.
+                signature: '<%= @aws_sig[:signature] %>', // Signature computed in the backend.
+            }
+        },
+        imageManagerLoadURL: '/api/attachments/s3_froala_uploads.json',
+        imageManagerDeleteURL: '/api/attachments/delete_s3_froala_upload.json'
+    });
+</script>

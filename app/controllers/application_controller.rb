@@ -1,8 +1,7 @@
 class ApplicationController < ActionController::Base
     include ApplicationHelper
     before_action :authenticate_user!, :set_tracking_code, :set_tax_rate
-    helper_method :current_cart
-    helper_method :theme_presenter
+    helper_method :current_cart, :theme_presenter
 
     protected
 
@@ -16,6 +15,17 @@ class ApplicationController < ActionController::Base
 
     def set_tax_rate
         gon.taxRate = Store.settings.tax_rate
+    end
+
+    def amazon_signature
+        @aws_sig = AmazonSignature::data_hash
+    end
+
+    def s3_resource_sdk
+        @s3 = Aws::S3::Resource.new(
+            region: Rails.application.secrets.aws_s3_region, 
+            credentials: Aws::Credentials.new(Rails.application.secrets.aws_s3_id, Rails.application.secrets.aws_s3_key)
+        )
     end
 
   	def current_cart

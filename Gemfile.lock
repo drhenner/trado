@@ -87,6 +87,12 @@ GEM
       extlib (>= 0.9.15)
       multi_json (>= 1.0.0)
     awesome_print (1.6.1)
+    aws-sdk (2.2.34)
+      aws-sdk-resources (= 2.2.34)
+    aws-sdk-core (2.2.34)
+      jmespath (~> 1.0)
+    aws-sdk-resources (2.2.34)
+      aws-sdk-core (= 2.2.34)
     bcrypt (3.1.10)
     bcrypt-ruby (3.0.1)
     better_errors (2.1.1)
@@ -386,6 +392,8 @@ GEM
     ice_nine (0.11.1)
     inflecto (0.0.2)
     ipaddress (0.8.0)
+    jmespath (1.2.4)
+      json_pure (>= 1.8.1)
     jquery-rails (4.0.5)
       rails-dom-testing (~> 1.0)
       railties (>= 4.2.0)
@@ -698,6 +706,7 @@ DEPENDENCIES
   activesupport-json_encoder
   asset_sync
   auto_strip_attributes (~> 2.0)
+  aws-sdk (~> 2)
   bcrypt-ruby (~> 3.0.0)
   better_errors
   binding_of_caller

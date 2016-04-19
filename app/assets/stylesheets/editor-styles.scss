@@ -1,0 +1,15 @@
+.fr-wrapper
+{
+    font-family: 'Arial', 'Helvetica', 'sans-serif', cursive;
+    font-weight: normal;
+    -webkit-font-smoothing: antialiased;
+    color:#000;
+    
+    @import "bootstrap";
+    @import "main";
+    @import "themes/gimson-robotics/product";
+    @import "themes/gimson-robotics/order";
+    @import "themes/gimson-robotics/styling";
+    @import "themes/gimson-robotics/search";
+    @import "themes/gimson-robotics/gimson_robotics";
+}
