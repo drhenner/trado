@@ -1,4 +1,4 @@
-- content_for :title, "My cart"
+- content_for :title, "Shopping Basket"
 
 .container
   .row
@@ -17,8 +17,8 @@
                 .span6.offset2
                   .center-align
                     %h1
-                      %span.light My
-                      cart
+                      %span.light Shopping
+                      Basket
                 .span2
             / ==========
             / = Selected Items =
@@ -26,7 +26,7 @@
             
             - if current_cart.cart_items.empty?
               .table.table-items
-                %h4 Your cart is empty
+                %h4 Your shopping basket is empty
             - else
               %table.table.table-items
                 %thead

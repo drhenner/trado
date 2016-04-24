@@ -11,6 +11,6 @@ module ProductHelper
     end
 
     def render_variants sku
-        sku.variants.map{|v| v.name.titleize}.join(' / ')
+        sku.variants.map{|v| v.name}.join(' / ')
     end
 end

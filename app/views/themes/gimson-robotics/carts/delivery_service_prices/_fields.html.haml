@@ -1,5 +1,7 @@
 - if delivery_service_prices.nil? || delivery_service_prices.empty?
-    %p.shipping_notice No delivery options can be found for your country and basket combination. Please contact us if you would like to discuss custom shipping arrangements.
+    %p.shipping_notice No delivery options can be found for your country and basket combination. Please 
+    = link_to "contact us", p_path('contact') 
+    if you would like to discuss custom shipping arrangements.
 - else
     - delivery_service_prices.order(price: :asc).each_with_index do |delivery_price, index|
         %div.option
