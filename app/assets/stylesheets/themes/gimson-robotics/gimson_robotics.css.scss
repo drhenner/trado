@@ -19,7 +19,12 @@ a
     {
         text-decoration: none;
     }
-}.main-titles.lined:after
+}
+select
+{
+    width: auto;
+}
+.main-titles.lined:after
 {
     width:100px;
 }
@@ -353,15 +358,13 @@ header
             }
             &.desc
             {
+                font-size: 13px;
                 font-weight: normal;
             }
             &:first-child
             {
                 div
                 {
-                    height: 50px;
-                    margin-top:10px;
-
                     img
                     {
                         border:0;
