@@ -103,10 +103,14 @@ trado.app =
         $('body').on('click', '.delivery-service-prices .option', function()
         {   
             var name = $(this).find('h5').text(),
-                price = $(this).attr('data-price');
+                price = $(this).attr('data-price'),
+                tax = $(this).attr('data-tax'),
+                total = $(this).attr('data-total');
 
             $('#delivery-summary').find('td:first-child .normal').text(name);
             $('#delivery-summary').find('td:last-child').text(price);
+            $('#tax-summary').find('td:last-child').text(tax);
+            $('#total-summary').find('td:last-child').text(total);
             $(this).find('input:radio').prop('checked', true);
             $('.option').removeClass('active');
             return $(this).addClass('active');
@@ -136,10 +140,14 @@ trado.app =
                             if ($(this).is(':checked')) 
                             {
                                 var name = $(this).parent().find('h5').text(),
-                                    price = $(this).parent().attr('data-price');
+                                    price = $(this).parent().attr('data-price'),
+                                    tax = $(this).parent().attr('data-tax'),
+                                    total = $(this).parent().attr('data-total');
 
                                 $('#delivery-summary').find('td:first-child .normal').text(name);
                                 $('#delivery-summary').find('td:last-child').text(price);
+                                $('#tax-summary').find('td:last-child').text(tax);
+                                $('#total-summary').find('td:last-child').text(total);
                                 return $(this).parent().addClass('active');
                             }
                         });

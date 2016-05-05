@@ -4,7 +4,7 @@
     if you would like to discuss custom shipping arrangements.
 - else
     - delivery_service_prices.order(price: :asc).each_with_index do |delivery_price, index|
-        %div.option{'data-price' => Store::Price.new(price: delivery_price.price, tax_type: 'gross').single }
+        %div.option{'data-price' => Store::Price.new(price: delivery_price.price, tax_type: 'gross').single, 'data-total' => delivery_total(delivery_price.price), 'data-tax' => delivery_tax(delivery_price.price) }
             = radio_button_tag field_target, delivery_price.id, delivery_id.nil? ? (index == 0 ? true : false) : (delivery_price.id == delivery_id ? true : false)
             %h5= delivery_price.full_name
             %p= truncate delivery_price.full_description, length: 100

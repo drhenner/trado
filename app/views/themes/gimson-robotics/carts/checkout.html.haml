@@ -242,7 +242,7 @@
                           %td.stronger.light{colspan: "2"} Subtotal:
                           %td.stronger.light{colspan: "2"}
                             .align-right= Store::Price.new(price: @cart_total[:net_amount]).single
-                      %tr{ :class => Store::settings.tax_breakdown ? 'no-border' : nil, id: 'delivery-summary'}
+                      %tr#delivery-summary{ :class => Store::settings.tax_breakdown ? 'no-border' : nil}
                         %td.stronger.light{colspan: "2"}
                           Delivery:
                           %div.normal= current_cart.estimate_delivery.full_name unless current_cart.estimate_delivery.nil?
@@ -252,12 +252,12 @@
                           - else
                             = Store::Price.new(price: current_cart.estimate_delivery.price).single
                       - if Store::settings.tax_breakdown
-                        %tr.no-border
+                        %tr.no-border#tax-summary
                           %td.stronger.light{colspan: "2"}
                             = "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):"
                           %td.stronger.light{colspan: "2"}
                             .align-right= Store::Price.new(price: @cart_total[:tax_amount]).single
-                      %tr
+                      %tr#total-summary
                         %td.stronger.size-16{colspan: "2"} Order Total:
                         %td.stronger{colspan: "2"}
                           .size-16.align-right.total_price= Store::Price.new(price: @cart_total[:gross_amount], tax_type: 'net').single
