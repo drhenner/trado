@@ -100,8 +100,13 @@ trado.app =
 
     selectDeliveryServicePrice: function() 
     {
-        $('.delivery-service-prices .option').click(function() 
-        {
+        $('body').on('click', '.delivery-service-prices .option', function()
+        {   
+            var name = $(this).find('h5').text(),
+                price = $(this).find('h6 .price').text();
+
+            $('#delivery-summary').find('td:first-child .normal').text(name);
+            $('#delivery-summary').find('td:last-child').text(price);
             $(this).find('input:radio').prop('checked', true);
             $('.option').removeClass('active');
             return $(this).addClass('active');
@@ -140,6 +145,15 @@ trado.app =
             {
                 return $('.delivery-service-prices .control-group .controls').html('<p class="delivery_service_prices_notice">Select a delivery country to view the available delivery prices.</p>');
             }
+        });
+    },
+
+    printPage: function()
+    {
+        $('body').on('click', '.print-page', function()
+        {
+            window.print();
+            return false;
         });
     }
 }

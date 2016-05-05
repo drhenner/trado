@@ -239,7 +239,7 @@
                           %td.stronger.light{colspan: "2"} Subtotal:
                           %td.stronger.light{colspan: "2"}
                             .align-right= Store::Price.new(price: @cart_total[:net_amount]).single
-                      %tr{ :class => Store::settings.tax_breakdown ? 'no-border' : nil}
+                      %tr{ :class => Store::settings.tax_breakdown ? 'no-border' : nil, id: 'delivery-summary'}
                         %td.stronger.light{colspan: "2"}
                           Delivery:
                           %div.normal= current_cart.estimate_delivery.full_name unless current_cart.estimate_delivery.nil?
