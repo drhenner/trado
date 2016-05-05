@@ -103,20 +103,13 @@ trado.app =
         $('body').on('click', '.delivery-service-prices .option', function()
         {   
             var name = $(this).find('h5').text(),
-                price = $(this).find('h6 .price').text();
+                price = $(this).attr('data-price');
 
             $('#delivery-summary').find('td:first-child .normal').text(name);
             $('#delivery-summary').find('td:last-child').text(price);
             $(this).find('input:radio').prop('checked', true);
             $('.option').removeClass('active');
             return $(this).addClass('active');
-        });
-        $('.delivery-service-prices .option input:radio').each(function() 
-        {
-            if ($(this).is(':checked')) 
-            {
-                return $(this).parent().addClass('active');
-            }
         });
     },
 
@@ -137,7 +130,19 @@ trado.app =
                     dataType: 'html',
                     success: function(data) 
                     {
-                        return $('.delivery-service-prices .control-group .controls').html(data);
+                        $('.delivery-service-prices .control-group .controls').html(data);
+                        $('.delivery-service-prices .option input:radio').each(function() 
+                        {
+                            if ($(this).is(':checked')) 
+                            {
+                                var name = $(this).parent().find('h5').text(),
+                                    price = $(this).parent().attr('data-price');
+
+                                $('#delivery-summary').find('td:first-child .normal').text(name);
+                                $('#delivery-summary').find('td:last-child').text(price);
+                                return $(this).parent().addClass('active');
+                            }
+                        });
                     }
                 });
             } 

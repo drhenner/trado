@@ -1,5 +1,4 @@
 class Api::AttachmentsController < ApiController
-    before_action :authenticate_user!
     S3_URL = 'https://s3-eu-west-1.amazonaws.com/gimson-robotics-production/'
 
     def s3_froala_uploads

@@ -1,9 +1,6 @@
 class Admin::StockAdjustmentsController < ApplicationController
   before_action :authenticate_user!
-  
-  # New stock level
-  #
-  # Modal trigger for displaying a form to create a stock adjustment 
+
   def new 
     set_product
     set_sku
