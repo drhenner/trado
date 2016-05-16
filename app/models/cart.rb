@@ -76,5 +76,9 @@ class Cart < ActiveRecord::Base
   def self.clear_carts
     where("updated_at < ?", 12.hours.ago).destroy_all
   end
+
+  def valid_delivery?
+    self.calculate_delivery_services(Store.tax_rate).include?(self.estimate_delivery_id) ? true : false
+  end
   
 end

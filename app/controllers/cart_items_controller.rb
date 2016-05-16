@@ -45,8 +45,9 @@ class CartItemsController < ApplicationController
 
   def void_delivery_services
     @cart = current_cart
+
     unless @cart.estimate_delivery_id.nil?
-      @cart.estimate_delivery_id = nil
+      @cart.estimate_delivery_id = nil unless @cart.valid_delivery?
       @cart.estimate_country_name = nil
       @cart.save(validate: false)
     end
