@@ -111,11 +111,13 @@ module Payatron4000
             Payatron4000.destroy_cart(session)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
+            AdminMailer.order_notification(order).deliver_later
             return Rails.application.routes.url_helpers.success_order_url(order)
           else
             Payatron4000::Paypal.failed(response, order)
             order.reload
             Mailatron4000::Orders.confirmation_email(order)
+            AdminMailer.order_notification(order).deliver_later
             return Rails.application.routes.url_helpers.failed_order_url(order)
           end
         end

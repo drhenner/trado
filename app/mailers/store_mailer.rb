@@ -11,7 +11,7 @@ class StoreMailer < ActionMailer::Base
         @message = params[:message]
         mail(to: Store.settings.email, 
             from: "#{@name} <#{@email}>",
-            subject: "#{Store::settings.name} contact form message"
+            subject: "#{Store::settings.name} Contact Form Message"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/contact" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/store/contact_message", layout: "../themes/#{Store.settings.theme.name}/layout/contact" }
