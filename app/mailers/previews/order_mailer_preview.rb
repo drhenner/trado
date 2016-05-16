@@ -1,4 +1,4 @@
-class OrderMailerPreview < BasePreview
+class OrderMailerPreview < ActionMailer::Preview
 
     def completed
         OrderMailer.completed(mock_order)
@@ -18,5 +18,11 @@ class OrderMailerPreview < BasePreview
 
     def tracking
         OrderMailer.tracking(mock_order)
+    end
+
+    private
+
+    def mock_order
+        Order.active.last
     end
 end
