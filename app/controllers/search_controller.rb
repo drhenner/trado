@@ -26,6 +26,6 @@ class SearchController < ApplicationController
     private 
 
     def set_query
-        @query = "%#{params[:query]}%"
+        @query = "%#{params[:query].downcase}%"
     end
 end
