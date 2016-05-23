@@ -135,3 +135,6 @@ gem 'foreman'
 
 # aws
 gem 'aws-sdk', '~> 2'
+
+# search
+gem 'searchkick'

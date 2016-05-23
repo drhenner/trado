@@ -37,6 +37,7 @@ class Product < ActiveRecord::Base
   :accessory_ids, :attachments_attributes, :tags_attributes, :skus_attributes, :category_id, 
   :featured, :short_description, :related_ids, :specification, :status, :active, :order_count, :variant_ids
 
+  has_many :searches
   has_many :skus,                                             dependent: :delete_all, inverse_of: :product
   has_many :orders,                                           through: :skus
   has_many :carts,                                            through: :skus
@@ -67,12 +68,24 @@ class Product < ActiveRecord::Base
   accepts_nested_attributes_for :skus
   accepts_nested_attributes_for :tags
   accepts_nested_attributes_for :attachments
+
+  searchkick word_start: [:name, :part_number, :sku, :tag_names]
   
   default_scope { order(weighting: :desc) }
 
-  scope :search,                                              ->(query, page, per_page_count, limit_count) { joins(:tags).where("lower(products.name) LIKE :search OR lower(products.sku) LIKE :search OR lower(tags.name) LIKE :search", search: "%#{query}%").uniq.limit(limit_count).page(page).per(per_page_count) }
+  # scope :search,                                              ->(query, page, per_page_count, limit_count) { joins(:tags).where("lower(products.name) LIKE :search OR lower(products.sku) LIKE :search OR lower(tags.name) LIKE :search", search: "%#{query}%").uniq.limit(limit_count).page(page).per(per_page_count) }
 
   enum status: [:draft, :published]
+
+  def search_data
+    {
+      name: name,
+      status: status,
+      tag_names: tags.map(&:name),
+      part_number: part_number,
+      sku: sku
+    }
+  end
 
   # Find all associated variants by their variant type
   # @param variant_type [String]

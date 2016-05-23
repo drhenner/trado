@@ -3,7 +3,7 @@ class SearchController < ApplicationController
     
     def results
         set_query
-        @products = Product.search(@query, params[:page], 30, 300)
+        @products = Product.search(params[:query], where: { status: 'published' }, limit: 300, page: params[:page], per_page: 30)
 
         render theme_presenter.page_template_path('search/results'), format: [:html], layout: theme_presenter.layout_template_path
     end

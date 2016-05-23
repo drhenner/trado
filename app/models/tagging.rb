@@ -21,4 +21,9 @@ class Tagging < ActiveRecord::Base
 
   validates :tag_id,                    uniqueness: { scope: :product_id }
   
+  after_commit :reindex_product
+
+  def reindex_product
+    product.reindex
+  end
 end
