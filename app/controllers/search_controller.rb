@@ -10,7 +10,7 @@ class SearchController < ApplicationController
 
     def autocomplete
         set_query
-        @json_products = Product.search(@query, params[:page], 4, 4).map do |p|
+        @json_products = Product.search(params[:query], where: { status: 'published' }, limit: 300, page: params[:page], per_page: 30).map do |p|
                         {
                                 :value => p.name,
                                 :tokens => p.name,
