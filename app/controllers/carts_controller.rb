@@ -7,6 +7,7 @@ class CartsController < ApplicationController
 
     def checkout
         set_cart_details
+        set_grouped_countries
         if current_cart.order.nil?
             @delivery_id = current_cart.estimate_delivery_id
             @delivery_address = @order.build_delivery_address
@@ -19,6 +20,7 @@ class CartsController < ApplicationController
 
     def confirm
         set_cart_details
+        set_grouped_countries
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
@@ -59,5 +61,9 @@ class CartsController < ApplicationController
         @cart_total = current_cart.calculate(Store.tax_rate)
         @country = @order.delivery_address.nil? ? current_cart.estimate_country_name : @order.delivery_address.country
         @delivery_service_prices = DeliveryServicePrice.find_collection(session[:delivery_service_prices], @country) unless current_cart.estimate_delivery_id.nil? && @order.delivery_address.nil?
+    end
+
+    def set_grouped_countries
+        @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.unpopular.map{ |country| [country.name, country.name] }] 
     end
 end

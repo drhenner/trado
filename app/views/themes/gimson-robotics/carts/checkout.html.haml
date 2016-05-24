@@ -100,7 +100,7 @@
                             Country
                             %span.red-clr.bold *
                           .controls
-                            = fff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name ] }, selected: selected_country(current_cart, @order.billing_address.country)), { include_blank: 'Please select...'}, :class => 'copy-billing', 'data-field-name' => 'country', tabindex: 10)
+                            = fff.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...'}, :class => 'copy-billing', 'data-field-name' => 'country', tabindex: 10)
                             = errors_for @order, 'billing_address.country'
                   %h3 Payment details
                   %hr
@@ -163,7 +163,7 @@
                             Country
                             %span.red-clr.bold *
                           .controls.update-delivery-service-price
-                            = ff.select(:country, options_for_select(Country.all.map { |country| [country.name, country.name] }, selected_country(current_cart, @order.delivery_address.country)), { include_blank: 'Please select...' }, 'data-field-name' => 'delivery-country', tabindex: 20)
+                            = ff.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...' }, 'data-field-name' => 'delivery-country', tabindex: 20)
                             = errors_for @order, 'delivery_address.country'
                       .span3
                         .control-group
