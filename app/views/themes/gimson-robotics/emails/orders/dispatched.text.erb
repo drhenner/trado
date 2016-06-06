@@ -1,26 +1,32 @@
-<% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
+<% content_for :title, "Dispatched Notification, Gimson Robotics Order ID #{@order.id}" %>
 <% content_for :header, "Dispatched Notification" %>
 
-Your Gimson Robotics order ID <%= @order.id %> has been dispatched
+Your Gimson Robotics order ID <%= @order.id %> has been updated with new tracking information
 
 Delivery method:
-  <%= @order.delivery.full_name %>
+---------------------
+<%= @order.delivery.full_name %>
 
-Tracking available:
-  <%= @order.tracking? ? "Yes" : "No" %>
+Tracking available
+---------------------
+<%= @order.tracking? ? "Yes" : "No" %>
 
-Tracking number:
-  <%= @order.tracking? ? @order.consignment_number : 'n/a' %>
+Tracking number
+---------------------
+<%= @order.tracking? ? @order.consignment_number : 'n/a' %>
 
-Tracking website:
-  <%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'n/a' %>
+Tracking website
+---------------------
+<%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'n/a' %>
 
-The delivery details used are as below (unless we have separately discussed a change of details with you):
-  <%= @order.delivery_address.full_name %>
-  <%= @order.delivery_address.address %>
-  <%= @order.delivery_address.city %>
-  <%= @order.delivery_address.postcode %>
-  <%= @order.delivery_address.country %>
-  <%= @order.delivery_address.telephone %>
+The delivery details used are as below (unless we have separately discussed a change of details with you)
+---------------------
+<%= @order.delivery_address.full_name %>
+<%= @order.delivery_address.address %>
+<%= @order.delivery_address.city %>
+<%= @order.delivery_address.postcode %>
+<%= @order.delivery_address.country %>
+  
+Telephone: <%= @order.delivery_address.telephone %>
 
 If you have any questions about your order please get in touch at support@gimsonrobotics.com, quoting your order number.

@@ -1,0 +1,75 @@
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
+<% content_for :header, "Order Notification" %>
+
+Thank you for your order with Gimson Robotics
+
+Business Details
+---------------------
+Email address: support@gimsonrobotics.com
+Business name: Gimson Robotics Ltd
+Contact Address:
+13 Elgin Park
+Bristol
+BS6 6RU
+United Kingdom
+(GB) 166536781
+
+Order ID:   <%= @order.id %>
+Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %>
+Payment by: <%= @order.payment_type.titleize %>
+Payment status: Paid
+Email: <%= @order.email %>
+
+Delivery method:    <%= @order.delivery.full_name %>
+Tracking available: <%= @order.tracking? ? "Yes" : "No" %>
+
+Billing address
+---------------------
+<%= @order.billing_address.full_name %>
+<%= @order.billing_address.address %>
+<%= @order.billing_address.city %>
+<%= @order.billing_address.postcode %>
+<%= @order.billing_address.country %>
+
+Telephone: <%= @order.billing_address.telephone %>
+
+Delivery address
+---------------------
+<%= @order.delivery_address.full_name %>
+<%= @order.delivery_address.address %>
+<%= @order.delivery_address.city %>
+<%= @order.delivery_address.postcode %>
+<%= @order.delivery_address.country %>
+
+Telephone: <%= @order.delivery_address.telephone %>
+
+Order details
+---------------------
+
+<% @order.order_items.each do |item| %>
+    <%= item.sku.product.name %> | <%= Store::Price.new(price: item.price, tax_type: 'net').single %> | <%= item.quantity %> | <%= Store::Price.new(price: item.total_price, tax_type: 'net').single %>
+<% end %>
+
+Subtotal: <%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %>
+Delivery: <%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %>
+<%= Store::settings.tax_name %>: <%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %>
+Total: <%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %>
+
+Order process
+---------------------
+
+We will email a dispatch notification to you when your order is en-route. If the delivery method used has tracking available 
+then a tracking code will be included in the dispatch notification email.
+
+This email receipt may be used as a VAT invoice, our VAT number can be found towards the top right-hand corner.
+
+If you have any questions about your order please get in touch at support@gimsonrobotics.com, quoting your order number (ID).
+
+Additional information
+---------------------
+
+By placing this order you will have agreed to our terms and conditions. If you are a consumer ordering from the European Union then directive 2011/83/EU will 
+apply to your order (also known as The Directive on Consumer Rights). This includes the right to return an item within 14 days of receipt, provided the item is
+not customised or assembled to-order. If you wish to request a cancellation please use the cancel form here, ensuring that it is sent as soon as possible within 
+the 14 day limit. Returns/cancellations will not be accepted if the items have been modified or damaged by the user. We require that customers cover the return 
+postage costs of any non-faulty returned items.   
