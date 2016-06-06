@@ -17,7 +17,7 @@ United Kingdom
 Order ID:   <%= @order.id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %>
 Payment by: <%= @order.payment_type.titleize %>
-Payment status: Paid
+Payment status: <%= @order.transactions.last.payment_status.titleize %>
 Email: <%= @order.email %>
 
 Delivery method:    <%= @order.delivery.full_name %>

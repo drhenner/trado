@@ -1,5 +1,5 @@
 <% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
-<% content_for :header, "INVOICE" %>
+<% content_for :header, "Order Notification " %>
 <div style="padding:13px;">
   <div style="margin-left: 494px; width: 360px; margin-bottom: -120px; margin-top: 11px; float: left; border: 1px solid silver; padding: 5px;">
     <div style="margin-left: 10px; width: 115px; float: left;">Email
@@ -20,30 +20,29 @@
   </div>
   <br>
   <div style="float: left; margin-top: -30px; width: 700px;">
-    <h1><span style="color: #d80000;">Thank you</span> for your order with
-      <a href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a></h1>
+    <h1>Order Notification for <a href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a></h1>
     <br>
   </div>
   <table style="width: 450px;">
     <tbody>
       <tr>
         <td style="width: 120px; height: 19px;"><b>Order ID:</b></td>
-        <td>106536<br>
+        <td><%= @order.id %><br>
         </td>
       </tr>
       <tr>
         <td><b>Date:</b></td>
-        <td>23 Feb 2014, 15:07<br>
+        <td><%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %><br>
         </td>
       </tr>
       <tr>
         <td><b>Payment by:</b></td>
-        <td>PayPal<br>
+        <td><%= @order.payment_type.titleize %><br>
         </td>
       </tr>
       <tr>
         <td><b>Payment status:</b></td>
-        <td>Paid<br>
+        <td><%= @order.transactions.last.payment_status.titleize %><br>
         </td>
       </tr>
     </tbody>
@@ -53,17 +52,17 @@
     <tbody>
       <tr>
         <td style="width: 140px;"><b>Delivery method:</b></td>
-        <td>Royal Mail 1st Class &lt;1kg<br>
+        <td><%= @order.delivery.full_name %><br>
         </td>
       </tr>
       <tr>
         <td><b>Tracking available:</b></td>
-        <td>No<br>
+        <td><%= @order.tracking? ? "Yes" : "No" %><br>
         </td>
       </tr>
       <tr>
         <td><b>Dispatch expected:</b></td>
-        <td>Usually within one working day of order placement</td>
+        <td><%= @order.delivery_service.description %></td>
       </tr>
     </tbody>
   </table>
@@ -72,27 +71,27 @@
     <tbody>
       <tr>
         <td style="width: 350px;"><b>Billing address:</b><br>
-          Ewan Gimson<br>
-          13 Elgin Park<br>
-          Bristol<br>
-          BS6 6RU<br>
-          United Kingdom<br>
+          <%= @order.billing_address.full_name %><br>
+          <%= @order.billing_address.address %><br>
+          <%= @order.billing_address.city %><br>
+          <%= @order.billing_address.postcode %><br>
+          <%= @order.billing_address.country %><br>
           <br>
-          <b>Telephone:</b> not provided<br>
+          <b>Telephone:</b> <%= @order.billing_address.telephone %><br>
         </td>
         <td style="width: 350px;"><b>Delivery address:</b><br>
-          Ewan Gimson<br>
-          13 Elgin Park<br>
-          Bristol<br>
-          BS6 6RU<br>
-          United Kingdom<br>
+          <%= @order.delivery_address.full_name %><br>
+          <%= @order.delivery_address.address %><br>
+          <%= @order.delivery_address.city %><br>
+          <%= @order.delivery_address.postcode %><br>
+          <%= @order.delivery_address.country %><br>
           <br>
-          <b>Telephone:</b> 0117973752 </td>
+          <b>Telephone:</b> <%= @order.delivery_address.telephone %> </td>
       </tr>
     </tbody>
   </table>
   <br>
-  <b>&nbsp;Email address:</b> ewan.gimson@googlemail.com<br>
+  <b>&nbsp;Email address:</b> <%= @order.email %><br>
   <br>
   <div style="width: 840px; border: 1px solid #CCCCCC; padding: 10px; float:left;">
     <div class="left-top" style="width: 500px;">Product</div>
@@ -100,46 +99,34 @@
     <div class="right-top">Quantity</div>
     <div class="right-top">Price</div>
     <div class="right-top">Amount</div>
-    <br>
-    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
-        with 12V DC Motor and 36:1 Gearbox</a></div>
-    <div class="left" style="width: 130px;">GR02-12V-361 </div>
-    <div class="right">2</div>
-    <div class="right">29.00</div>
-    <div class="right">58.00</div>
-    <br>
-    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
-        with 12V DC Motor and 36:1 Gearbox</a><br>
-      &nbsp;&nbsp;with: 100mm silicone leads with Deans connector</div>
-    <div class="left" style="width: 130px;">GR02-12V-361<br>
-      100DEANS</div>
-    <div class="right">2</div>
-    <div class="right">34.00</div>
-    <div class="right">68.00</div>
-    <br>
-    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
-        with 12V DC Motor and 36:1 Gearbox</a></div>
-    <div class="left" style="width: 130px;">GR02-12V-361 </div>
-    <div class="right">2</div>
-    <div class="right">29.00</div>
-    <div class="right">58.00</div>
+    <% @order.order_items.each do |item| %>
+      <br>
+      <div class="left" style="width: 500px;">
+        <a href="#"><%= item.sku.product.name %></a>
+        <% unless item.order_item_accessory.nil? %>
+          <br>
+          &nbsp;&nbsp;with: <%= item.order_item_accessory.accessory.name %>
+        <% end %>
+      </div>
+      <div class="left" style="width: 130px;"><%= item.sku.full_sku %> </div>
+      <div class="right"><%= item.quantity %></div>
+      <div class="right"><%= Store::Price.new(price: item.price, tax_type: 'net').single %></div>
+      <div class="right"><%= Store::Price.new(price: item.total_price, tax_type: 'net').single %></div>
+    <% end %>
     <div style="width: 100%;" class="right">
       <hr style="width: 250px; float: right;"><br>
       <b>Subtotal:</b>
-      <div style="width: 80px; float: right">184.00</div>
+      <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %></div>
       <br>
-      <b>Delivery/Shipping:</b>
-      <div style="width: 80px; float: right">11.20</div>
-      <br>
-      <b>Discount:</b>
-      <div style="width: 80px; float: right">0.00</div>
+      <b>Delivery:</b>
+      <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %></div>
       <b><br>
         UK VAT (at 20%):</b>
-      <div style="width: 80px; float: right">32.54</div>
+      <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %></div>
       <br>
       <hr style="width: 200px; float: right;"> <br>
       <b>Total (GBP):</b>
-      <div style="width: 80px; float: right">227.74</div>
+      <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %></div>
     </div>
   </div>
   <br>

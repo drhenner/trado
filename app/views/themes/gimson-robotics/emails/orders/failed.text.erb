@@ -22,6 +22,7 @@ Email: <%= @order.email %>
 
 Delivery method:    <%= @order.delivery.full_name %>
 Tracking available: <%= @order.tracking? ? "Yes" : "No" %>
+Delivery Description: <%= @order.delivery_service.description %>
 
 Billing address
 ---------------------
