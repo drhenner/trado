@@ -1,241 +1,181 @@
-<% content_for :title, "Your #{Store::settings.name} order ##{@order.id}" %>
-<% content_for :header_1, Store::settings.name %>
-<% content_for :header_2, "Order ##{@order.id} confirmation" %>
-<% content_for :additional_info, "By placing this order you will have agreed to our terms and conditions. If you are a consumer ordering from the European Union then directive 2011/83/EU will apply to your order (also known as The Directive on Consumer Rights). This includes the right to return an item within 14 days of receipt, provided the item is not customised or assembled to-order. If you wish to request a cancellation please use the cancel form here, ensuring that it is sent as soon as possible within the 14 day limit. Returns/cancellations will not be accepted if the items have been modified or damaged by the user. We require that customers cover the return postage costs of any non-faulty returned items." %>
-
-<style type="text/css">
-.price { letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 15px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0; font-weight:bold; }
-.price span { display: block; color: #003366 !important; font-size: 13px; margin-top:5px; }
-</style>
-<tr>
-    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '50', height: '30' %></td>
-    <td align="left" width="500">
-        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Hello <%= @order.delivery_address.full_name %>,</p> 
-        <br/>
-        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Thanks for your order. We'll let you know once your item(s) have dispatched.</p>
-        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
-            <tbody>
-                <tr>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                </tr>
-                <tr>
-                    <td width="250">
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your order will be sent to</h3>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.full_name %></p> 
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.address %></p> 
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.city %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.postcode %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.country %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery_address.telephone %></p>
-                    </td>
-                    <td width="250">
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your billing address</h3>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.full_name %></p> 
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.address %></p> 
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.city %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.postcode %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.country %></p>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.billing_address.telephone %></p>
-                    </td>
-                </tr>
-                <tr>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                </tr>
-                <tr>
-                    <td width="250">
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Your delivery option</h3>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.delivery.full_name %></p>
-                    </td>
-                    <td width="250">
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Payment method</h3>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">
-                          <% if @order.paypal? %>
-                            <%= image_tag "#{Rails.application.secrets.email_root}/paypal-icon.png", style: 'display:block;border:0;outline:0;', width: 82, height: 31 %>
-                          <% else %>
-                            <%= @order.payment_type.titleize %>
-                          <% end %>
-                        </p>
-                    </td>
-                </tr>
-                <tr>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %></td>
-                </tr>
-                <tr>
-                    <td width="250">
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 30px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Contact email</h3>
-                        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><%= @order.email %></p>
-                    </td>
-                    <td width="250"></td>
-                </tr>
-                <tr>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '20' %></td>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", :style => 'display:block;border:0;outline:0;', width: '1', height: '20' %></td>
-                </tr>
-            </tbody>
-        </table>
-        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
-            <tbody>
-                <tr>
-                    <td>
-                        <h3 style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 14px; line-height: 35px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Order details</h3>
-                    </td>
-                </tr>
-                <tr>
-                  <td>
-                    <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Placed on <%= @order.created_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y") %></p>
-                  </td>
-                </tr>
-                <tr>
-                    <td>
-                      <%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '10' %>
-                    </td>
-                </tr>
-            </tbody>
-        </table>
-        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">
-          <thead>
-            <tr>
-              <th style="text-align:left;" colspan="2">Item</th>
-              <th style="text-align:center;">
-                Quantity
-              </th>
-              <th style="text-align:center;">
-                Price
-              </th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td height="5" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
-              <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-              <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-            </tr>
-            <tr>
-              <td height="10" colspan="2" width="1"></td>
-              <td height="10" width="1"></td>
-              <td height="10" width="1"></td>
-            </tr>
-            <% @order.order_items.each do |item| %>
-              <tr>
-                <td width="85">
-                  <%= image_tag item.sku.product.attachments.first.file.medium, :alt => item.sku.product.name, height: 75, width: 75 %>
-                </td>
-                <td style="text-align:left;">
-                  <%= item.sku.product.name %>
-                  <div>
-                  </div>
-                </td>
-                <td style="text-align:center;">
-                  <%= item.quantity %>
-                </td>
-                <td style="text-align:center;">
-                  <%= Store::Price.new(price: item.price).single %>
-                </td>
-              </tr>
-              <% unless item.order_item_accessory.blank? %>
-                <tr>
-                  <td width="85">
-                    <%= image_tag "#{Rails.application.secrets.email_root}/product-accessory.png", style: 'display:block;border:0;outline:0;', height: 75, width: 75 %>
-                  </td>
-                  <td>
-                    <%= item.order_item_accessory.accessory.name %>
-                  </td>
-                  <td></td>
-                </tr>
-              <% end %>
-              <tr>
-                <td height="5" colspan="2" width="1"></td>
-                <td height="5" width="1"></td>
-                <td height="5" width="1"></td>
-              </tr>
-              <tr>
-                <td height="5" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
-                <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-                <td height="5" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-              </tr>
-              <tr>
-                <td height="5" colspan="2" width="1"></td>
-                <td height="5" width="1"></td>
-                <td height="5" width="1"></td>
-              </tr>
-            <% end %>
-            <tr>
-              <td height="5" colspan="2" width="1"></td>
-              <td height="5" width="1"></td>
-              <td height="5" width="1"></td>
-            </tr>
-            <tr>
-              <td colspan="2"></td>
-              <td>
-                Subtotal:
-              </td>
-              <td style="text-align:center;">
-                <%= Store::Price.new(price: @order.net_amount).single %>
-              </td>
-            </tr>
-            <tr>
-              <td height="10" colspan="2" width="1"></td>
-              <td height="10" width="1"></td>
-              <td height="10" width="1"></td>
-            </tr>
-            <tr>
-              <td colspan="2"></td>
-              <td>
-                Delivery:
-              </td>
-              <td style="text-align:center;">
-                <%= Store::Price.new(price: @order.delivery.price).single %>
-              </td>
-            </tr>
-            <tr>
-              <td height="10" colspan="2" width="1"></td>
-              <td height="10" width="1"></td>
-              <td height="10" width="1"></td>
-            </tr>
-            <tr>
-              <td colspan="2"></td>
-              <td>
-                <%= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):" %>
-              </td>
-              <td style="text-align:center;">
-                <%= Store::Price.new(price: @order.tax_amount).single %>
-              </td>
-            </tr>
-            <tr>
-              <td height="10" width="1" colspan="2" style="border-bottom:1px solid #eeeeee;"></td>
-              <td height="10" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-              <td height="10" width="1" style="border-bottom:1px solid #eeeeee;"></td>
-            </tr>
-            <tr>
-              <td height="10" colspan="2" width="1"></td>
-              <td height="10" width="1"></td>
-              <td height="10" width="1"></td>
-            </tr>
-            <tr style="font-weight:bold; font-size:15px;">
-              <td colspan="2"></td>
-              <td>
-                Total:
-              </td>
-              <td style="text-align:center;">
-                <%= Store::Price.new(price: @order.gross_amount).single %>
-              </td>
-            </tr>
-          </tbody>
-        </table>
-        <table bgcolor="#ffffff" border="0" width="500" cellpadding="0" cellspacing="0" style="background-color:#ffffff;">
-            <tbody>
-                <tr>
-                    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '1', height: '30' %></td>
-                </tr>
-            </tbody>
-        </table>
-        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Questions about your order? Contact <a href="mailto:support@gimsonrobotics.co.uk" style="color:#e54b5d;text-decoration:none;margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">support@gimsonrobotics.co.uk</a> and quote your order number.</p>
-        <br/>
-        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;">Thanks for shopping with us!</p>
-        <p style="letter-spacing: normal; word-spacing: 0px; text-shadow: none; color: #333333 !important; font-size: 13px; line-height: 17px; font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;  margin-top:0; padding-top:0; margin-right:0; padding-right:0; margin-bottom:0; padding-bottom:0; margin-left:0; padding-left:0;"><strong><%= Store::settings.name %> team</strong></p>
-    </td>
-    <td><%= image_tag "#{Rails.application.secrets.email_root}/clear.gif", style: 'display:block;border:0;outline:0;', width: '50', height: '30' %></td>
-</tr>
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
+<% content_for :header, "INVOICE" %>
+<div style="padding:13px;">
+  <div style="margin-left: 494px; width: 360px; margin-bottom: -120px; margin-top: 11px; float: left; border: 1px solid silver; padding: 5px;">
+    <div style="margin-left: 10px; width: 115px; float: left;">Email
+      address: <br>
+      Business name: <br>
+      Contact Address:<br>
+      <br>
+      <br>
+      <br>
+      UK VAT number:</div>
+    <div style="margin-left: 12px; float: left;"><a href="mailto:support@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
+      Gimson Robotics Ltd<br>
+      13 Elgin Park<br>
+      Bristol<br>
+      BS6 6RU<br>
+      United Kingdom<br>
+      (GB) 166536781</div>
+  </div>
+  <br>
+  <div style="float: left; margin-top: -30px; width: 700px;">
+    <h1><span style="color: #d80000;">Thank you</span> for your order with
+      <a href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a></h1>
+    <br>
+  </div>
+  <table style="width: 450px;">
+    <tbody>
+      <tr>
+        <td style="width: 120px; height: 19px;"><b>Order ID:</b></td>
+        <td>106536<br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Date:</b></td>
+        <td>23 Feb 2014, 15:07<br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Payment by:</b></td>
+        <td>PayPal<br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Payment status:</b></td>
+        <td>Paid<br>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <table style="width: 700px;">
+    <tbody>
+      <tr>
+        <td style="width: 140px;"><b>Delivery method:</b></td>
+        <td>Royal Mail 1st Class &lt;1kg<br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Tracking available:</b></td>
+        <td>No<br>
+        </td>
+      </tr>
+      <tr>
+        <td><b>Dispatch expected:</b></td>
+        <td>Usually within one working day of order placement</td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <table>
+    <tbody>
+      <tr>
+        <td style="width: 350px;"><b>Billing address:</b><br>
+          Ewan Gimson<br>
+          13 Elgin Park<br>
+          Bristol<br>
+          BS6 6RU<br>
+          United Kingdom<br>
+          <br>
+          <b>Telephone:</b> not provided<br>
+        </td>
+        <td style="width: 350px;"><b>Delivery address:</b><br>
+          Ewan Gimson<br>
+          13 Elgin Park<br>
+          Bristol<br>
+          BS6 6RU<br>
+          United Kingdom<br>
+          <br>
+          <b>Telephone:</b> 0117973752 </td>
+      </tr>
+    </tbody>
+  </table>
+  <br>
+  <b>&nbsp;Email address:</b> ewan.gimson@googlemail.com<br>
+  <br>
+  <div style="width: 840px; border: 1px solid #CCCCCC; padding: 10px; float:left;">
+    <div class="left-top" style="width: 500px;">Product</div>
+    <div class="left-top" style="width: 130px;">SKU</div>
+    <div class="right-top">Quantity</div>
+    <div class="right-top">Price</div>
+    <div class="right-top">Amount</div>
+    <br>
+    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
+        with 12V DC Motor and 36:1 Gearbox</a></div>
+    <div class="left" style="width: 130px;">GR02-12V-361 </div>
+    <div class="right">2</div>
+    <div class="right">29.00</div>
+    <div class="right">58.00</div>
+    <br>
+    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
+        with 12V DC Motor and 36:1 Gearbox</a><br>
+      &nbsp;&nbsp;with: 100mm silicone leads with Deans connector</div>
+    <div class="left" style="width: 130px;">GR02-12V-361<br>
+      100DEANS</div>
+    <div class="right">2</div>
+    <div class="right">34.00</div>
+    <div class="right">68.00</div>
+    <br>
+    <div class="left" style="width: 500px;"><a href="#">GR02 Gearmotor
+        with 12V DC Motor and 36:1 Gearbox</a></div>
+    <div class="left" style="width: 130px;">GR02-12V-361 </div>
+    <div class="right">2</div>
+    <div class="right">29.00</div>
+    <div class="right">58.00</div>
+    <div style="width: 100%;" class="right">
+      <hr style="width: 250px; float: right;"><br>
+      <b>Subtotal:</b>
+      <div style="width: 80px; float: right">184.00</div>
+      <br>
+      <b>Delivery/Shipping:</b>
+      <div style="width: 80px; float: right">11.20</div>
+      <br>
+      <b>Discount:</b>
+      <div style="width: 80px; float: right">0.00</div>
+      <b><br>
+        UK VAT (at 20%):</b>
+      <div style="width: 80px; float: right">32.54</div>
+      <br>
+      <hr style="width: 200px; float: right;"> <br>
+      <b>Total (GBP):</b>
+      <div style="width: 80px; float: right">227.74</div>
+    </div>
+  </div>
+  <br>
+  <div style="margin-top: 300px;"><br>
+    <b>Order process:</b><br>
+    <br>
+    We will email a dispatch notification to you when your order is
+    en-route. If the delivery method used has tracking available <br>
+    then a tracking code will be included in the dispatch notification
+    email.<br>
+    <br>
+    This email receipt may be used as a VAT invoice, our VAT number can be
+    found towards the top right-hand corner.<br>
+    <br>
+    If you have any questions about your order please get in touch at<a href="mailto:support@gimsonrobotics.com">
+      support@gimsonrobotics.com</a>, quoting your order number (ID).<br>
+    <br>
+    <br>
+    <hr style="color: #CCCCCC;"><br>
+    <small><b>Additional information:</b><br>
+      <br>
+      <i>By placing this order you will have agreed to our <a href="http://www.gimsonrobotics.co.uk/terms_and_conditions.html">terms
+          and conditions</a>. If you are a consumer ordering from the
+        European Union then directive 2011/83/EU will <br>
+        apply to your order (also known as The Directive on Consumer
+        Rights). This includes the right to return an item within 14 days
+        of receipt, provided the item is<br>
+        not customised or assembled to-order. If you wish to request a
+        cancellation please use the <a href="http://www.gimsonrobotics.co.uk/other/Gimson-Robotics-Ltd_order-cancellation-form.pdf">cancel
+          form here</a>, ensuring that it is sent as soon as possible
+        within <br>
+        the 14 day limit. Returns/cancellations will not be accepted if
+        the items have been modified or damaged by the user. We require
+        that customers cover the return <br>
+        postage costs of any non-faulty returned items.</i></small> &nbsp;
+    <br>
+    <br>
+  </div>
+</div>

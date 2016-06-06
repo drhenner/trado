@@ -159,4 +159,8 @@ class Order < ActiveRecord::Base
       :paypal_fee_total => completed_collection.sum('transactions.fee')
     }
   end
+
+  def tracking?
+    self.consignment_number.nil? || self.delivery_service.tracking_url.nil? ? false : true
+  end
 end

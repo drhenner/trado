@@ -2,10 +2,10 @@
 <html>
   <head>
     <meta content="text/html; charset=windows-1252" http-equiv="content-type">
-    <title><%= Store::settings.name %> - <%= yield :title %></title>
+    <title><%= yield :title %></title>
     <meta content="Ewan Gimson" name="author">
     <style type="text/css">
-    body {color: #000000; font-family: Helvetica,Arial,sans-serif; font-size: 15px;}
+  body {color: #000000; font-family: Helvetica,Arial,sans-serif; font-size: 15px;}
       h1 {font-size: 16px;} 
       a {text-decoration: none; color: #008e99; -webkit-transition: color 0.2s ease; -moz-transition: color 0.2s ease; -o-transition: color 0.2s ease; transition: color 0.2s ease; }
       a:hover { color: #004F55; }
@@ -15,7 +15,17 @@
       .right {float:left; width: 70px; text-align: right; padding-top: 8px; padding-bottom: 0px;}
       hr {background: #cccccc; border: 0; height: 1px;}
 </style> </head>
-    <body>
-        <%= yield %>
-    </body>
+  <body>
+    <div style="margin-left: auto;
+  margin-right: auto; display: table;">
+      <div style="width:850px; vertical-align: middle; height:50px; padding: 15px; padding-bottom: 25px; border-bottom: 1px solid #cccccc; color: #000000; font-weight: bold; font-size: 20px; position:relative;">
+        <a href="http://www.gimsonrobotics.co.uk">
+          <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:300px;height:42px;float:left;', alt: 'Gimson Robotics' %>
+        </a>
+        <div style="position:absolute; right: 0px; top:20px; font-size: 24px;"> <%= yield :header %>
+        </div>
+      </div>
+      <%= yield %>
+    </div>
+  </body>
 </html>

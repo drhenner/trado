@@ -28,10 +28,10 @@
 #  updated_at                       :datetime               not null
 #
 class StoreSetting < ActiveRecord::Base
-  attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, 
-  :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes,
-  :alert_active, :alert_type, :alert_message, :theme_name, :paypal_currency_code,
-  :introduction
+    attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, 
+    :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes,
+    :alert_active, :alert_type, :alert_message, :theme_name, :paypal_currency_code,
+    :introduction
 
     has_one :attachment,                                                  as: :attachable, dependent: :destroy
 
