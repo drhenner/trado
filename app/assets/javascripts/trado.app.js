@@ -119,45 +119,20 @@ trado.app =
 
     updateDeliveryServicePrice: function()
     {
+        $('.delivery-service-prices .option input:radio').each(function() 
+        {
+            if ($(this).is(':checked')) 
+            {
+                $(this).parent().addClass('active');
+            }
+        });
+        $('.update-delivery-service-price select').each(function()
+        {
+            trado.app.updateDeliveryServiceList(this);
+        })
         $('.update-delivery-service-price select').change(function() 
         {
-            if (this.value !== "") 
-            {
-                $.ajax('/baskets/delivery_service_prices/update', 
-                {
-                    type: 'GET',
-                    data: 
-                    {
-                        'country_id': this.value,
-                        'object_type': this.name.split('[')[0]
-                    },
-                    dataType: 'html',
-                    success: function(data) 
-                    {
-                        $('.delivery-service-prices .control-group .controls').html(data);
-                        $('.delivery-service-prices .option input:radio').each(function() 
-                        {
-                            if ($(this).is(':checked')) 
-                            {
-                                var name = $(this).parent().find('h5').text(),
-                                    price = $(this).parent().attr('data-price'),
-                                    tax = $(this).parent().attr('data-tax'),
-                                    total = $(this).parent().attr('data-total');
-
-                                $('#delivery-summary').find('td:first-child .normal').text(name);
-                                $('#delivery-summary').find('td:last-child').text(price);
-                                $('#tax-summary').find('td:last-child').text(tax);
-                                $('#total-summary').find('td:last-child').text(total);
-                                return $(this).parent().addClass('active');
-                            }
-                        });
-                    }
-                });
-            } 
-            else 
-            {
-                return $('.delivery-service-prices .control-group .controls').html('<p class="delivery_service_prices_notice">Select a delivery country to view the available delivery prices.</p>');
-            }
+            trado.app.updateDeliveryServiceList(this);
         });
     },
 
@@ -168,5 +143,46 @@ trado.app =
             window.print();
             return false;
         });
+    },
+
+    updateDeliveryServiceList: function(elem)
+    {
+        if (elem.value !== "") 
+        {
+            $.ajax('/baskets/delivery_service_prices/update', 
+            {
+                type: 'GET',
+                data: 
+                {
+                    'country_id': elem.value,
+                    'object_type': elem.name.split('[')[0]
+                },
+                dataType: 'html',
+                success: function(data) 
+                {
+                    $('.delivery-service-prices .control-group .controls').html(data);
+                    $('.delivery-service-prices .option input:radio').each(function() 
+                    {
+                        if ($(this).is(':checked')) 
+                        {
+                            var name = $(this).parent().find('h5').text(),
+                                price = $(this).parent().attr('data-price'),
+                                tax = $(this).parent().attr('data-tax'),
+                                total = $(this).parent().attr('data-total');
+
+                            $('#delivery-summary').find('td:first-child .normal').text(name);
+                            $('#delivery-summary').find('td:last-child').text(price);
+                            $('#tax-summary').find('td:last-child').text(tax);
+                            $('#total-summary').find('td:last-child').text(total);
+                            return $(this).parent().addClass('active');
+                        }
+                    });
+                }
+            });
+        } 
+        else 
+        {
+            return $('.delivery-service-prices .control-group .controls').html('<p class="delivery_service_prices_notice">Select a delivery country to view the available delivery prices.</p>');
+        }
     }
 }

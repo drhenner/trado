@@ -63,7 +63,7 @@
                             = errors_for @order, 'billing_address.city'
                         .control-group
                           = fff.label :county, :class => 'control-label' do
-                            County
+                            County or Province
                           .controls
                             = fff.text_field :county, :id => 'billing_county', tabindex: 9, :class => 'copy-billing', 'data-field-name' => 'county'
                             = errors_for @order, 'billing_address.county'
@@ -154,7 +154,7 @@
                             = errors_for @order, 'delivery_address.city'
                         .control-group
                           = ff.label :county, :class => 'control-label' do
-                            County
+                            County to Province
                           .controls
                             = ff.text_field :county, id: 'delivery_county', tabindex: 18, 'data-field-name' => 'delivery-county'
                             = errors_for @order, 'delivery_address.county'
@@ -265,10 +265,12 @@
                     .controls
                       .checkbox
                         = f.check_box :terms, checked: false, tabindex: 22
-                        = errors_for @order, :terms
-                        You must tick this box to confirm you have read and accept our 
-                        = link_to 'terms and conditions', p_path('terms-and-conditions')
+                        
+                        Please tick this box to confirm that you have read and accept our 
+                        = link_to 'Terms and Conditions', p_path('terms-and-conditions')
                         = '.'
+                        %br
+                        = errors_for @order, :terms
                   %p
                     = f.submit 'Proceed to Payment', :class => 'btn btn-primary higher bold checkout_order', tabindex: 23
 

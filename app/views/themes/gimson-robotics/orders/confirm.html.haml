@@ -1,4 +1,4 @@
-- content_for :title, 'Confirm your order'
+- content_for :title, 'Review your order'
 
 .container
   .row
@@ -17,7 +17,7 @@
                 .span6.offset2
                   .center-align
                     %h1
-                      %span.light Confirm
+                      %span.light Review
                       Order
             .row
               .span3
@@ -60,6 +60,8 @@
                 %br
                 %br
                 = @billing_address.telephone
+                %br
+                %br
                 = @order.email  
               .span4
                 %h3 Payment details

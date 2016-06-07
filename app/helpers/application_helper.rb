@@ -136,7 +136,7 @@ module ApplicationHelper
     def errors_for model, attribute
         if model.errors[attribute].present?
             content_tag :span, :class => 'error-explanation' do
-                model.errors[attribute].join(", ")
+                model.errors[attribute].join(", ") + ', please re-enter'
             end
         end
     end

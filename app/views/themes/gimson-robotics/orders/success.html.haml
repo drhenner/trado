@@ -11,9 +11,17 @@
         %h1
           %span.light Order
           Successful
-        %p= "Thank you <strong>#{@order.delivery_address.full_name}</strong> your Order ##{@order.id} has now been received".html_safe
+        %p= Thank you 
+          %b= @order.delivery_address.full_name
+          your Order 
+          = @order.id 
+          has now been received
 
-        %p= "You should shortly be receiving an email receipt to the email address provided (#{@order.email}). Please check your spam folders and get in touch quoting your order number if this does not arrive."
+        %p= You should shortly be receiving an email receipt to the email address provided 
+          = "(#{@order.email})." 
+          Please check your spam folders and 
+          = link_to "contact us", p_path('contact') 
+          quoting your order number if this does not arrive."
 
         %p We will usually dispatch your order within the next 1-2 working days (product dependent, some items may take longer to prepare than others).
 

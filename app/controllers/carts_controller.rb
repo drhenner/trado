@@ -2,6 +2,7 @@ class CartsController < ApplicationController
     skip_before_action :authenticate_user!
 
     def mycart
+        set_grouped_countries
         render theme_presenter.page_template_path('carts/mycart'), layout: theme_presenter.layout_template_path
     end
 
