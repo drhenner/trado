@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160523173132) do
+ActiveRecord::Schema.define(version: 20160607122749) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -195,6 +195,8 @@ ActiveRecord::Schema.define(version: 20160523173132) do
     t.integer  "cart_id"
     t.integer  "shipping_status",                              default: 0
     t.string   "consignment_number"
+    t.string   "express_token"
+    t.string   "express_payer_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -238,6 +240,23 @@ ActiveRecord::Schema.define(version: 20160523173132) do
     t.integer  "order_count",       default: 0
     t.string   "page_title"
   end
+
+  create_table "redactor_assets", force: :cascade do |t|
+    t.integer  "user_id"
+    t.string   "data_file_name",               null: false
+    t.string   "data_content_type"
+    t.integer  "data_file_size"
+    t.integer  "assetable_id"
+    t.string   "assetable_type",    limit: 30
+    t.string   "type",              limit: 30
+    t.integer  "width"
+    t.integer  "height"
+    t.datetime "created_at"
+    t.datetime "updated_at"
+  end
+
+  add_index "redactor_assets", ["assetable_type", "assetable_id"], name: "idx_redactor_assetable", using: :btree
+  add_index "redactor_assets", ["assetable_type", "type", "assetable_id"], name: "idx_redactor_assetable_type", using: :btree
 
   create_table "related_products", id: false, force: :cascade do |t|
     t.integer "product_id"

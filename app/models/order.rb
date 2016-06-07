@@ -143,7 +143,7 @@ class Order < ActiveRecord::Base
   #
   # @return [Boolean]
   def new_order_tracking_mailer?
-    completed? && dispatched? && !consignment_number.nil? && consignment_number_changed? ? true : false
+    completed? && dispatched? && tracking? ? true : false
   end
 
   def self.dashboard_data
