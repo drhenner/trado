@@ -11,10 +11,13 @@
         %h1
           %span.light Order
           Successful
-        %p= "Thank you <strong>#{@order.delivery_address.full_name}</strong> your Order #{@order.id} has now been recieved".html_safe
+        %p= "Thank you <b>#{@order.delivery_address.full_name}</b> your order <b>#{@order.id}</b> has been recieved".html_safe
 
-        %p= "You should shortly be receiving an email receipt to the email address provided (#{@order.email}). Please check your spam folders and #{link_to "contact us", p_path('contact')} quoting your order number if this does not arrive.".html_safe
+        %p= "You should shortly be receiving an email receipt to the email address provided (#{@order.email}). Please first check your spam folders and then #{link_to "contact us", p_path('contact')} quoting the order number above if this receipt does not arrive.".html_safe
 
-        %p We will usually dispatch your order within the next 1-2 working days (product dependent, some items may take longer to prepare than others).
+        %p We will usually dispatch your order within the next 1-2 working days (product dependent, some items may take longer to prepare than others). Card/PayPal payments are usually instant, however if you have selected Bank Transfer or Cheque as your payment method then we will be in contact shortly with further details.
 
-        %p If you have any questions then please contact us. Thank you for your custom!
+        %p 
+          If you have any questions then please 
+          = "#{link_to "contact us", p_path('contact')}.".html_safe
+          Thank you for your custom!
