@@ -246,7 +246,10 @@ i.box { display: -moz-inline-stack; display: inline-block; vertical-align: middl
 
 .form .btn { padding-top: 8px; padding-bottom: 8px; font-weight: bold; }
 
-.navbar .btn-navbar { background-color: #00becc; background-image: -moz-linear-gradient(top, #00becc, #00becc); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00becc), to(#00becc)); background-image: -webkit-linear-gradient(top, #00becc, #00becc); background-image: -o-linear-gradient(top, #00becc, #00becc); background-image: linear-gradient(to bottom, #00becc, #00becc); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00BECC', endColorstr='#FF00BECC', GradientType=0); padding: 15px 15px; margin-right: 0; margin-left: 0; margin-top: 8px; }
+.navbar .btn-navbar { background-color: #00becc; background-image: -moz-linear-gradient(top, #00becc, #00becc); background-image: -webkit-gradient(linear, 0 0, 0 100%, from(#00becc), to(#00becc)); background-image: -webkit-linear-gradient(top, #00becc, #00becc); background-image: -o-linear-gradient(top, #00becc, #00becc); background-image: linear-gradient(to bottom, #00becc, #00becc); background-repeat: repeat-x; filter: progid:DXImageTransform.Microsoft.gradient(startColorstr='#FF00BECC', endColorstr='#FF00BECC', GradientType=0); padding: 15px 15px; margin-right: 0; margin-left: 0; margin-top: 8px; height: 43px; overflow:hidden;
+}
+.navbar .btn-navbar div:first-child { float:left; margin-right: 15px; position: relative; bottom: 3px; }
+.navbar .btn-navbar div:last-child { float:right; }
 
 /* ========== */
 /* = Images and galleries = */
@@ -851,6 +854,7 @@ label { font-weight: bold; color: #333333; }
   .dropdown-menu [class*="span"] { width: auto; float: none; }
   .sm-no-pull { float: none; } }
 @media (max-width: 767px) { .darker-stripe, .boxed-area, footer, .fullwidthbanner-container { margin-left: -20px; margin-right: -20px; }
+    .checkout-container { box-shadow: 0 0 0 #fff; -webkit-box-shadow: 0 0 0 #fff; }
   .darker-stripe, .boxed-area { padding-left: 20px; padding-right: 20px; }
   body.boxed { background: none !important; }
   body.boxed .master-wrapper { -webkit-box-shadow: none; -moz-box-shadow: none; box-shadow: none; width: 100%; margin: 0; padding: 0; }
