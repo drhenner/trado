@@ -48,7 +48,7 @@
             .span6.sub-menu
               %ul
                 - page_list.each do | page|
-                  %li{ :class => active_page?(controller: 'pages', slug: page.slug) }
+                  %li{ :class => "#{active_page?(controller: 'pages', slug: page.slug)} #{'desktop' if page.slug == 'contact'}" }
                     = link_to page.render_menu_title, p_path(slug: page.slug), title: page.title
 
       / ==========
@@ -59,7 +59,10 @@
           .container
             .row
               .span9
-                %button.btn.btn-navbar{"data-target" => ".nav-collapse", "data-toggle" => "collapse", type: "button"}
+                = link_to p_path('contact'), class: 'btn btn-navbar mobile-contact-us mobile' do
+                  Contact Us
+                  %i.fa.fa-envelope
+                %button.btn.btn-navbar.mobile-menu{"data-target" => ".nav-collapse", "data-toggle" => "collapse", type: "button"}
                   %div Menu
                   %div
                     %span.icon-bar

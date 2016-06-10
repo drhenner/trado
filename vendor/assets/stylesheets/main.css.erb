@@ -3,6 +3,12 @@
 /* ========== */
 /*h1, h2, h3, h4, h5, h6, .opensans, .btn, .navbar, .tp-caption.big_theme, .tp-caption.small_theme, .tp-caption.btn_theme, .opening-time .time-table, .banner .title, .product .price, .product-title, cite strong, .table-items td.desc, .table-items td.price, .table-items td.stronger, .comments-container .author-name, .checkout-steps .step.active, .nav-tabs > li > a, .accordion-heading .accordion-toggle { font-family: 'Open Sans', sans-serif; -webkit-font-smoothing: antialiased; }*/
 
+
+
+.mobile-menu { float:left !important; }
+
+.mobile-contact-us { -webkit-box-sizing: border-box; -moz-box-sizing: border-box; box-sizing: border-box; line-height: 1px; display: none; }
+
 .pacifico { font-family: 'Pacifico', cursive; font-weight: normal; -webkit-font-smoothing: antialiased; }
 
 .navbar .navbar-form, .sidebar-item.widget_search .form { position: relative; }
@@ -820,7 +826,9 @@ label { font-weight: bold; color: #333333; }
 /* ========== */
 /* = Responsiveness= */
 /* ========== */
+@media (max-width: 1200px) { header .span6.sub-menu ul li:first-child:before { border-left: 0px; } }
 @media (min-width: 1200px) { body.boxed .master-wrapper, .boxed .navbar-fixed-top { width: 1220px; }
+    
   .navbar .nav > li > a { padding-left: 20px; padding-right: 20px; }
   .accepts-1 { width: 120px; }
   .accepts-2 { width: 220px; }
@@ -836,6 +844,8 @@ label { font-weight: bold; color: #333333; }
   .accepts-12 { width: 1220px; }
   .navbar .nav > li .dropdown-menu.supermenu > .row { margin-left: -5px; } }
 @media (max-width: 979px) { body.boxed .master-wrapper, .boxed .navbar-fixed-top { width: 774px; }
+    header .span6.sub-menu ul li:first-child:before { border-left: 0px; }
+    .desktop { display: none !important; }
   [class*="accepts-"] { width: auto; }
   #magic-line { display: none; }
   .navbar .container { width: 724px; }
@@ -854,10 +864,12 @@ label { font-weight: bold; color: #333333; }
   .dropdown-menu [class*="span"] { width: auto; float: none; }
   .sm-no-pull { float: none; } }
 @media (max-width: 767px) { .darker-stripe, .boxed-area, footer, .fullwidthbanner-container { margin-left: -20px; margin-right: -20px; }
+    .mobile { display:block; }
     .checkout-container { box-shadow: 0 0 0 #fff; -webkit-box-shadow: 0 0 0 #fff; }
     header .span6.sub-menu ul li { padding: 0 15px !important; }
     header .span6.sub-menu ul li:first-child { padding: 0 15px !important; }
     header .span6.sub-menu ul li:first-child:before { border-left: 0px; }
+    header .span6.sub-menu ul li:last-child { display:none; }
     .brand img { margin-left: 0px !important; }
   .darker-stripe, .boxed-area { padding-left: 20px; padding-right: 20px; }
   body.boxed { background: none !important; }
