@@ -8,7 +8,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "#{Store.settings.name} Order ##{@order.id} confirmation"
+            subject: "Gimson Robotics Order Receipt, ID #{@order.id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/completed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/completed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -24,7 +24,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "#{Store.settings.name} Order ##{@order.id} pending payment"
+            subject: "Gimson Robotics Order Received, Pending Payment, ID #{@order.id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/pending", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/pending", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -55,7 +55,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email,
             from: "#{Store.settings.name} <#{Store.settings.email}>", 
-            subject: "#{Store.settings.name} Order ##{@order.id} dispatched"
+            subject: "Dispatch Notification, Gimson Robotics Order ID #{@order.id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/dispatched", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/dispatched", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -67,7 +67,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email,
             from: "#{Store.settings.name} <#{Store.settings.email}>", 
-            subject: "#{Store.settings.name} Order ##{@order.id} delivery tracking updated"
+            subject: "Dispatch Update, Gimson Robotics Order ID #{@order.id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/tracking", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/tracking", layout: "../themes/#{Store.settings.theme.name}/layout/email" }

@@ -1,24 +1,51 @@
 <% content_for :title, "Stock Notification for #{@sku.product.name}" %>
 <% content_for :header, 'Stock Notification' %>
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title><%= yield :title %></title>
+    <meta content="Ewan Gimson" name="author">
+  </head>
+  <body>
+    <div style="margin-left: auto; margin-right: auto; display: table; width: 850px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+      <div style="width: 850px; vertical-align: middle; height:50px; margin-top: 20px; padding-bottom: 25px; border-bottom: 1px solid #cccccc; color: #000000; font-family: Helvetica,Arial,sans-serif;">
+        <table style="width: 100%" border="0">
+          <tbody>
+            <tr>
+              <td style="width: 370px;">
+                <%= link_to root_url do %>
+                  <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px;', alt: 'Gimson Robotics' %>
+                <% end %>
+              </td>
+              <td>
+                <div style="font-size: 20px; font-family: Helvetica,Arial,sans-serif; font-weight: bold;"><%= yield :header %></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:15px;"><br>
+          This is a notification to let you know that the item <a style="text-decoration: none; color: #008e99;"
 
-<div style="padding:15px;"><br>
-    This is a notification to let you know that the item <a style="text-decoration: none; color: #008e99;"
+            href="#"><span style="font-weight: bold;"><%= link_to @sku.product.name, category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
+          through our website.<br>
+          <br>
+          Please head over to <a style="text-decoration: none; color: #008e99;" href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
+          to place an order, or if you have any questions please send us a message
+          at <a style="text-decoration: none; color: #008e99;" href="mailto:support@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
+        </div>
+        <br>
+        <div style="width:100%; vertical-align: middle; border-top: 1px solid #cccccc; padding: 15px; font-size: 12px;"><span
 
-      href="#"><span style="font-weight: bold;"><%= link_to @sku.product.name, category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
-    through our website.<br>
-    <br>
-    Please head over to <a style="text-decoration: none; color: #008e99;" href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
-    to place an order, or if you have any questions please send us a message
-    at <a style="text-decoration: none; color: #008e99;" href="mailto:support@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
-  </div>
-  <br>
-  <div style="width:100%; vertical-align: middle; border-top: 1px solid #cccccc; padding: 15px; font-size: 12px;"><span
+            style="font-style: italic;">This is an automated message, generated
+            from a 'stock notification' request form on our website. This
+            notification should only appear once for each stock update request,
+            and not every time the item is re-stocked. If you think you have
+            received this message in error please let us know at <a style="text-decoration: none; color: #008e99;"
 
-      style="font-style: italic;">This is an automated message, generated
-      from a 'stock notification' request form on our website. This
-      notification should only appear once for each stock update request,
-      and not every time the item is re-stocked. If you think you have
-      received this message in error please let us know at <a style="text-decoration: none; color: #008e99;"
-
-        href="mailto:admin@gimsonrobotics.com">admin@gimsonrobotics.com</a></span><br>
-</div>
+              href="mailto:admin@gimsonrobotics.com">admin@gimsonrobotics.com</a></span><br>
+      </div>
+      </div>
+  </body>
+</html>

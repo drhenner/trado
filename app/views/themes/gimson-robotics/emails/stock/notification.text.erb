@@ -1,5 +1,9 @@
-<% content_for :title, 'Stock Notification' %>
+<% content_for :title, "Stock Notification for #{@sku.product.name}" %>
 <% content_for :header, 'Stock Notification' %>
+
+<%= yield :title %>
+
+<%= yield :header %>
 
 This is a notification to let you know that the item <%= @sku.product.name %> is now back in stock and available to order through our website.
 

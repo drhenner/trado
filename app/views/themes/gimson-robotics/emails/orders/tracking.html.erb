@@ -1,59 +1,87 @@
 <% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
 <% content_for :header, "Dispatch Notification" %>
-<div style="padding:15px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
-  <br>
-  <span style="font-weight: bold;">Your <a style="text-decoration: none; color: #008e99;"
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title><%= yield :title %></title>
+    <meta content="Ewan Gimson" name="author">
+  </head>
+  <body>
+    <div style="margin-left: auto; margin-right: auto; display: table; width: 850px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+      <div style="width: 850px; vertical-align: middle; height:50px; margin-top: 20px; padding-bottom: 25px; border-bottom: 1px solid #cccccc; color: #000000; font-family: Helvetica,Arial,sans-serif;">
+        <table style="width: 100%" border="0">
+          <tbody>
+            <tr>
+              <td style="width: 370px;">
+                <%= link_to root_url do %>
+                  <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px;', alt: 'Gimson Robotics' %>
+                <% end %>
+              </td>
+              <td>
+                <div style="font-size: 20px; font-family: Helvetica,Arial,sans-serif; font-weight: bold;"><%= yield :header %></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+      <div style="padding:15px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+        <br>
+        <span style="font-weight: bold;">Your <a style="text-decoration: none; color: #008e99;"
 
-      href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a> order ID <%= @order.id %> delivery has been updated</span><br>
-  <br>
-  <br>
-  <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
-    <tbody>
-      <tr>
-        <td style="width: 155px;"><b>Delivery method:</b></td>
-        <td><%= @order.delivery.full_name %><br>
-        </td>
-      </tr>
-      <tr>
-        <td><b>Service information:<br>
-          </b></td>
-        <td><%= @order.delivery.full_description %></td>
-      </tr>
-      <tr>
-        <td><b>Tracking number:</b></td>
-        <td><%= @order.tracking? ? @order.consignment_number : "Not Available" %><br>
-        </td>
-      </tr>
-      <tr>
-        <td><b>Tracking website:</b></td>
-        <td><%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %><br>
-        </td>
-      </tr>
-    </tbody>
-  </table>
-  <br>
-  <br>
-  The delivery details used are as below (unless we have separately
-  discussed a change of details with you):<br>
-  <br>
-  <table style="font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
-    <tbody>
-      <tr>
-        <td style="width: 350px;"><b>Delivery address:</b><br>
-          <%= @order.delivery_address.full_name %><br>
-          <%= @order.delivery_address.address %><br>
-          <%= @order.delivery_address.city %><br>
-          <%= @order.delivery_address.postcode %><br>
-          <%= @order.delivery_address.country %><br>
-          <br>
-          <b>Telephone:</b> <%= @order.delivery_address.telephone %></td>
-      </tr>
-    </tbody>
-  </table>
-  <br>
-  <br>
-  If you have any questions about your order please get in touch at<a style="text-decoration: none; color: #008e99;"
+            href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a> order ID <%= @order.id %> delivery has been updated</span><br>
+        <br>
+        <br>
+        <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+          <tbody>
+            <tr>
+              <td style="width: 155px;"><b>Delivery method:</b></td>
+              <td><%= @order.delivery.full_name %><br>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Service information:<br>
+                </b></td>
+              <td><%= @order.delivery.full_description %></td>
+            </tr>
+            <tr>
+              <td><b>Tracking number:</b></td>
+              <td><%= @order.tracking? ? @order.consignment_number : "Not Available" %><br>
+              </td>
+            </tr>
+            <tr>
+              <td><b>Tracking website:</b></td>
+              <td><%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %><br>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <br>
+        The delivery details used are as below (unless we have separately
+        discussed a change of details with you):<br>
+        <br>
+        <table style="font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+          <tbody>
+            <tr>
+              <td style="width: 350px;"><b>Delivery address:</b><br>
+                <%= @order.delivery_address.full_name %><br>
+                <%= @order.delivery_address.address %><br>
+                <%= @order.delivery_address.city %><br>
+                <%= @order.delivery_address.postcode %><br>
+                <%= @order.delivery_address.country %><br>
+                <br>
+                <b>Telephone:</b> <%= @order.delivery_address.telephone %></td>
+            </tr>
+          </tbody>
+        </table>
+        <br>
+        <br>
+        If you have any questions about your order please get in touch at<a style="text-decoration: none; color: #008e99;"
 
-    href="mailto:support@gimsonrobotics.com"> support@gimsonrobotics.com</a>,
-  quoting your order number.
-</div>
+          href="mailto:support@gimsonrobotics.com"> support@gimsonrobotics.com</a>,
+        quoting your order number.
+      </div>
+      </div>
+  </body>
+</html>
