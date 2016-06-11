@@ -1,29 +1,32 @@
 <% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
 <% content_for :header, "Dispatch Notification" %>
-<div style="padding:15px;">
-  <h1>Your <a href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a>
-    order ID <%= @order.id %> has been dispatched</h1>
+<div style="padding:15px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
   <br>
-  <table style="width: 700px;">
+  <span style="font-weight: bold;">Your <a style="text-decoration: none; color: #008e99;"
+
+      href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a> order ID <%= @order.id %> has been dispatched</span><br>
+  <br>
+  <br>
+  <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
     <tbody>
       <tr>
-        <td style="width: 140px;"><b>Delivery method:</b></td>
+        <td style="width: 155px;"><b>Delivery method:</b></td>
         <td><%= @order.delivery.full_name %><br>
         </td>
       </tr>
       <tr>
-        <td><b>Tracking available:</b></td>
-        <td><%= @order.tracking? ? "Yes" : "Not Available" %><br>
-        </td>
+        <td><b>Service information:<br>
+          </b></td>
+        <td><%= @order.delivery.full_description %></td>
       </tr>
       <tr>
         <td><b>Tracking number:</b></td>
-        <td><%= @order.tracking? ? @order.consignment_number : 'n/a' %><br>
+        <td><%= @order.tracking? ? @order.consignment_number : "Not Available" %><br>
         </td>
       </tr>
       <tr>
         <td><b>Tracking website:</b></td>
-        <td><%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'n/a' %><br>
+        <td><%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %><br>
         </td>
       </tr>
     </tbody>
@@ -33,7 +36,7 @@
   The delivery details used are as below (unless we have separately
   discussed a change of details with you):<br>
   <br>
-  <table>
+  <table style="font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
     <tbody>
       <tr>
         <td style="width: 350px;"><b>Delivery address:</b><br>
@@ -49,6 +52,8 @@
   </table>
   <br>
   <br>
-  If you have any questions about your order please get in touch at<a href="mailto:support@gimsonrobotics.com">
-    support@gimsonrobotics.com</a>, quoting your order number.
+  If you have any questions about your order please get in touch at<a style="text-decoration: none; color: #008e99;"
+
+    href="mailto:support@gimsonrobotics.com"> support@gimsonrobotics.com</a>,
+  quoting your order number.
 </div>

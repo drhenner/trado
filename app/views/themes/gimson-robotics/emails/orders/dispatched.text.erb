@@ -1,23 +1,19 @@
 <% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
 <% content_for :header, "Dispatch Notification" %>
 
-Your Gimson Robotics order ID <%= @order.id %> has been updated with new tracking information
+Your Gimson Robotics order ID <%= @order.id %> has been dispatched
 
-Delivery method:
+Delivery Method:
 ---------------------
 <%= @order.delivery.full_name %>
 
-Tracking available
+Tracking Number
 ---------------------
-<%= @order.tracking? ? "Yes" : "Not Available" %>
+<%= @order.tracking? ? @order.consignment_number : 'Not Available' %>
 
-Tracking number
+Tracking Website
 ---------------------
-<%= @order.tracking? ? @order.consignment_number : 'n/a' %>
-
-Tracking website
----------------------
-<%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'n/a' %>
+<%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %>
 
 The delivery details used are as below (unless we have separately discussed a change of details with you)
 ---------------------

@@ -1,12 +1,16 @@
+<% content_for :title, "Stock Notification for #{@sku.product.name}" %>
 <% content_for :header, 'Stock Notification' %>
 
 <div style="padding:15px;"><br>
-    This is a notification to let you know that the item <span style="font-weight: bold;"><%= link_to @sku.product.name, category_product_url(@sku.product.category, @sku.product) %></span> is now back in stock and available
-    to order through our website.<br>
+    This is a notification to let you know that the item <a style="text-decoration: none; color: #008e99;"
+
+      href="#"><span style="font-weight: bold;"><%= link_to @sku.product.name, category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
+    through our website.<br>
     <br>
-    Please head over to <a href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
+    Please head over to <a style="text-decoration: none; color: #008e99;" href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
     to place an order, or if you have any questions please send us a message
-    at <a href="mailto:admin@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
+    at <a style="text-decoration: none; color: #008e99;" href="mailto:support@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
+  </div>
   <br>
   <div style="width:100%; vertical-align: middle; border-top: 1px solid #cccccc; padding: 15px; font-size: 12px;"><span
 
@@ -14,5 +18,7 @@
       from a 'stock notification' request form on our website. This
       notification should only appear once for each stock update request,
       and not every time the item is re-stocked. If you think you have
-      received this message in error please let us know at <a href="mailto:admin@gimsonrobotics.com">admin@gimsonrobotics.com</a></span><br>
-  </div>
+      received this message in error please let us know at <a style="text-decoration: none; color: #008e99;"
+
+        href="mailto:admin@gimsonrobotics.com">admin@gimsonrobotics.com</a></span><br>
+</div>

@@ -4,28 +4,26 @@
     <meta content="text/html; charset=windows-1252" http-equiv="content-type">
     <title><%= yield :title %></title>
     <meta content="Ewan Gimson" name="author">
-    <style type="text/css">
-  body {color: #000000; font-family: Helvetica,Arial,sans-serif; font-size: 15px;}
-      h1 {font-size: 16px;} 
-      a {text-decoration: none; color: #008e99; -webkit-transition: color 0.2s ease; -moz-transition: color 0.2s ease; -o-transition: color 0.2s ease; transition: color 0.2s ease; }
-      a:hover { color: #004F55; }
-      .left-top {float: left; font-weight: bold; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;}
-      .right-top {float:left; width: 70px; font-weight: bold; text-align: right; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;}
-      .left {float: left; padding-top: 8px; padding-bottom: 0px;}
-      .right {float:left; width: 70px; text-align: right; padding-top: 8px; padding-bottom: 0px;}
-      hr {background: #cccccc; border: 0; height: 1px;}
-</style> </head>
+  </head>
   <body>
-    <div style="margin-left: auto;
-  margin-right: auto; display: table;">
-      <div style="width:850px; vertical-align: middle; height:50px; padding: 15px; padding-bottom: 25px; border-bottom: 1px solid #cccccc; color: #000000; font-weight: bold; font-size: 20px; position:relative;">
-        <a href="http://www.gimsonrobotics.co.uk">
-          <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:300px;height:42px;float:left;', alt: 'Gimson Robotics' %>
-        </a>
-        <div style="position:absolute; right: 0px; top:20px; font-size: 24px;"> <%= yield :header %>
-        </div>
+    <div style="margin-left: auto; margin-right: auto; display: table; width: 850px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+      <div style="width: 850px; vertical-align: middle; height:50px; margin-top: 20px; padding-bottom: 25px; border-bottom: 1px solid #cccccc; color: #000000; font-family: Helvetica,Arial,sans-serif;">
+        <table style="width: 100%" border="0">
+          <tbody>
+            <tr>
+              <td style="width: 370px;">
+                <%= link_to root_url do %>
+                  <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px;', alt: 'Gimson Robotics' %>
+                <% end %>
+              </td>
+              <td>
+                <div style="font-size: 20px; font-family: Helvetica,Arial,sans-serif; font-weight: bold;"><%= yield :header %></div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
       </div>
-      <%= yield %>
-    </div>
+        <%= yield %>
+      </div>
   </body>
 </html>
