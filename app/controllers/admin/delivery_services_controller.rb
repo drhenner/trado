@@ -40,7 +40,6 @@ class Admin::DeliveryServicesController < ApplicationController
     end
 
     if @delivery_service.update(params[:delivery_service])
-      binding.pry
       if @old_delivery_service
         @old_delivery_service.prices.active.each do |price|
           new_price = price.dup
