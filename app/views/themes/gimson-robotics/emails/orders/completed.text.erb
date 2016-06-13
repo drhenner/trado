@@ -15,7 +15,7 @@ United Kingdom
 (GB) 166536781
 
 Order ID:   <%= @order.id %>
-Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %>
+Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y %R") %>
 Payment by: <%= @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>
 Email: <%= @order.email %>

@@ -133,10 +133,10 @@ module ApplicationHelper
     # @param model [Object]
     # @param attribute [Object]
     # @return [String] error message
-    def errors_for model, attribute
+    def errors_for model, attribute, custom=false
         if model.errors[attribute].present?
             content_tag :span, :class => 'error-explanation' do
-                model.errors[attribute].join(", ")
+                model.errors[attribute].map{|e| "#{'Field' unless custom} #{e}"}.join(", ")
             end
         end
     end

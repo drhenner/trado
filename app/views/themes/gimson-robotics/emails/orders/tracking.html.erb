@@ -14,9 +14,7 @@
           <tbody>
             <tr>
               <td style="width: 370px;">
-                <%= link_to root_url do %>
-                  <%= image_tag "#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px;', alt: 'Gimson Robotics' %>
-                <% end %>
+                <%= link_to image_tag("#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px; height: 42px; float: left;', alt: 'Gimson Robotics'), root_url %>
               </td>
               <td>
                 <div style="font-size: 20px; font-family: Helvetica,Arial,sans-serif; font-weight: bold;"><%= yield :header %></div>

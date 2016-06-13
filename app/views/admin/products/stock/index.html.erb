@@ -22,7 +22,7 @@
           </tr>
         </thead>
         <tbody>
-          <% @skus.each do |sku| %>
+          <% @skus.sort_by(&:full_sku).each do |sku| %>
             <tr>
               <td>
                 <%= sku.full_sku %>

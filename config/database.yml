@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: gimson_robotics_dev
+  database: gmbackup
   pool: 5
   username: tomdallimore
   password: 
