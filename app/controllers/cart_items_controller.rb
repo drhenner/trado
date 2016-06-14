@@ -4,9 +4,9 @@ class CartItemsController < ApplicationController
 
   def create
     set_validate_cart_item
-    void_delivery_services
     void_session
     @cart_item = CartItem.increment(@sku, params[:cart_item][:quantity], params[:cart_item][:cart_item_accessory], current_cart)
+    void_delivery_services
     if @quantity > @sku.stock
       render partial: theme_presenter.page_template_path('carts/cart_items/validate/failed'), format: [:js], object: @sku
     else
@@ -16,7 +16,6 @@ class CartItemsController < ApplicationController
 
   def update
     set_validate_cart_item
-    void_delivery_services
     void_session
     @accessory = @cart_item.cart_item_accessory ? @cart_item.cart_item_accessory.accessory : nil
     @cart_item.update_quantity(params[:cart_item][:quantity], @accessory)
@@ -26,6 +25,7 @@ class CartItemsController < ApplicationController
       @cart_item.update_weight(params[:cart_item][:quantity], @cart_item.sku.weight, @accessory)
       @cart_item.save!
     end
+    void_delivery_services
     if @quantity > @sku.stock
       render partial: theme_presenter.page_template_path('carts/cart_items/validate/failed'), format: [:js], object: @sku
     else
@@ -38,6 +38,7 @@ class CartItemsController < ApplicationController
     void_session
     @cart_item = CartItem.find(params[:id])
     @cart_item.destroy
+    void_delivery_services
     render partial: theme_presenter.page_template_path('carts/update'), format: [:js]
   end  
 
