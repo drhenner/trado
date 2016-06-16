@@ -21,7 +21,6 @@ module Payatron4000
                           Rails.application.routes.url_helpers.mycart_carts_url
                         )
           )
-          binding.pry
           if response.success?
             return EXPRESS_GATEWAY.redirect_url_for(response.token)
           else
