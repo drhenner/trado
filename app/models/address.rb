@@ -41,4 +41,16 @@ class Address < ActiveRecord::Base
   def full_name
     [first_name, last_name].join(' ')
   end
+
+  def full_address
+    {
+      name: full_name,
+      address1: address,
+      city: city,
+      zip: postcode,
+      state: county,
+      country: 'GB',
+      telephone: telephone
+    }
+  end
 end

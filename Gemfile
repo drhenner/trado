@@ -141,3 +141,4 @@ gem 'searchkick'
 
 # documentation
 gem 'annotate'
+gem 'carmen'

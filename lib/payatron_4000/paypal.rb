@@ -21,6 +21,7 @@ module Payatron4000
                           Rails.application.routes.url_helpers.mycart_carts_url
                         )
           )
+          binding.pry
           if response.success?
             return EXPRESS_GATEWAY.redirect_url_for(response.token)
           else
@@ -49,6 +50,9 @@ module Payatron4000
               :ip                => ip_address,
               :return_url        => return_url,
               :cancel_return_url => cancel_url,
+              :address_override  => 0,
+              :shipping_address           => order.delivery_address.full_address,
+              :req_confirm_shipping => 0,
               :currency          => Store.settings.paypal_currency_code,
             }
         end
@@ -65,6 +69,9 @@ module Payatron4000
               :handling          => 0,
               :token             => order.express_token,
               :payer_id          => order.express_payer_id,
+              :address_override  => 1,
+              :shipping_address           => order.delivery_address.full_address,
+              :req_confirm_shipping => 0,
               :currency          => Store.settings.paypal_currency_code,
             }
         end

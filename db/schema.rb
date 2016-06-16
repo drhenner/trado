@@ -11,20 +11,20 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160607122749) do
+ActiveRecord::Schema.define(version: 20160616151321) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
 
   create_table "accessories", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",                                         null: false
-    t.datetime "updated_at",                                         null: false
+    t.string   "name",        limit: 255
+    t.datetime "created_at",                                                     null: false
+    t.datetime "updated_at",                                                     null: false
     t.integer  "part_number"
-    t.decimal  "price",       precision: 8, scale: 2
-    t.decimal  "weight",      precision: 8, scale: 2
-    t.decimal  "cost_value",  precision: 8, scale: 2
-    t.boolean  "active",                              default: true
+    t.decimal  "price",                   precision: 8, scale: 2
+    t.decimal  "weight",                  precision: 8, scale: 2
+    t.decimal  "cost_value",              precision: 8, scale: 2
+    t.boolean  "active",                                          default: true
   end
 
   create_table "accessorisations", force: :cascade do |t|
@@ -35,31 +35,31 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "addresses", force: :cascade do |t|
-    t.string   "first_name"
-    t.string   "last_name"
-    t.string   "company"
-    t.string   "address"
-    t.string   "city"
-    t.string   "county"
-    t.string   "postcode"
-    t.string   "country"
-    t.string   "telephone"
-    t.boolean  "active",           default: true
-    t.boolean  "default",          default: false
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.string   "first_name",       limit: 255
+    t.string   "last_name",        limit: 255
+    t.string   "company",          limit: 255
+    t.string   "address",          limit: 255
+    t.string   "city",             limit: 255
+    t.string   "county",           limit: 255
+    t.string   "postcode",         limit: 255
+    t.string   "country",          limit: 255
+    t.string   "telephone",        limit: 255
+    t.boolean  "active",                       default: true
+    t.boolean  "default",                      default: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "addressable_id"
-    t.string   "addressable_type"
+    t.string   "addressable_type", limit: 255
     t.integer  "order_id"
   end
 
   create_table "attachments", force: :cascade do |t|
-    t.string   "file"
+    t.string   "file",            limit: 255
     t.integer  "attachable_id"
-    t.string   "attachable_type"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "default_record",  default: false
+    t.string   "attachable_type", limit: 255
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.boolean  "default_record",              default: false
   end
 
   create_table "cart_item_accessories", force: :cascade do |t|
@@ -82,57 +82,58 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "carts", force: :cascade do |t|
-    t.datetime "created_at",            null: false
-    t.datetime "updated_at",            null: false
+    t.datetime "created_at",                        null: false
+    t.datetime "updated_at",                        null: false
     t.integer  "estimate_delivery_id"
-    t.string   "estimate_country_name"
+    t.string   "estimate_country_name", limit: 255
   end
 
   create_table "categories", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",             limit: 255
     t.text     "description"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
-    t.boolean  "active",           default: false
-    t.string   "slug"
-    t.integer  "sorting",          default: 0
-    t.string   "page_title"
-    t.string   "meta_description"
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
+    t.boolean  "active",                       default: false
+    t.string   "slug",             limit: 255
+    t.integer  "sorting",                      default: 0
+    t.string   "page_title",       limit: 255
+    t.string   "meta_description", limit: 255
   end
 
   create_table "countries", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at",                 null: false
-    t.datetime "updated_at",                 null: false
-    t.boolean  "popular",    default: false
+    t.string   "name",           limit: 255
+    t.datetime "created_at",                                 null: false
+    t.datetime "updated_at",                                 null: false
+    t.boolean  "popular",                    default: false
+    t.string   "alpha_two_code"
   end
 
   create_table "delivery_service_prices", force: :cascade do |t|
-    t.string   "code"
-    t.decimal  "price",               precision: 8, scale: 2
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
+    t.string   "code",                limit: 255
+    t.decimal  "price",                           precision: 8, scale: 2
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
     t.text     "description"
-    t.boolean  "active",                                      default: true
-    t.decimal  "min_weight",          precision: 8, scale: 2
-    t.decimal  "max_weight",          precision: 8, scale: 2
-    t.decimal  "min_length",          precision: 8, scale: 2
-    t.decimal  "max_length",          precision: 8, scale: 2
-    t.decimal  "min_thickness",       precision: 8, scale: 2
-    t.decimal  "max_thickness",       precision: 8, scale: 2
+    t.boolean  "active",                                                  default: true
+    t.decimal  "min_weight",                      precision: 8, scale: 2
+    t.decimal  "max_weight",                      precision: 8, scale: 2
+    t.decimal  "min_length",                      precision: 8, scale: 2
+    t.decimal  "max_length",                      precision: 8, scale: 2
+    t.decimal  "min_thickness",                   precision: 8, scale: 2
+    t.decimal  "max_thickness",                   precision: 8, scale: 2
     t.integer  "delivery_service_id"
   end
 
   create_table "delivery_services", force: :cascade do |t|
-    t.string   "name"
-    t.string   "description"
-    t.string   "courier_name"
+    t.string   "name",                limit: 255
+    t.string   "description",         limit: 255
+    t.string   "courier_name",        limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.boolean  "active",                                      default: true
-    t.decimal  "order_price_minimum", precision: 8, scale: 2, default: 0.0
-    t.decimal  "order_price_maximum", precision: 8, scale: 2
-    t.string   "tracking_url"
+    t.boolean  "active",                                                  default: true
+    t.decimal  "order_price_minimum",             precision: 8, scale: 2, default: 0.0
+    t.decimal  "order_price_maximum",             precision: 8, scale: 2
+    t.string   "tracking_url",        limit: 255
   end
 
   create_table "destinations", force: :cascade do |t|
@@ -143,7 +144,7 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "news_items", force: :cascade do |t|
-    t.string   "headline"
+    t.string   "headline",       limit: 255
     t.text     "content"
     t.datetime "published_date"
     t.datetime "created_at"
@@ -151,13 +152,13 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "notifications", force: :cascade do |t|
-    t.string   "email"
+    t.string   "email",           limit: 255
     t.integer  "notifiable_id"
-    t.datetime "created_at",                      null: false
-    t.datetime "updated_at",                      null: false
-    t.boolean  "sent",            default: false
+    t.datetime "created_at",                                  null: false
+    t.datetime "updated_at",                                  null: false
+    t.boolean  "sent",                        default: false
     t.datetime "sent_at"
-    t.string   "notifiable_type"
+    t.string   "notifiable_type", limit: 255
   end
 
   create_table "order_item_accessories", force: :cascade do |t|
@@ -180,38 +181,38 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "email"
+    t.string   "email",                limit: 255
     t.datetime "shipping_date"
-    t.datetime "created_at",                                               null: false
-    t.datetime "updated_at",                                               null: false
-    t.decimal  "actual_shipping_cost", precision: 8, scale: 2
+    t.datetime "created_at",                                                           null: false
+    t.datetime "updated_at",                                                           null: false
+    t.decimal  "actual_shipping_cost",             precision: 8, scale: 2
+    t.string   "express_token",        limit: 255
+    t.string   "express_payer_id",     limit: 255
     t.integer  "delivery_id"
-    t.string   "ip_address"
+    t.string   "ip_address",           limit: 255
     t.integer  "user_id"
-    t.decimal  "net_amount",           precision: 8, scale: 2
-    t.decimal  "gross_amount",         precision: 8, scale: 2
-    t.decimal  "tax_amount",           precision: 8, scale: 2
+    t.decimal  "net_amount",                       precision: 8, scale: 2
+    t.decimal  "gross_amount",                     precision: 8, scale: 2
+    t.decimal  "tax_amount",                       precision: 8, scale: 2
     t.boolean  "terms"
     t.integer  "cart_id"
-    t.integer  "shipping_status",                              default: 0
-    t.string   "consignment_number"
-    t.string   "express_token"
-    t.string   "express_payer_id"
+    t.integer  "shipping_status",                                          default: 0
+    t.string   "consignment_number",   limit: 255
   end
 
   create_table "pages", force: :cascade do |t|
-    t.string   "title"
+    t.string   "title",            limit: 255
     t.text     "content"
-    t.string   "page_title"
-    t.string   "meta_description"
-    t.boolean  "active",           default: false
+    t.string   "page_title",       limit: 255
+    t.string   "meta_description", limit: 255
+    t.boolean  "active",                       default: false
     t.datetime "created_at"
     t.datetime "updated_at"
-    t.string   "slug"
+    t.string   "slug",             limit: 255
     t.integer  "template_type"
-    t.string   "menu_title"
-    t.integer  "sorting",          default: 0
-    t.boolean  "visible_alert",    default: false
+    t.string   "menu_title",       limit: 255
+    t.integer  "sorting",                      default: 0
+    t.boolean  "visible_alert",                default: false
   end
 
   create_table "permissions", force: :cascade do |t|
@@ -222,29 +223,29 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string   "name"
+    t.string   "name",              limit: 255
     t.text     "description"
-    t.datetime "created_at",                       null: false
-    t.datetime "updated_at",                       null: false
+    t.datetime "created_at",                                   null: false
+    t.datetime "updated_at",                                   null: false
     t.integer  "weighting"
     t.integer  "part_number"
-    t.string   "sku"
+    t.string   "sku",               limit: 255
     t.integer  "category_id"
-    t.string   "slug"
-    t.string   "meta_description"
+    t.string   "slug",              limit: 255
+    t.string   "meta_description",  limit: 255
     t.boolean  "featured"
-    t.boolean  "active",            default: true
+    t.boolean  "active",                        default: true
     t.text     "short_description"
     t.text     "specification"
-    t.integer  "status",            default: 0
-    t.integer  "order_count",       default: 0
-    t.string   "page_title"
+    t.integer  "status",                        default: 0
+    t.integer  "order_count",                   default: 0
+    t.string   "page_title",        limit: 255
   end
 
   create_table "redactor_assets", force: :cascade do |t|
     t.integer  "user_id"
-    t.string   "data_file_name",               null: false
-    t.string   "data_content_type"
+    t.string   "data_file_name",    limit: 255, null: false
+    t.string   "data_content_type", limit: 255
     t.integer  "data_file_size"
     t.integer  "assetable_id"
     t.string   "assetable_type",    limit: 30
@@ -267,62 +268,62 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   add_index "related_products", ["related_id", "product_id"], name: "index_related_products_on_related_id_and_product_id", unique: true, using: :btree
 
   create_table "roles", force: :cascade do |t|
-    t.string   "name",       default: "user"
-    t.datetime "created_at",                  null: false
-    t.datetime "updated_at",                  null: false
+    t.string   "name",       limit: 255, default: "user"
+    t.datetime "created_at",                              null: false
+    t.datetime "updated_at",                              null: false
   end
 
   create_table "sku_variants", force: :cascade do |t|
     t.integer  "sku_id"
     t.integer  "variant_type_id"
-    t.string   "name"
+    t.string   "name",            limit: 255
     t.datetime "created_at"
     t.datetime "updated_at"
   end
 
   create_table "skus", force: :cascade do |t|
-    t.decimal  "price",               precision: 8, scale: 2
-    t.decimal  "cost_value",          precision: 8, scale: 2
+    t.decimal  "price",                           precision: 8, scale: 2
+    t.decimal  "cost_value",                      precision: 8, scale: 2
     t.integer  "stock"
     t.integer  "stock_warning_level"
-    t.string   "code"
-    t.datetime "created_at",                                                 null: false
-    t.datetime "updated_at",                                                 null: false
+    t.string   "code",                limit: 255
+    t.datetime "created_at",                                                             null: false
+    t.datetime "updated_at",                                                             null: false
     t.integer  "product_id"
-    t.decimal  "length",              precision: 8, scale: 2
-    t.decimal  "weight",              precision: 8, scale: 2
-    t.decimal  "thickness",           precision: 8, scale: 2
-    t.boolean  "active",                                      default: true
+    t.decimal  "length",                          precision: 8, scale: 2
+    t.decimal  "weight",                          precision: 8, scale: 2
+    t.decimal  "thickness",                       precision: 8, scale: 2
+    t.boolean  "active",                                                  default: true
   end
 
   create_table "stock_adjustments", force: :cascade do |t|
-    t.string   "description"
-    t.integer  "adjustment",  default: 1
+    t.string   "description", limit: 255
+    t.integer  "adjustment",              default: 1
     t.integer  "sku_id"
-    t.datetime "created_at",              null: false
-    t.datetime "updated_at",              null: false
+    t.datetime "created_at",                          null: false
+    t.datetime "updated_at",                          null: false
     t.integer  "stock_total"
   end
 
   create_table "store_settings", force: :cascade do |t|
-    t.string   "name",                                         default: "Trado"
-    t.string   "email",                                        default: "admin@example.com"
-    t.string   "currency",                                     default: "£"
-    t.string   "tax_name",                                     default: "VAT"
+    t.string   "name",                 limit: 255,                         default: "Trado"
+    t.string   "email",                limit: 255,                         default: "admin@example.com"
+    t.string   "currency",             limit: 255,                         default: "£"
+    t.string   "tax_name",             limit: 255,                         default: "VAT"
     t.integer  "user_id"
-    t.datetime "created_at",                                                                               null: false
-    t.datetime "updated_at",                                                                               null: false
-    t.string   "ga_code",                                      default: "UA-XXXXX-X"
-    t.boolean  "ga_active",                                    default: false
-    t.decimal  "tax_rate",             precision: 8, scale: 2, default: 20.0
-    t.boolean  "cheque",                                       default: false
-    t.boolean  "bank_transfer",                                default: false
-    t.boolean  "tax_breakdown",                                default: false
-    t.boolean  "alert_active",                                 default: false
-    t.text     "alert_message",                                default: "Type your alert message here..."
-    t.string   "alert_type",                                   default: "warning"
-    t.string   "theme_name",                                   default: "redlight"
-    t.string   "paypal_currency_code",                         default: "GBP"
+    t.datetime "created_at",                                                                                           null: false
+    t.datetime "updated_at",                                                                                           null: false
+    t.string   "ga_code",              limit: 255,                         default: "UA-XXXXX-X"
+    t.boolean  "ga_active",                                                default: false
+    t.decimal  "tax_rate",                         precision: 8, scale: 2, default: 20.0
+    t.boolean  "cheque",                                                   default: false
+    t.boolean  "bank_transfer",                                            default: false
+    t.boolean  "tax_breakdown",                                            default: false
+    t.boolean  "alert_active",                                             default: false
+    t.text     "alert_message",                                            default: "Type your alert message here..."
+    t.string   "alert_type",           limit: 255,                         default: "warning"
+    t.string   "theme_name",           limit: 255,                         default: "redlight"
+    t.string   "paypal_currency_code", limit: 255,                         default: "GBP"
     t.text     "introduction"
   end
 
@@ -334,51 +335,51 @@ ActiveRecord::Schema.define(version: 20160607122749) do
   end
 
   create_table "tags", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
   create_table "transactions", force: :cascade do |t|
-    t.string   "paypal_id"
-    t.string   "transaction_type"
-    t.string   "payment_type"
-    t.decimal  "fee",              precision: 8, scale: 2
+    t.string   "paypal_id",        limit: 255
+    t.string   "transaction_type", limit: 255
+    t.string   "payment_type",     limit: 255
+    t.decimal  "fee",                          precision: 8, scale: 2
     t.integer  "order_id"
-    t.decimal  "gross_amount",     precision: 8, scale: 2
-    t.decimal  "tax_amount",       precision: 8, scale: 2
-    t.datetime "created_at",                                           null: false
-    t.datetime "updated_at",                                           null: false
-    t.decimal  "net_amount",       precision: 8, scale: 2
-    t.string   "status_reason"
-    t.integer  "payment_status",                           default: 0
+    t.decimal  "gross_amount",                 precision: 8, scale: 2
+    t.decimal  "tax_amount",                   precision: 8, scale: 2
+    t.datetime "created_at",                                                       null: false
+    t.datetime "updated_at",                                                       null: false
+    t.decimal  "net_amount",                   precision: 8, scale: 2
+    t.string   "status_reason",    limit: 255
+    t.integer  "payment_status",                                       default: 0
     t.integer  "error_code"
   end
 
   create_table "users", force: :cascade do |t|
-    t.string   "email",                  default: "",       null: false
-    t.string   "encrypted_password",     default: "",       null: false
-    t.string   "reset_password_token"
+    t.string   "email",                  limit: 255, default: "",       null: false
+    t.string   "encrypted_password",     limit: 255, default: "",       null: false
+    t.string   "reset_password_token",   limit: 255
     t.datetime "reset_password_sent_at"
     t.datetime "remember_created_at"
-    t.integer  "sign_in_count",          default: 0
+    t.integer  "sign_in_count",                      default: 0
     t.datetime "current_sign_in_at"
     t.datetime "last_sign_in_at"
-    t.string   "current_sign_in_ip"
-    t.string   "last_sign_in_ip"
-    t.datetime "created_at",                                null: false
-    t.datetime "updated_at",                                null: false
-    t.string   "first_name",             default: "Joe"
-    t.string   "last_name",              default: "Bloggs"
+    t.string   "current_sign_in_ip",     limit: 255
+    t.string   "last_sign_in_ip",        limit: 255
+    t.datetime "created_at",                                            null: false
+    t.datetime "updated_at",                                            null: false
+    t.string   "first_name",             limit: 255, default: "Joe"
+    t.string   "last_name",              limit: 255, default: "Bloggs"
   end
 
   add_index "users", ["email"], name: "index_users_on_email", unique: true, using: :btree
   add_index "users", ["reset_password_token"], name: "index_users_on_reset_password_token", unique: true, using: :btree
 
   create_table "variant_types", force: :cascade do |t|
-    t.string   "name"
-    t.datetime "created_at", null: false
-    t.datetime "updated_at", null: false
+    t.string   "name",       limit: 255
+    t.datetime "created_at",             null: false
+    t.datetime "updated_at",             null: false
   end
 
 end
