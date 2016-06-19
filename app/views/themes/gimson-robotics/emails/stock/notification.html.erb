@@ -28,7 +28,7 @@
       <div style="padding:15px;"><br>
           This is a notification to let you know that the item <a style="text-decoration: none; color: #008e99;"
 
-            href="#"><span style="font-weight: bold;"><%= link_to @sku.product.name, category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
+            href="#"><span style="font-weight: bold;"><%= link_to "#{@sku.product.name} (#{@sku.variants.map{|v| v.name}.join(' / ')})", category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
           through our website.<br>
           <br>
           Please head over to <a style="text-decoration: none; color: #008e99;" href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
