@@ -70,6 +70,8 @@ class Product < ActiveRecord::Base
   accepts_nested_attributes_for :attachments
 
   searchkick word_start: [:name, :part_number, :sku, :tag_names]
+
+  scope :featured,                                            -> { where(featured: true) }
   
   default_scope { order(weighting: :desc) }
 
