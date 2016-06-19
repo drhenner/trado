@@ -107,19 +107,19 @@
                   .control-group.payment-options
                     .controls
                       .checkbox
-                        = radio_button_tag :payment_type, 'express-checkout', checked: check_payment_type('express-checkout', session[:payment_type]), tabindex: 11
+                        = radio_button_tag :payment_type, 'express-checkout', (session[:payment_type].nil? || check_payment_type('express-checkout', session[:payment_type])), tabindex: 11
                         = image_tag 'paypal-icon.png'
                         %p
                           Payment by Debit or Credit Card (PayPal account not required)
                     - if Store::settings.cheque
                       .controls
                         .checkbox
-                          = radio_button_tag :payment_type, 'cheque', checked: check_payment_type('express-checkout', session[:payment_type])
+                          = radio_button_tag :payment_type, 'cheque', check_payment_type('cheque', session[:payment_type])
                           Cheque
                     - if Store::settings.bank_transfer
                       .controls
                         .checkbox
-                          = radio_button_tag :payment_type, 'bank-transfer', checked: check_payment_type('express-checkout', session[:payment_type])
+                          = radio_button_tag :payment_type, 'bank-transfer', check_payment_type('bank-transfer', session[:payment_type])
                           Bank transfer
                   %h3 Delivery address
                   %hr
