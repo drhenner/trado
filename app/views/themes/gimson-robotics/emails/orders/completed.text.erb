@@ -16,7 +16,7 @@ United Kingdom
 
 Order ID:   <%= @order.id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y %R") %>
-Payment by: <%= @order.payment_type.titleize %>
+Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>
 <% if @order.paypal? %>
     <%= "#{Rails.application.secrets.transaction_link}#{@order.transactions.last.paypal_id}" %>
