@@ -78,9 +78,11 @@
       .span12
         %ul#myTab.nav.nav-tabs
           %li.active
-            %a{"data-toggle" => "tab", href: "#product-description"} Product Description
+            %a{"data-toggle" => "tab", href: "#product-description", :class => 'desktop'} Product Description
+            %a{"data-toggle" => "tab", href: "#product-description", :class => 'mobile'} Description
           %li
-            %a{"data-toggle" => "tab", href: "#technical-details"} Technical Details
+            %a{"data-toggle" => "tab", href: "#technical-details", :class => 'desktop'} Technical Details
+            %a{"data-toggle" => "tab", href: "#technical-details", :class => 'mobile'} Technical
         .tab-content
           #product-description.fade.in.tab-pane.active
             %p=raw @product.description

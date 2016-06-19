@@ -47,6 +47,13 @@
                       <td><%= @order.transactions.last.payment_status.titleize %><br>
                       </td>
                     </tr>
+                    <% if @order.paypal? %>
+                      <tr>
+                        <td><b>Transaction ID:</b></td>
+                        <td><%= link_to @order.transactions.last.paypal_id, "#{Rails.application.secrets.transaction_link}#{@order.transactions.last.paypal_id}", target: '_blank' %><br>
+                        </td>
+                      </tr>
+                    <% end %>
                   </tbody>
                 </table>
               </td>

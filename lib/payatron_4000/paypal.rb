@@ -50,7 +50,7 @@ module Payatron4000
               :return_url        => return_url,
               :cancel_return_url => cancel_url,
               :address_override  => 0,
-              :shipping_address           => order.delivery_address.full_address,
+              :shipping_address  => order.delivery_address.full_address,
               :req_confirm_shipping => 0,
               :currency          => Store.settings.paypal_currency_code,
             }
@@ -66,6 +66,8 @@ module Payatron4000
               :shipping          => Store::Price.new(price: order.delivery.price, tax_type: 'net').singularize,
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
+              :order_id          => order.id,
+              :items             => Payatron4000::Paypal.express_items(cart),
               :token             => order.express_token,
               :payer_id          => order.express_payer_id,
               :address_override  => 1,
