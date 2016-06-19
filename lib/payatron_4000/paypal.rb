@@ -45,7 +45,7 @@ module Payatron4000
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
               :order_id          => order.id,
-              :items             => Payatron4000::Paypal.express_items(cart),
+              :items             => Payatron4000::Paypal.express_items(cart.cart_items),
               :ip                => ip_address,
               :return_url        => return_url,
               :cancel_return_url => cancel_url,
@@ -67,7 +67,7 @@ module Payatron4000
               :tax               => Store::Price.new(price: order.tax_amount, tax_type: 'net').singularize,
               :handling          => 0,
               :order_id          => order.id,
-              :items             => Payatron4000::Paypal.express_items(cart),
+              :items             => Payatron4000::Paypal.express_items(order.order_items),
               :token             => order.express_token,
               :payer_id          => order.express_payer_id,
               :address_override  => 1,
@@ -80,9 +80,9 @@ module Payatron4000
         # Creates an aray of items which represent cart_items
         # This is passed into the express_setup_options method
         #
-        # @return [Array] list of cart items for PayPal
-        def self.express_items cart
-            cart.cart_items.collect do |item|
+        # @return [Array] list of cart/order items for PayPal
+        def self.express_items items
+            items.collect do |item|
                 {
                   :name               => item.sku.product.name,
                   :description        => item.sku.variants.map{|v| v.name.titleize}.join(' / '),
