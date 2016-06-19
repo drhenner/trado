@@ -17,3 +17,7 @@ every 1.week, at: '8:00 am' do
     rbenv_runner "RegeneratePopularCountriesJob.perform_later"
 end
 
+every 1.day, at: '8:30 am' do
+    rbenv_runner "StockWarningEmailJob.perform_later"
+end
+
