@@ -15,6 +15,7 @@ United Kingdom
 (GB) 166536781
 
 Order ID:   <%= @order.legacy_order_id %>
+Invoice number: <%= @order.invoice_id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y %R") %>
 Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>
