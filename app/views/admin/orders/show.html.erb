@@ -1,11 +1,11 @@
-<% content_for :title, "Order ##{@order.id}" %>
-<% content_for :breadcrumb, "##{@order.id}" %>
+<% content_for :title, "Order ##{@order.legacy_order_id}" %>
+<% content_for :breadcrumb, "##{@order.legacy_order_id}" %>
 <% breadcrumb_add 'Orders', admin_orders_path %>
 
 <div class="twelvecol">
   <div class="page-header">
     <h2 class="widget widget-header">
-      <%= "Order ##{@order.id}" %>
+      <%= "Order ##{@order.legacy_order_id}" %><span><%= " / Invoice ##{@order.invoice_id}" if @order.invoice_id.present? %></span>
     </h2>
   </div>
 </div>

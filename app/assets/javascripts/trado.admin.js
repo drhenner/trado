@@ -633,6 +633,7 @@ trado.admin =
                 {
                     $('#transaction-form').modal('hide');
                     $('tr#transaction_' + transactionId).html(data.transaction);
+                    $('.widget-header span').html(' / Invoice #' + data.invoice_id);
                     soca.animation.alert(
                         '.transaction-heading', 
                         'success', 

@@ -9,7 +9,7 @@
         <div class="modal-header">
           <h3 id="dispatchOrderModalLabel">
             Dispatch Order
-            <%= "##{order.id}" %>
+            <%= "##{order.legacy_order_id}" %>
           </h3>
         </div>
         <div class="modal-body">
@@ -17,7 +17,7 @@
             <% if order.actual_shipping_cost.blank? %>
               <p>You must set the <b>actual shipping cost</b> of an order before updating it for dispatch.</p>
             <% else %>
-              <p>Would you like to update <b>Order #<%= order.id %></b> as being dispatched today?</p>
+              <p>Would you like to update <b>Order #<%= order.legacy_order_id %></b> as being dispatched today?</p>
             <% end %>
           </fieldset>
         </div>

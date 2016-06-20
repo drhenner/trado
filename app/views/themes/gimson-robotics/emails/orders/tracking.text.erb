@@ -1,11 +1,11 @@
-<% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
+<% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.legacy_order_id}" %>
 <% content_for :header, "Dispatch Notification" %>
 
 <%= yield :title %>
 
 <%= yield :header %>
 
-Your Gimson Robotics order ID <%= @order.id %> delivery has been updated
+Your Gimson Robotics order ID <%= @order.legacy_order_id %> delivery has been updated
 
 Delivery Method:
 ---------------------

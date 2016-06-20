@@ -8,7 +8,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "Gimson Robotics Order Receipt, ID #{@order.id}"
+            subject: "Gimson Robotics Order Receipt, ID #{@order.legacy_order_id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/completed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/completed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -24,7 +24,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "Gimson Robotics Order Received, Pending Payment, ID #{@order.id}"
+            subject: "Gimson Robotics Order Received, Pending Payment, ID #{@order.legacy_order_id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/pending", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/pending", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -40,7 +40,7 @@ class OrderMailer < ActionMailer::Base
         
         mail(to: order.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "#{Store.settings.name} Order ##{@order.id} failed"
+            subject: "#{Store.settings.name} Order ##{@order.legacy_order_id} failed"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/failed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/failed", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -55,7 +55,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email,
             from: "#{Store.settings.name} <#{Store.settings.email}>", 
-            subject: "Dispatch Notification, Gimson Robotics Order ID #{@order.id}"
+            subject: "Dispatch Notification, Gimson Robotics Order ID #{@order.legacy_order_id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/dispatched", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/dispatched", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
@@ -67,7 +67,7 @@ class OrderMailer < ActionMailer::Base
 
         mail(to: order.email,
             from: "#{Store.settings.name} <#{Store.settings.email}>", 
-            subject: "Dispatch Update, Gimson Robotics Order ID #{@order.id}"
+            subject: "Dispatch Update, Gimson Robotics Order ID #{@order.legacy_order_id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/orders/tracking", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/orders/tracking", layout: "../themes/#{Store.settings.theme.name}/layout/email" }

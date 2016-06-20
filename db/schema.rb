@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160616151321) do
+ActiveRecord::Schema.define(version: 20160620113500) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -198,6 +198,8 @@ ActiveRecord::Schema.define(version: 20160616151321) do
     t.integer  "cart_id"
     t.integer  "shipping_status",                                          default: 0
     t.string   "consignment_number",   limit: 255
+    t.integer  "legacy_order_id"
+    t.integer  "invoice_id"
   end
 
   create_table "pages", force: :cascade do |t|
@@ -325,6 +327,7 @@ ActiveRecord::Schema.define(version: 20160616151321) do
     t.string   "theme_name",           limit: 255,                         default: "redlight"
     t.string   "paypal_currency_code", limit: 255,                         default: "GBP"
     t.text     "introduction"
+    t.integer  "master_invoice_id",                                        default: 3027
   end
 
   create_table "taggings", force: :cascade do |t|

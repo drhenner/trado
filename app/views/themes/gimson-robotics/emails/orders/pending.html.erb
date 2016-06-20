@@ -1,4 +1,4 @@
-<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.legacy_order_id}" %>
 <% content_for :header, "Order Received, Pending Payment" %>
 
 <!DOCTYPE html>
@@ -42,7 +42,7 @@
                   <tbody>
                     <tr>
                       <td style="width: 125px;"><b>Order ID:</b></td>
-                      <td><%= @order.id %><br>
+                      <td><%= @order.legacy_order_id %><br>
                       </td>
                     </tr>
                     <tr>

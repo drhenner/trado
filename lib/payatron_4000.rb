@@ -59,5 +59,12 @@ module Payatron4000
             ]
             return @fatal_codes.include?(error_code) ? true : false
         end
+
+        def set_order_invoice_id order
+            return unless order.completed?
+            next_invoice_id = Store.settings.master_invoice_id+1
+            order.update_column(:invoice_id, next_invoice_id)
+            Store.settings.update_column(:master_invoice_id, next_invoice_id)
+        end
     end  
 end

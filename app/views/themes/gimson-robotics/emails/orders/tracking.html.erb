@@ -1,4 +1,4 @@
-<% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.id}" %>
+<% content_for :title, "Dispatch Notification, Gimson Robotics Order ID #{@order.legacy_order_id}" %>
 <% content_for :header, "Dispatch Notification" %>
 <!DOCTYPE html>
 <html>
@@ -27,7 +27,7 @@
         <br>
         <span style="font-weight: bold;">Your <a style="text-decoration: none; color: #008e99;"
 
-            href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a> order ID <%= @order.id %> delivery has been updated</span><br>
+            href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a> order ID <%= @order.legacy_order_id %> delivery has been updated</span><br>
         <br>
         <br>
         <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">

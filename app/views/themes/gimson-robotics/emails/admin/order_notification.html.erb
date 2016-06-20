@@ -1,4 +1,4 @@
-<% content_for :title, "Order ID #{@order.id}, Name: #{@order.billing_address.full_name}, Method: #{@order.payment_type.titleize}" %>
+<% content_for :title, "Order ID #{@order.legacy_order_id}, Name: #{@order.billing_address.full_name}, Method: #{@order.payment_type.titleize}" %>
 
 <!DOCTYPE html>
 <html>
@@ -28,7 +28,7 @@
                   <tbody>
                     <tr>
                       <td style="width: 125px;"><b>Order ID:</b></td>
-                      <td><%= @order.id %><br>
+                      <td><%= @order.legacy_order_id %><br>
                       </td>
                     </tr>
                     <tr>
@@ -38,7 +38,7 @@
                     </tr>
                     <tr>
                       <td><b>Payment by:</b></td>
-                      <td><%= @order.payment_type.titleize %><br>
+                      <td><%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %><br>
                       </td>
                     </tr>
                     <tr>

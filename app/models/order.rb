@@ -30,10 +30,12 @@
 require 'reportatron_4000'
 
 class Order < ActiveRecord::Base
+  STARTING_LEGACY_ORDER_ID = 13439331
+
   attr_accessible :shipping_status, :shipping_date, :actual_shipping_cost, 
   :email, :delivery_id, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
-  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number
+  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id
   
   has_many :order_items,                                                dependent: :delete_all
   has_many :transactions,                                               dependent: :delete_all
@@ -50,6 +52,7 @@ class Order < ActiveRecord::Base
   validates :email,                                                     presence: { message: 'is required' }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :delivery_id,                                               presence: { message: 'Delivery option must be selected.'}                                                                                                                  
   validates :terms,                                                     inclusion: { :in => [true], message: 'Please confirm your acceptance of our terms and conditions to complete your order.' }
+  validates :legacy_order_id,                                           uniqueness: true, allow_nil: true
 
   scope :active,                                                        -> { includes(:transactions).where.not(transactions: { order_id: nil } ) }
 
@@ -71,8 +74,12 @@ class Order < ActiveRecord::Base
 
   scope :paypal,                                                        -> { completed_collection.where(transactions: { payment_type: 'express-checkout' }) }
 
+  scope :prev,                                                          ->(id) { where('id < ?', id).last }
+
   accepts_nested_attributes_for :delivery_address
   accepts_nested_attributes_for :billing_address
+
+  after_create :assign_legacy_order_id
 
   enum shipping_status: [:pending, :dispatched]
 
@@ -162,5 +169,10 @@ class Order < ActiveRecord::Base
 
   def tracking?
     self.consignment_number.nil? || self.delivery_service.tracking_url.nil? ? false : true
+  end
+
+  def assign_legacy_order_id
+    prev_order = Order.prev(id)
+    self.update_column(:legacy_order_id, prev_order.legacy_order_id.present? ? prev_order.legacy_order_id+1 : STARTING_LEGACY_ORDER_ID)
   end
 end

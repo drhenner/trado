@@ -85,7 +85,7 @@ module Payatron4000
             items.collect do |item|
                 {
                   :name               => item.sku.product.name,
-                  :description        => item.sku.variants.map{|v| v.name.titleize}.join(' / '),
+                  :description        => item.sku.product.name,
                   :amount             => Store::Price.new(price: item.price, tax_type: 'net').singularize, 
                   :quantity           => item.quantity 
                 }
@@ -141,13 +141,14 @@ module Payatron4000
                               :transaction_type         => 'Credit', 
                               :tax_amount               => response.params['PaymentInfo']['TaxAmount'], 
                               :paypal_id                => response.params['PaymentInfo']['TransactionID'], 
-                              :payment_type             => response.params['PaymentInfo']['TransactionType'],
+                              :payment_type             => 'express-checkout',
                               :net_amount               => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d,
                               :gross_amount             => response.params['PaymentInfo']['GrossAmount'],
                               :status_reason            => response.params['PaymentInfo']['PendingReason']
             ).save(validate: false)
             Payatron4000.update_stock(order)
             Payatron4000.increment_product_order_count(order.products)
+            Payatron4000.set_order_invoice_id(order)
         end
 
         

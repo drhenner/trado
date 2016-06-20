@@ -1,4 +1,4 @@
-<% content_for :title, "Order sUnsuccessful" %>
+<% content_for :title, "Order Unsuccessful" %>
 <% content_for :header, "Order Unsuccessful" %>
 
 <!DOCTYPE html>
@@ -27,7 +27,7 @@
       <div style="padding:15px;"><br>
         We're sorry to say that your recent attempt at payment through PayPal
         for your order on the Gimson Robotics website was unsuccessful. The
-        reason given is: [Paypal error output]<br>
+        reason given is: <%= @order.transactions.last.status_reason %><br>
         <br>
         Please <%= link_to "click here", retry_order_url(@order), style: 'text-decoration: none; color: #008e99;' %> to be taken back to the checkout and attempt payment again.
         If you continue having trouble you can contact us at <a style="text-decoration: none; color: #008e99;"

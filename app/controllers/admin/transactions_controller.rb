@@ -11,8 +11,9 @@ class Admin::TransactionsController < ApplicationController
         @transaction = Transaction.find(params[:id])
 
         if @transaction.update_attributes(params[:transaction])
+            Payatron4000.set_order_invoice_id(@transaction.order)
             Mailatron4000::Orders.confirmation_email(@transaction.order)
-            render json: { transaction: render_to_string(partial: 'admin/orders/transactions/single', locals: { transaction: @transaction }) }, status: 200
+            render json: { transaction: render_to_string(partial: 'admin/orders/transactions/single', locals: { transaction: @transaction }), invoice_id: @transaction.order.invoice_id }, status: 200
         else 
             render json: { errors: @transaction.errors.full_messages}, status: 422
         end
@@ -27,6 +28,7 @@ class Admin::TransactionsController < ApplicationController
             if notify.complete? and transaction.gross_amount.to_s == notify.params['mc_gross']
                 transaction.fee = notify.params['mc_fee']
                 transaction.completed!
+                Payatron4000.set_order_invoice_id(transaction.order)
             else
                 transaction.failed!
             end

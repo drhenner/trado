@@ -1,4 +1,4 @@
-<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.legacy_order_id}" %>
 <% content_for :header, "Order Completed" %>
 
 Thank you for your order with Gimson Robotics
@@ -14,7 +14,7 @@ BS6 6RU
 United Kingdom
 (GB) 166536781
 
-Order ID:   <%= @order.id %>
+Order ID:   <%= @order.legacy_order_id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y %R") %>
 Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>

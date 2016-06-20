@@ -1,4 +1,4 @@
-<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.id}" %>
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.legacy_order_id}" %>
 <% content_for :header, "INVOICE" %>
 
 <!DOCTYPE html>
@@ -29,9 +29,16 @@
                   <tbody>
                     <tr>
                       <td style="width: 125px;"><b>Order ID:</b></td>
-                      <td><%= @order.id %><br>
+                      <td><%= @order.legacy_order_id %><br>
                       </td>
                     </tr>
+                    <% if @order.invoice_id.present? %>
+                      <tr>
+                        <td><b>Invoice ID:</b></td>
+                        <td><%= @order.invoice_id %><br>
+                        </td>
+                      </tr>
+                    <% end %>
                     <tr>
                       <td><b>Date, time:</b></td>
                       <td><%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y %R") %><br>

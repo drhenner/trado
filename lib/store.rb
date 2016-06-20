@@ -11,16 +11,16 @@ module Store
         #
         # @return [Object] current store settings
         def settings
-          @@store_settings ||= StoreSetting.first
+          @store_settings ||= StoreSetting.first
         end
 
         # Clears the store_settings class variable so they can be taken
         # from the database when next accessed
         #
         # @return [nil]
-        def reset_settings
-          @@store_settings = nil
-        end
+        # def reset_settings
+        #   @@store_settings = nil
+        # end
 
         # Returns a divided value of the tax rate in the Store settings, ready for use in calculations
         #

@@ -31,7 +31,7 @@ class StoreSetting < ActiveRecord::Base
     attr_accessible :currency, :email, :name, :tax_name, :tax_rate, :tax_breakdown, 
     :user_id, :ga_active, :ga_code, :cheque, :bank_transfer, :attachment_attributes,
     :alert_active, :alert_type, :alert_message, :theme_name, :paypal_currency_code,
-    :introduction
+    :introduction, :master_invoice_id
 
     has_one :attachment,                                                  as: :attachable, dependent: :destroy
 
@@ -40,7 +40,7 @@ class StoreSetting < ActiveRecord::Base
 
     accepts_nested_attributes_for :attachment
 
-    after_save :reset_settings
+    # after_save :reset_settings
   
     def theme
         Theme.new(self.theme_name)
@@ -48,7 +48,7 @@ class StoreSetting < ActiveRecord::Base
 
     private
 
-    def reset_settings
-        Store.reset_settings
-    end
+    # def reset_settings
+    #     Store.reset_settings
+    # end
 end

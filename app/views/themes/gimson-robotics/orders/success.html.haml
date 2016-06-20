@@ -1,4 +1,4 @@
-- content_for :title, "Order ##{@order.id} successful"
+- content_for :title, "Order ##{@order.legacy_order_id} successful"
 - content_for :breadcrumb, 'Order successful'
 / ==========
 / = Breadcrumbs =
@@ -11,7 +11,7 @@
         %h1
           %span.light Order
           Successful
-        %p= "Thank you <b>#{@order.delivery_address.full_name}</b> your order number <b>#{@order.id}</b> has been received".html_safe
+        %p= "Thank you <b>#{@order.delivery_address.full_name}</b> your order number <b>#{@order.legacy_order_id}</b> has been received".html_safe
 
         %p= "You should soon receive an order confirmation at the email address provided (#{@order.email}). Please first check your spam folders and then contact us quoting the order number above if the email does not arrive.".html_safe
 

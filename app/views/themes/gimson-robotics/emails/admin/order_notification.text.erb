@@ -1,12 +1,12 @@
-<% content_for :title, "Order ID #{@order.id}, Name: #{@order.billing_address.full_name}, Method: #{@order.payment_type}" %>
+<% content_for :title, "Order ID #{@order.legacy_order_id}, Name: #{@order.billing_address.full_name}, Method: #{@order.payment_type}" %>
 
 <%= yield :title %>
 
 New order received through the website
 
-Order ID:   <%= @order.id %>
+Order ID:   <%= @order.legacy_order_id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %>
-Payment by: <%= @order.payment_type.titleize %>
+Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>
 Email: <%= @order.email %>
 

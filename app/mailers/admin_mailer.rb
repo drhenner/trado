@@ -5,7 +5,7 @@ class AdminMailer < ActionMailer::Base
 
         mail(to: Store.settings.email, 
             from: "#{Store.settings.name} <#{Store.settings.email}>",
-            subject: "Gimson Robotics Order Notification, ID #{@order.id}"
+            subject: "Gimson Robotics Order Notification, ID #{@order.legacy_order_id}"
         ) do |format|
             format.html { render "themes/#{Store.settings.theme.name}/emails/admin/order_notification", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
             format.text { render "themes/#{Store.settings.theme.name}/emails/admin/order_notification", layout: "../themes/#{Store.settings.theme.name}/layout/email" }
