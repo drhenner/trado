@@ -137,7 +137,6 @@
                 = "© Copyright #{Date.today.year} #{Store::settings.name}"
         / /bottom footer
       / /footer
-    %script{src: "http://maps.googleapis.com/maps/api/js?sensor=false", type: "text/javascript"}
     - if Store::settings.ga_active
       :javascript
         (function(i,s,o,g,r,a,m){i['GoogleAnalyticsObject']=r;i[r]=i[r]||function(){
