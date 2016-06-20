@@ -68,9 +68,9 @@ namespace :assets do
     task :refresh_sitemaps do
       run "cd #{latest_release} && RAILS_ENV=#{rails_env} bundle exec rake sitemap:refresh"
     end
-    desc "Symlink public"
-    task :symlink_public, :roles => :app do
-      run "ln -nfs #{shared_path}/public #{release_path}/public"
+    desc "Symlink resources"
+    task :symlink_resources, :roles => :app do
+      run "ln -nfs #{shared_path}/resources #{release_path}/public/resources"
     end
 end
 namespace :rollbar do
@@ -88,8 +88,8 @@ end
 default_run_options[:shell] = '/bin/bash --login'
 default_run_options[:pty] = false
 
-after :deploy, 'assets:symlink_public'
-after 'assets:symlink_public', 'configure:application'
+after :deploy, 'assets:symlink_resources'
+after 'assets:symlink_resources', 'configure:application'
 after 'configure:application', 'configure:database'
 after 'configure:database', 'database:migrate'
 # after 'configure:crontab', 'database:migrate'
