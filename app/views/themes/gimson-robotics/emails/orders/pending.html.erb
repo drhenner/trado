@@ -123,7 +123,7 @@
           <div style="float: left; width: 70px; font-weight: bold; text-align: right; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;">Amount</div>
           <% @order.order_items.each do |item| %>
             <div style="width: 500px; float: left; padding-top: 8px; padding-bottom: 0px;">
-              <%= link_to item.sku.product.name, category_product_url(item.sku.product.category, item.sku.product), style: 'text-decoration: none; color: #008e99;' %>
+              <%= link_to "#{item.sku.product.name} (#{item.sku.variants.map{|v| v.name.titleize}.join(' / ')})", category_product_url(item.sku.product.category, item.sku.product), style: 'text-decoration: none; color: #008e99;' %>
               <br>
               <% unless item.order_item_accessory.nil? %>
                 &nbsp;&nbsp;with: <%= item.order_item_accessory.accessory.name %>

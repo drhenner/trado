@@ -84,8 +84,8 @@ module Payatron4000
         def self.express_items items
             items.collect do |item|
                 {
-                  :name               => item.sku.product.name,
-                  :description        => item.sku.product.name,
+                  :name               => "#{item.sku.product.name} (#{item.sku.variants.map{|v| v.name.titleize}.join(' / ')})",
+                  :description        => "#{item.sku.product.name} (#{item.sku.variants.map{|v| v.name.titleize}.join(' / ')})",
                   :amount             => Store::Price.new(price: item.price, tax_type: 'net').singularize, 
                   :quantity           => item.quantity 
                 }
