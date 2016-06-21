@@ -48,7 +48,7 @@ class Order < ActiveRecord::Base
   has_one :billing_address,                                             -> { where addressable_type: 'OrderBillAddress'}, class_name: 'Address', dependent: :destroy
   has_one :delivery_service,                                            through: :delivery
 
-  validates :actual_shipping_cost,                                      presence: true, :if => :completed?
+  # validates :actual_shipping_cost,                                      presence: true, :if => :completed?
   validates :email,                                                     presence: { message: 'is required' }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :delivery_id,                                               presence: { message: 'Delivery option must be selected.'}                                                                                                                  
   validates :terms,                                                     inclusion: { :in => [true], message: 'Please confirm your acceptance of our terms and conditions to complete your order.' }
