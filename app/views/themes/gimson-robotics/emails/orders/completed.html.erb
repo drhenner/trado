@@ -57,7 +57,7 @@
                     <% if @order.paypal? %>
                       <tr>
                         <td><b>Transaction ID:</b></td>
-                        <td><%= link_to @order.transactions.last.paypal_id, "#{Rails.application.secrets.transaction_link}#{@order.transactions.last.paypal_id}", target: '_blank' %><br>
+                        <td><%= @order.transactions.last.paypal_id %><br>
                         </td>
                       </tr>
                     <% end %>

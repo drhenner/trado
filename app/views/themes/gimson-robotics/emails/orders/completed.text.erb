@@ -20,7 +20,7 @@ Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b 
 Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.transactions.last.payment_status.titleize %>
 <% if @order.paypal? %>
-    <%= "#{Rails.application.secrets.transaction_link}#{@order.transactions.last.paypal_id}" %>
+Transaction ID: <%= @order.transactions.last.paypal_id %>
 <% end %>
 Email: <%= @order.email %>
 

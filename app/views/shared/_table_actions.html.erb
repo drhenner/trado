@@ -23,6 +23,9 @@
     <a href="#" data-order-id="<%= object.last.id %>" id="dispatcher">
       <i class="icon-airplane"></i>
     </a>
+    <%= link_to receipt_admin_order_path(object.last) do %>
+      <i class="icon-file"></i>
+    <% end %>
   <% end %>
   <% if remote_delete %>
     <a href="#" data-url="<%= polymorphic_path(object) %>" class="<%= Store.class_name_id(object.last) %>-delete">

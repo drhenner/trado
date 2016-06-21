@@ -3,7 +3,6 @@ require 'sidekiq/web'
 Trado::Application.routes.draw do
 
   root to: 'store#home'
-
   # Custom routes
   get '/baskets/delivery_service_prices/update' => 'delivery_service_prices#update'
   get '/product/skus' => 'skus#update'
@@ -87,8 +86,9 @@ Trado::Application.routes.draw do
       end
       resources :orders, only: [:index, :show, :update, :edit] do
         member do
-          get 'dispatcher'
-          post 'dispatched'
+          get :dispatcher
+          post :dispatched
+          get :receipt
         end
       end
       resources :transactions, only: [:edit, :update]

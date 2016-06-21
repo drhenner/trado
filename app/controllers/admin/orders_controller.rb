@@ -45,6 +45,11 @@ class Admin::OrdersController < ApplicationController
     end
   end
 
+  def receipt
+    set_order
+    render theme_presenter.page_template_path('emails/orders/completed'), format: [:html], layout: "../themes/#{Store.settings.theme.name}/layout/email"
+  end
+
   private
 
   def set_order
