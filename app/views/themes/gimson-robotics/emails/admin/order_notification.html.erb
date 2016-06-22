@@ -73,6 +73,7 @@
               <tr>
                 <td style="width: 330px;"><b>Billing address:</b><br>
                   <%= @order.billing_address.full_name %><br>
+                  <%= @order.billing_address.company %><br>
                   <%= @order.billing_address.address %><br>
                   <%= @order.billing_address.city %><br>
                   <%= @order.billing_address.postcode %><br>
@@ -81,13 +82,14 @@
                   <b>Telephone:</b> <%= @order.billing_address.telephone %><br>
                 </td>
                 <td style="width: 330px;"><b>Delivery address:</b><br>
-                  <%= @order.billing_address.full_name %><br>
-                  <%= @order.billing_address.address %><br>
-                  <%= @order.billing_address.city %><br>
-                  <%= @order.billing_address.postcode %><br>
-                  <%= @order.billing_address.country %><br>
+                  <%= @order.delivery_address.full_name %><br>
+                  <%= @order.delivery_address.company %><br>
+                  <%= @order.delivery_address.address %><br>
+                  <%= @order.delivery_address.city %><br>
+                  <%= @order.delivery_address.postcode %><br>
+                  <%= @order.delivery_address.country %><br>
                   <br>
-                  <b>Telephone:</b> <%= @order.billing_address.telephone %></td>
+                  <b>Telephone:</b> <%= @order.delivery_address.telephone %></td>
               </tr>
             </tbody>
           </table>

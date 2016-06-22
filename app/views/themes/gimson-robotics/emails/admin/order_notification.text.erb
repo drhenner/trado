@@ -16,6 +16,7 @@ Tracking available: <%= @order.tracking? ? "Yes" : "No" %>
 Billing address
 ---------------------
 <%= @order.billing_address.full_name %>
+<%= @order.billing_address.company %>
 <%= @order.billing_address.address %>
 <%= @order.billing_address.city %>
 <%= @order.billing_address.postcode %>
@@ -26,6 +27,7 @@ Telephone: <%= @order.billing_address.telephone %>
 Delivery address
 ---------------------
 <%= @order.delivery_address.full_name %>
+<%= @order.delivery_address.company %>
 <%= @order.delivery_address.address %>
 <%= @order.delivery_address.city %>
 <%= @order.delivery_address.postcode %>
