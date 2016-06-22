@@ -58,6 +58,8 @@
     <div class="widget widget-content">
       <%= @order.billing_address.full_name %>
       <br/>
+      <%= @order.billing_address.company %>
+      <br/>
       <%= @order.billing_address.address %>
       <br/>
       <%= @order.billing_address.city %>
@@ -73,10 +75,12 @@
   </div>
   <div class="fourcol last">
     <div class="widget-sub-heading">
-      <h3>Shipping address</h3>
+      <h3>Delivery address</h3>
     </div>
     <div class="widget widget-content">
       <%= @order.delivery_address.full_name %>
+      <br/>
+      <%= @order.delivery_address.company %>
       <br/>
       <%= @order.delivery_address.address %>
       <br/>

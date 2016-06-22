@@ -2,6 +2,12 @@
   <%= order.legacy_order_id %>
 </td>
 <td>
+  <%= order.invoice_id %>
+</td>
+<td>
+  <%= order.billing_address.full_name %>
+</td>
+<td>
   <% if order.transactions.last.paypal_id.nil? %>
     -
   <% else %>
