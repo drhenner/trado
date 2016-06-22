@@ -1,5 +1,5 @@
-<% content_for :title, "Stock Notification for #{@sku.product.name}" %>
-<% content_for :header, 'Stock Notification' %>
+<% content_for :title, "Service Notification" %>
+<% content_for :header, 'Service Notification' %>
 <!DOCTYPE html>
 <html>
   <head>
@@ -26,14 +26,7 @@
         </table>
       </div>
       <div style="padding:15px;"><br>
-          This is a notification to let you know that the item <a style="text-decoration: none; color: #008e99;"
-
-            href="#"><span style="font-weight: bold;"><%= link_to "#{@sku.product.name} (#{@sku.variants.map{|v| v.name}.join(' / ')})", category_product_url(@sku.product.category, @sku.product), style: 'text-decoration: none; color: #008e99;' %></span></a> is now back in stock and available to order
-          through our website.<br>
-          <br>
-          Please head over to <a style="text-decoration: none; color: #008e99;" href="http://www.gimsonrobotics.co.uk">gimsonrobotics.co.uk</a>
-          to place an order, or if you have any questions please send us a message
-          at <a style="text-decoration: none; color: #008e99;" href="mailto:support@gimsonrobotics.com">support@gimsonrobotics.com</a><br>
+          <%= @content %><br>
         </div>
         <br>
       </div>

@@ -120,6 +120,7 @@
               <tr>
                 <td style="width: 330px;"><b>Billing address:</b><br>
                   <%= @order.billing_address.full_name %><br>
+                  <%= "#{@order.billing_address.company}<br>".html_safe if @order.billing_address.company.present? %>
                   <%= @order.billing_address.address %><br>
                   <%= @order.billing_address.city %><br>
                   <%= @order.billing_address.postcode %><br>
@@ -129,6 +130,7 @@
                 </td>
                 <td style="width: 330px;"><b>Delivery address:</b><br>
                   <%= @order.delivery_address.full_name %><br>
+                  <%= "#{@order.delivery_address.company}<br>".html_safe if @order.delivery_address.company.present? %>
                   <%= @order.delivery_address.address %><br>
                   <%= @order.delivery_address.city %><br>
                   <%= @order.delivery_address.postcode %><br>
