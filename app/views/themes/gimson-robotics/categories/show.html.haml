@@ -39,7 +39,7 @@
               / ==========
               / = Single Product =
               / ==========
-              .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.skus.first.price, "data-popularity" => product.order_count }
+              .span3.isotope--target.filter--accessories{"data-brand" => product.name, "data-price" => product.first_sku_price.price, "data-popularity" => product.order_count }
                 .product
                   .product-inner
                     .product-img
@@ -47,7 +47,7 @@
                         = link_to (image_tag product.attachments.first.file.large, :alt => product.name, :width => 540, :height => 374), [product.category, product]
                     .main-titles.no-margin
                       %h4.no-margin.isotope--title= link_to product.name, [product.category, product]
-                      = Store::Price.new(price: product.skus.first.price, count: product.skus.count).range
+                      = Store::Price.new(price: product.first_sku_price.price, count: product.skus.count).range
                       %p= product.meta_description
         %hr/
       / /main content

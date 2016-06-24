@@ -111,4 +111,8 @@ class Product < ActiveRecord::Base
   def should_generate_new_friendly_id?
     true
   end
+
+  def first_sku_price
+    skus.order(price: :asc).first
+  end
 end
