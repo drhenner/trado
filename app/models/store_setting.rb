@@ -40,7 +40,7 @@ class StoreSetting < ActiveRecord::Base
 
     accepts_nested_attributes_for :attachment
 
-    # after_save :reset_settings
+    after_save :reset_settings
   
     def theme
         Theme.new(self.theme_name)
@@ -48,7 +48,7 @@ class StoreSetting < ActiveRecord::Base
 
     private
 
-    # def reset_settings
-    #     Store.reset_settings
-    # end
+    def reset_settings
+        Store.reset_settings
+    end
 end
