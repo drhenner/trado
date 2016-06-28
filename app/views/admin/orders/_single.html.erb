@@ -8,17 +8,17 @@
   <%= order.billing_address.full_name %>
 </td>
 <td>
-  <% if order.transactions.last.paypal_id.nil? %>
+  <% if order.latest_transaction.paypal_id.nil? %>
     -
   <% else %>
-    <%= link_to(order.transactions.last.paypal_id, "#{Rails.application.secrets.transaction_link}#{order.transactions.last.paypal_id}", target: '_blank') %>
+    <%= link_to(order.latest_transaction.paypal_id, "#{Rails.application.secrets.transaction_link}#{order.latest_transaction.paypal_id}", target: '_blank') %>
   <% end %>
 </td>
 <td>
   <%= status_label order, order.shipping_status %>
 </td>
 <td>
-  <%= status_label order.transactions.last, order.transactions.last.payment_status %>
+  <%= status_label order.latest_transaction, order.latest_transaction.payment_status %>
 </td>
 <td>
   <%= Store::Price.new(price: order.gross_amount, tax_type: 'net').single %>

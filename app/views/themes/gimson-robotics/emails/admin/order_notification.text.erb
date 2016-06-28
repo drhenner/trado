@@ -7,7 +7,7 @@ New order received through the website
 Order ID:   <%= @order.legacy_order_id %>
 Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y") %>
 Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
-Payment status: <%= @order.transactions.last.payment_status.titleize %>
+Payment status: <%= @order.latest_transaction.payment_status.titleize %>
 Email: <%= @order.email %>
 
 Delivery method:    <%= @order.delivery.full_name %>

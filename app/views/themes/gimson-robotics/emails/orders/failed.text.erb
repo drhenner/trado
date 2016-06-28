@@ -2,7 +2,7 @@
 
 <%= yield :header %>
 
-We're sorry to say that your recent attempt at payment through PayPal for your order on the Gimson Robotics website was unsuccessful. The reason given is: <%= @order.transactions.last.status_reason %>
+We're sorry to say that your recent attempt at payment through PayPal for your order on the Gimson Robotics website was unsuccessful. The reason given is: <%= @order.latest_transaction.insufficient_funds? ? 'Insufficient Funds' : @order.latest_transaction.status_reason %>
 
 Please use the link below to be taken back to the checkout and attempt payment again. If you continue having trouble you can contact us at sales@gimsonrobotics.com.
 

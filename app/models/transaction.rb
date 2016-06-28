@@ -37,5 +37,9 @@ class Transaction < ActiveRecord::Base
     def generic?
         return payment_type == 'cheque' || payment_type == 'bank-transfer' ? true : false
     end
+
+    def insufficient_funds?
+        error_code == 10486 ? true : false
+    end
   
 end

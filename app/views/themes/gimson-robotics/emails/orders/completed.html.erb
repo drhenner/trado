@@ -51,13 +51,13 @@
                     </tr>
                     <tr>
                       <td><b>Payment status:</b></td>
-                      <td><%= @order.transactions.last.payment_status.titleize %><br>
+                      <td><%= @order.latest_transaction.payment_status.titleize %><br>
                       </td>
                     </tr>
                     <% if @order.paypal? %>
                       <tr>
                         <td><b>Transaction ID:</b></td>
-                        <td><%= @order.transactions.last.paypal_id %><br>
+                        <td><%= @order.latest_transaction.paypal_id %><br>
                         </td>
                       </tr>
                     <% end %>

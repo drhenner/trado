@@ -43,7 +43,7 @@
                     </tr>
                     <tr>
                       <td><b>Payment status:</b></td>
-                      <td><%= @order.transactions.last.payment_status %><br>
+                      <td><%= @order.latest_transaction.payment_status %><br>
                       </td>
                     </tr>
                   </tbody>

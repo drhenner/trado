@@ -175,4 +175,8 @@ class Order < ActiveRecord::Base
     prev_order = Order.prev(id)
     self.update_column(:legacy_order_id, prev_order.legacy_order_id.present? ? prev_order.legacy_order_id+1 : STARTING_LEGACY_ORDER_ID)
   end
+
+  def latest_transaction
+    transactions.order(created_at: :asc).last
+  end
 end

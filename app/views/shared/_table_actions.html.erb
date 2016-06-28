@@ -19,7 +19,7 @@
       <i class="icon-pencil"></i>
     </a>
   <% end %>
-  <% if order_record && object.last.transactions.last.completed? && object.last.pending? %>
+  <% if order_record && object.last.latest_transaction.completed? && object.last.pending? %>
     <a href="#" data-order-id="<%= object.last.id %>" id="dispatcher">
       <i class="icon-airplane"></i>
     </a>
