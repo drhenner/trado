@@ -11,7 +11,7 @@ module Store
         #
         # @return [Object] current store settings
         def settings
-          @@store_settings ||= StoreSetting.first
+          @@store_settings ||= ::StoreSetting.first
         end
 
         # Clears the store_settings class variable so they can be taken
