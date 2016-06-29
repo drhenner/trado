@@ -65,6 +65,6 @@ class CartsController < ApplicationController
     end
 
     def set_grouped_countries
-        @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.all.order('name ASC').map{ |country| [country.name, country.name] }] 
+        @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.all.order(name: :asc).map{ |country| [country.name, country.name] }] 
     end
 end
