@@ -49,6 +49,7 @@ class StoreSetting < ActiveRecord::Base
     private
 
     def reset_settings
-        Store.reset_settings
+        Rails.cache.delete("store_setting")
+        Rails.cache.write("store_setting", StoreSetting.first)
     end
 end

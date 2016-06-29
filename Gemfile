@@ -142,3 +142,6 @@ gem 'searchkick'
 # documentation
 gem 'annotate'
 gem 'carmen'
+
+# caching server
+gem 'dalli'
