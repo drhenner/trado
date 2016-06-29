@@ -47,7 +47,7 @@ class Admin::OrdersController < ApplicationController
 
   def receipt
     set_order
-    render theme_presenter.page_template_path('emails/orders/completed'), format: [:html], layout: "../themes/#{Store.settings.theme.name}/layout/email"
+    render theme_presenter.page_template_path('emails/orders/preview'), format: [:html], layout: "../themes/#{Store.settings.theme.name}/layout/email"
   end
 
   private

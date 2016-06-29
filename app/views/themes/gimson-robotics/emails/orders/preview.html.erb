@@ -1,0 +1,195 @@
+<% content_for :title, "Gimson Robotics Order Reciept, ID #{@order.legacy_order_id}" %>
+<% content_for :header, "INVOICE" %>
+
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta content="text/html; charset=windows-1252" http-equiv="content-type">
+    <title><%= yield :title %></title>
+    <meta content="Ewan Gimson" name="author">
+  </head>
+  <body>
+    <div style="margin-left: auto; margin-right: auto; display: table; width: 850px;">
+      <div style="width: 850px; vertical-align: middle; height:50px; padding: 15px; padding-bottom: 15px; border-bottom: 1px solid #cccccc; color: #000000; font-weight: bold; font-size: 24px;">
+        <%= link_to image_tag("#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px; height: 42px; float: left;', alt: 'Gimson Robotics'), root_url %>
+        <div style="margin-left: 700px; font-size: 26px; font-family: Helvetica,Arial,sans-serif;">
+          <%= yield :header %></div>
+      </div>
+      <div style="padding: 13px; font-size: 15px; font-family: Helvetica,Arial,sans-serif;">
+        <table style="width: 100%" border="0">
+          <tbody>
+            <tr>
+              <td style="width: 57%; font-weight: bold; font-family: Helvetica,Arial,sans-serif;">
+                <div style="font-size: 15px;"><span style="color: #d80000;">Thank
+                    you</span> for your order with <a style="text-decoration: none; color: #008e99;"
+
+                    href="http://www.gimsonrobotics.co.uk">Gimson Robotics</a></div>
+                <br>
+                <table style="font-family: Helvetica,Arial,sans-serif; font-size: 15px; font-weight: normal;">
+                  <tbody>
+                    <tr>
+                      <td style="width: 125px;"><b>Order ID:</b></td>
+                      <td><%= @order.legacy_order_id %><br>
+                      </td>
+                    </tr>
+                    <% if @order.invoice_id.present? %>
+                      <tr>
+                        <td><b>Invoice number:</b></td>
+                        <td><%= @order.invoice_id %><br>
+                        </td>
+                      </tr>
+                    <% end %>
+                    <tr>
+                      <td><b>Date, time:</b></td>
+                      <td><%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y %R") %><br>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Payment by:</b></td>
+                      <td><%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %><br>
+                      </td>
+                    </tr>
+                    <tr>
+                      <td><b>Payment status:</b></td>
+                      <td><%= @order.latest_transaction.payment_status.titleize %><br>
+                      </td>
+                    </tr>
+                    <% if @order.paypal? %>
+                      <tr>
+                        <td><b>Transaction ID:</b></td>
+                        <td><%= @order.latest_transaction.paypal_id %><br>
+                        </td>
+                      </tr>
+                    <% end %>
+                  </tbody>
+                </table>
+              </td>
+              <td>
+                <div style="width: 350px; border: 1px solid silver; padding: 5px; ">
+                  <table style="width: 100%; font-family: Helvetica,Arial,sans-serif; font-size: 15px;"
+
+                    border="0">
+                    <tbody>
+                      <tr>
+                        <td style="width: 130px;">Email address: <br>
+                          Business name: <br>
+                          Contact Address:<br>
+                          <br>
+                          <br>
+                          <br>
+                          UK VAT number:<br>
+                          Company number: </td>
+                        <td> <a style="text-decoration: none; color: #008e99;"
+
+                            href="mailto:support@gimsonrobotics.com">
+                            support@gimsonrobotics.com</a><br>
+                          Gimson Robotics Ltd<br>
+                          66 Raleigh Road<br>
+                          Bristol<br>
+                          BS3 1QT<br>
+                          United Kingdom<br>
+                          (GB) 166536781<br>
+                          08708521<br>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </td>
+            </tr>
+          </tbody>
+        </table>
+        <div style="float: left; width: 100%; margin-top: 5px;">
+          <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+            <tbody>
+              <tr>
+                <td style="width: 150px;"><b>Delivery method:</b></td>
+                <td><%= @order.delivery.full_name %><br>
+                </td>
+              </tr>
+              <tr>
+                <td style="vertical-align: top;"><b>Service information:</b></td>
+                <td style="vertical-align: top;"><%= @order.delivery.full_description %><br>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <table>
+            <tbody style="font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
+              <tr>
+                <td style="width: 330px;"><b>Billing address:</b><br>
+                  <%= @order.billing_address.full_name %><br>
+                  <%= "#{@order.billing_address.company}<br>".html_safe if @order.billing_address.company.present? %>
+                  <%= @order.billing_address.address %><br>
+                  <%= @order.billing_address.city %><br>
+                  <%= @order.billing_address.postcode %><br>
+                  <%= @order.billing_address.country %><br>
+                  <br>
+                  <b>Telephone:</b> <%= @order.billing_address.telephone %><br>
+                </td>
+                <td style="width: 330px;"><b>Delivery address:</b><br>
+                  <%= @order.delivery_address.full_name %><br>
+                  <%= "#{@order.delivery_address.company}<br>".html_safe if @order.delivery_address.company.present? %>
+                  <%= @order.delivery_address.address %><br>
+                  <%= @order.delivery_address.city %><br>
+                  <%= @order.delivery_address.postcode %><br>
+                  <%= @order.delivery_address.country %><br>
+                  <br>
+                  <b>Telephone:</b> <%= @order.delivery_address.telephone %></td>
+              </tr>
+            </tbody>
+          </table>
+          <br>
+          <div style="float: left; width: 100%; font-family: Helvetica,Arial,sans-serif; font-size: 15px;"><b>Email
+              address:</b> <a style="color: #000000"><%= @order.email %><br>
+              <br>
+              <br>
+            </a></div>
+        </div>
+        <br>
+        <br>
+        <div style="width: 840px; border: 1px solid #CCCCCC; padding: 10px; float:left; font-size: 15px;">
+          <div style="float: left; font-weight: bold; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px; width: 500px;">Product
+            Name</div>
+          <div style="float: left; font-weight: bold; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px; width: 130px;">SKU</div>
+          <div style="float: left; width: 70px; font-weight: bold; text-align: right; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;">Quantity</div>
+          <div style="float: left; width: 70px; font-weight: bold; text-align: right; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;">Price</div>
+          <div style="float: left; width: 70px; font-weight: bold; text-align: right; border-bottom: 1px solid #cccccc; padding-top: 4px; padding-bottom: 4px;">Amount</div>
+          <% @order.order_items.each do |item| %>
+            <div style="width: 500px; float: left; padding-top: 8px; padding-bottom: 0px;">
+              <%= link_to "#{item.sku.product.name} (#{item.sku.variants.map{|v| v.name.titleize}.join(' / ')})", category_product_url(item.sku.product.category, item.sku.product), style: 'text-decoration: none; color: #008e99;' %>
+              <br>
+              <% unless item.order_item_accessory.nil? %>
+                &nbsp;&nbsp;with: <%= item.order_item_accessory.accessory.name %>
+              <% end %>
+            </div>
+            <div style="width: 130px; float: left; padding-top: 8px; padding-bottom: 0px;"><%= item.sku.full_sku %></div>
+            <div style="float: left; width: 70px; text-align: right; padding-top: 8px; padding-bottom: 0px;"><%= item.quantity %></div>
+            <div style="float: left; width: 70px; text-align: right; padding-top: 8px; padding-bottom: 0px;"><%= Store::Price.new(price: item.price, tax_type: 'net' ).single %></div>
+            <div style="float: left; width: 70px; text-align: right; padding-top: 8px; padding-bottom: 0px;"><%= Store::Price.new(price: item.total_price, tax_type: 'net').single %><br>
+            </div>
+            <br>
+          <% end %>
+          <div style="width: 100%; float: right; text-align: right; padding-top: 8px; padding-bottom: 0px;">
+            <hr style="width: 250px; float: right; background: #cccccc; border: 0; height: 1px;"><b><br>
+              Subtotal:</b>
+            <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.net_amount, tax_type: 'net').single %></div>
+            <br>
+            <b>Delivery/Shipping:</b>
+            <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.delivery.price, tax_type: 'net').single %></div>
+            <br>
+            <b><br>
+              UK VAT (at 20%):</b>
+            <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.tax_amount, tax_type: 'net').single %></div>
+            <br>
+            <hr style="width: 200px; float: right; background: #cccccc; border: 0; height: 1px;">
+            <br>
+            <b>Total (GBP):</b>
+            <div style="width: 80px; float: right"><%= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single %></div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </body>
+</html>
