@@ -1,6 +1,8 @@
 require 'sidekiq/web'
 
 Trado::Application.routes.draw do
+  mount TradoGooglemerchantModule::Engine => '/google_merchant'
+
 
   root to: 'store#home'
   # Custom routes

@@ -1,6 +1,6 @@
 source 'https://rubygems.org'
 
-gem 'rails', '4.2.5'
+gem 'rails', '4.2.6'
 
 gem 'pg'
 
@@ -146,3 +146,5 @@ gem 'carmen'
 
 # caching server
 gem 'dalli'
+
+gem 'trado_googlemerchant_module', git: "git@github.com:Jellyfishboy/trado-googlemerchant-module.git"
