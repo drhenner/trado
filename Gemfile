@@ -147,4 +147,4 @@ gem 'carmen'
 # caching server
 gem 'dalli'
 
-gem 'trado_googlemerchant_module', git: "git@github.com:Jellyfishboy/trado-googlemerchant-module.git"
+gem 'trado_googlemerchant_module', github: 'Jellyfishboy/trado-googlemerchant-module', branch: 'master'
