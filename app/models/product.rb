@@ -112,7 +112,7 @@ class Product < ActiveRecord::Base
     true
   end
 
-  def first_sku_price
+  def first_available_sku
     skus.order(price: :asc).first
   end
 end

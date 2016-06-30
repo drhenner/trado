@@ -40,14 +40,14 @@
           .row
             = form_for [current_cart, @cart_item], html: { method: :post, remote: true, :class => 'form form-inline clearfix product_sku_form' } do |f|
               .span5
-                = Store::Price.new(price: @product.first_sku_price.price).markup 
+                = Store::Price.new(price: @product.first_available_sku.price).markup 
                 .options
                   - unless @product.single? && @product.accessories.active.empty?
                     %div Options:
                   - if @product.single?
-                    = f.hidden_field :sku_id, value: @product.first_sku_price.id
+                    = f.hidden_field :sku_id, value: @product.first_available_sku.id
                   - else
-                    = f.select :sku_id, options_for_select(@skus.map { |sku| [render_variants(sku), sku.id ] }, selected: @product.first_sku_price.id )
+                    = f.select :sku_id, options_for_select(@skus.map { |sku| [render_variants(sku), sku.id ] }, selected: @product.first_available_sku.id )
                   - unless @product.accessories.active.empty?
                     = f.fields_for @cart_item_accessory do |ff|
                       = ff.select :accessory_id, options_for_select(@product.accessories.active.map { |a| [accessory_details(a), a.id]}), prompt: "No accessory (+£0.00)"
@@ -58,16 +58,16 @@
                   %span.clickable.remove-one.fa.fa-minus-square
               .span2
                 %div.stock
-                  - if @product.first_sku_price.stock > 0
+                  - if @product.first_available_sku.stock > 0
                     %span.btn.btn-success.no-hover In Stock
                   - else 
                     %span.btn.btn-danger.no-hover Out of Stock
-                - if @product.first_sku_price.stock > 0
+                - if @product.first_available_sku.stock > 0
                   = button_tag(type: 'submit', :class => 'btn btn-danger pull-right add-to-cart', 'data-tracking' => 'true', 'data-tracking-category' => 'add-to-cart', 'data-tracking-name' => "#{@product.id}-#{@product.slug}") do
                     %i.fa.fa-shopping-cart
                     \  Add To Basket
                 - else
-                  = link_to notify_category_product_sku_path(@product.category, @product, @product.first_sku_price), :class => 'btn btn-warning pull-right notify-me', remote: true do
+                  = link_to notify_category_product_sku_path(@product.category, @product, @product.first_available_sku), :class => 'btn btn-warning pull-right notify-me', remote: true do
                     %i.fa.fa-envelope
                     &nbsp; Notify me
           %hr
@@ -121,7 +121,7 @@
                     = link_to (image_tag product.attachments.first.file.large, alt: product.name, width: 540, height: 374), [product.category, product]
                 .main-titles.no-margin
                   %h4.no-margin.isotope--title= link_to product.name, [product.category, product]
-                  = Store::Price.new(price: product.first_sku_price.price, count: product.skus.count).range
+                  = Store::Price.new(price: product.first_available_sku.price, count: product.skus.count).range
                   %p= product.meta_description
           / /product
 #notifyMeForm
