@@ -11,8 +11,13 @@ module Store
         #
         # @return [Object] current store settings
         def settings
-            Rails.cache.write("store_setting", StoreSetting.first) if Rails.cache.read("store_setting").nil? # triggered the first time a user loads the application or clears the cache server
-            Rails.cache.read("store_setting")
+            setting_cache = Rails.cache.read("store_setting")
+            if setting_cache.nil?
+                Rails.cache.write("store_setting", StoreSetting.first) 
+                Rails.cache.read("store_setting")
+            else
+                setting_cache
+            end
         end
 
         # Returns a divided value of the tax rate in the Store settings, ready for use in calculations
