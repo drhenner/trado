@@ -35,7 +35,7 @@
         / ==========
         .row
           #isotopeContainer.isotope-container
-            - @category.products.each do |product|
+            - @category.products.order(weighting: :desc).each do |product|
               / ==========
               / = Single Product =
               / ==========
