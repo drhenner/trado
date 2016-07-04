@@ -1,7 +1,7 @@
 GIT
   remote: git://github.com/Jellyfishboy/trado-googlemerchant-module.git
-  revision: 70283e6d7ebfb354921f6a783492fdf7c2af966f
-  branch: master
+  revision: 5baf1cfe8bdd4b861419a2af7ea404150518f21a
+  ref: master
   specs:
     trado_googlemerchant_module (0.0.1)
       rails (~> 4.2.6)

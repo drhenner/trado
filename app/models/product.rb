@@ -28,6 +28,8 @@
 #  updated_at               :datetime           not null
 #
 class Product < ActiveRecord::Base
+  has_googlemerchant
+
   include ActiveScope
   include HasSlug
   include HasSkus

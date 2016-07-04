@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160620113500) do
+ActiveRecord::Schema.define(version: 20160704111338) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -225,23 +225,25 @@ ActiveRecord::Schema.define(version: 20160620113500) do
   end
 
   create_table "products", force: :cascade do |t|
-    t.string   "name",              limit: 255
+    t.string   "name",                    limit: 255
     t.text     "description"
-    t.datetime "created_at",                                   null: false
-    t.datetime "updated_at",                                   null: false
+    t.datetime "created_at",                                         null: false
+    t.datetime "updated_at",                                         null: false
     t.integer  "weighting"
     t.integer  "part_number"
-    t.string   "sku",               limit: 255
+    t.string   "sku",                     limit: 255
     t.integer  "category_id"
-    t.string   "slug",              limit: 255
-    t.string   "meta_description",  limit: 255
+    t.string   "slug",                    limit: 255
+    t.string   "meta_description",        limit: 255
     t.boolean  "featured"
-    t.boolean  "active",                        default: true
+    t.boolean  "active",                              default: true
     t.text     "short_description"
     t.text     "specification"
-    t.integer  "status",                        default: 0
-    t.integer  "order_count",                   default: 0
-    t.string   "page_title",        limit: 255
+    t.integer  "status",                              default: 0
+    t.integer  "order_count",                         default: 0
+    t.string   "page_title",              limit: 255
+    t.string   "googlemerchant_brand"
+    t.string   "googlemerchant_category"
   end
 
   create_table "redactor_assets", force: :cascade do |t|
