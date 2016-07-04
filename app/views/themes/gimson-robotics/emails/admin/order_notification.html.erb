@@ -10,9 +10,7 @@
   <body>
     <div style="margin-left: auto; margin-right: auto; display: table; width: 850px;">
       <div style="width: 850px; vertical-align: middle; height:50px; padding: 15px; padding-bottom: 15px; border-bottom: 1px solid #cccccc; color: #000000; font-weight: bold; font-size: 24px;">
-        <a href="http://www.gimsonrobotics.co.uk"><img style="width:330px; height: 42px; float: left;"
-
-            alt="Gimson Robotics" src="http://www.gimsonrobotics.co.uk/other/Gimson-Robotics-Logo.jpg"></a>
+        <%= link_to image_tag("#{Rails.application.secrets.email_root}/gimson-robotics_logo.jpg", style: 'width:330px; height: 42px; float: left;', alt: 'Gimson Robotics'), root_url %>
         <div style="margin-left: 700px; font-size: 26px; font-family: Helvetica,Arial,sans-serif;">
         </div>
       </div>

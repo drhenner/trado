@@ -11,10 +11,10 @@ module Store
         #
         # @return [Object] current store settings
         def settings
-            setting_cache = Rails.cache.read("store_setting")
+            setting_cache = Rails.cache.read("gm_store_setting")
             if setting_cache.nil?
-                Rails.cache.write("store_setting", StoreSetting.first) 
-                Rails.cache.read("store_setting")
+                Rails.cache.write("gm_store_setting", StoreSetting.first) 
+                Rails.cache.read("gm_store_setting")
             else
                 setting_cache
             end

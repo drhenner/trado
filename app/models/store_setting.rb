@@ -49,7 +49,7 @@ class StoreSetting < ActiveRecord::Base
     private
 
     def reset_settings
-        Rails.cache.delete("store_setting")
-        Rails.cache.write("store_setting", StoreSetting.first)
+        Rails.cache.delete("gm_store_setting")
+        Rails.cache.write("gm_store_setting", StoreSetting.first)
     end
 end

@@ -1,5 +1,6 @@
 class CartsController < ApplicationController
     skip_before_action :authenticate_user!
+    before_action :validate_cart_items_presence, only: [:checkout]
 
     def mycart
         set_grouped_countries
@@ -66,5 +67,9 @@ class CartsController < ApplicationController
 
     def set_grouped_countries
         @grouped_countries = [Country.popular.map{ |country| [country.name, country.name] }, Country.all.order(name: :asc).map{ |country| [country.name, country.name] }] 
+    end
+
+    def validate_cart_items_presence
+        redirect_to mycart_carts_url if current_cart.cart_items.empty?
     end
 end
