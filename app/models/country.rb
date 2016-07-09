@@ -17,7 +17,7 @@ class Country < ActiveRecord::Base
 
 	attr_accessible :name
 
-	has_many :destinations,                               dependent: :delete_all
+	has_many :destinations,                               dependent: :destroy
 	has_many :delivery_services,                          through: :destinations
 	has_many :orders,									  through: :delivery_services
     has_many :products,                                   through: :orders

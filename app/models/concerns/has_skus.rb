@@ -20,7 +20,7 @@ module HasSkus
     # If not, returns a helpful error for the user
     # 
     def sku_attributes
-        if self.skus.active.map(&:valid?).include?(false)
+        if self.active_skus.map(&:valid?).include?(false)
             errors.add(:base, "You must complete all variants before publishing the product.")
             return false
         end

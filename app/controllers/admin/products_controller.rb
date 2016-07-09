@@ -4,7 +4,7 @@ class Admin::ProductsController < ApplicationController
 
   def index
     clean_drafts
-    @products = Product.active.load
+    @products = Product.includes(:category, :active_skus, :active_sku_variants).active.load
     @categories = Category.joins(:products).group('categories.id').all
   end
 

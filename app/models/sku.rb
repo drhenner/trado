@@ -29,12 +29,12 @@ class Sku < ActiveRecord::Base
   has_many :carts,                                                    through: :cart_items
   has_many :order_items,                                              dependent: :restrict_with_exception
   has_many :orders,                                                   through: :order_items, dependent: :restrict_with_exception
-  has_many :notifications,                                            as: :notifiable, dependent: :delete_all
+  has_many :notifications,                                            as: :notifiable, dependent: :destroy
   has_many :active_notifications,                                     -> { where(sent: false) }, class_name: 'Notification', as: :notifiable
-  has_many :stock_adjustments,                                        dependent: :delete_all
+  has_many :stock_adjustments,                                        dependent: :destroy
   has_one :category,                                                  through: :product
   belongs_to :product,                                                inverse_of: :skus
-  has_many :variants,                                                 dependent: :delete_all, class_name: 'SkuVariant', inverse_of: :sku
+  has_many :variants,                                                 dependent: :destroy, class_name: 'SkuVariant', inverse_of: :sku
   has_many :variant_types,                                            -> { uniq }, through: :variants
 
   validates :price, :cost_value, :length, 
@@ -89,7 +89,7 @@ class Sku < ActiveRecord::Base
   def variant_duplication
     return false if self.variants.map{|v| v.name.nil?}.include?(true) || self.variants.empty?
     @new_variant = self.variants.map{|v| v.name}.join('/')
-    @all_associated_variants = self.product.skus.active.where.not(id: self.id).map{|s| s.variants.map{|v| v.name}.join('/') }
+    @all_associated_variants = self.product.active_skus.where.not(id: self.id).map{|s| s.variants.map{|v| v.name}.join('/') }
     if @all_associated_variants.include?(@new_variant)
         errors.add(:base, "Variants combination already exists.")
         return false
@@ -107,7 +107,7 @@ class Sku < ActiveRecord::Base
   #
   # @return [Boolean]
   def last_active_sku?
-    product.skus.active.count == 1 ? true : false
+    product.active_skus.count == 1 ? true : false
   end
 
   # Checks if the product has any stock

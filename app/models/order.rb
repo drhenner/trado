@@ -37,8 +37,8 @@ class Order < ActiveRecord::Base
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
   :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id
   
-  has_many :order_items,                                                dependent: :delete_all
-  has_many :transactions,                                               dependent: :delete_all
+  has_many :order_items,                                                dependent: :destroy
+  has_many :transactions,                                               -> { order(created_at: :desc) }, dependent: :destroy
   has_many :products,                                                   through: :order_items
   has_many :skus,                                                       through: :order_items
 
@@ -55,6 +55,7 @@ class Order < ActiveRecord::Base
   validates :legacy_order_id,                                           uniqueness: true, allow_nil: true
 
   scope :active,                                                        -> { includes(:transactions).where.not(transactions: { order_id: nil } ) }
+  scope :incomplete,                                                    ->{ includes(:transactions).where(transactions: { order_id: nil } ) }
 
   scope :count_per_month,                                               -> { order("EXTRACT(month FROM transactions.updated_at)").group("EXTRACT(month FROM transactions.updated_at)").count }
 
@@ -163,7 +164,9 @@ class Order < ActiveRecord::Base
       :tax_total => tax_total,
       :completed_per_month => Reportatron4000.parse_count_per_month(Order.completed_collection.count_per_month),
       :failed_per_month => Reportatron4000.parse_count_per_month(Order.failed_collection.count_per_month),
-      :paypal_fee_total => completed_collection.sum('transactions.fee')
+      :paypal_fee_total => completed_collection.sum('transactions.fee'),
+      :active_carts => Cart.all.count,
+      :incomplete_orders => Order.incomplete.count
     }
   end
 
@@ -177,6 +180,6 @@ class Order < ActiveRecord::Base
   end
 
   def latest_transaction
-    transactions.order(created_at: :asc).last
+    transactions.last
   end
 end

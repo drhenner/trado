@@ -40,21 +40,23 @@ class Product < ActiveRecord::Base
   :featured, :short_description, :related_ids, :specification, :status, :active, :order_count, :variant_ids
 
   has_many :searches
-  has_many :skus,                                             dependent: :delete_all, inverse_of: :product
+  has_many :skus,                                             dependent: :destroy, inverse_of: :product
+  has_many :variants,                                         through: :skus, class_name: 'SkuVariant'
+  has_many :variant_types,                                    -> { uniq }, through: :variants
+  has_many :active_skus,                                      -> { where(active: true) }, class_name: 'Sku'
+  has_many :active_sku_variants,                              through: :active_skus, class_name: 'SkuVariant', source: :variants
   has_many :orders,                                           through: :skus
   has_many :carts,                                            through: :skus
-  has_many :taggings,                                         dependent: :delete_all
-  has_many :tags,                                             through: :taggings, dependent: :delete_all
-  has_many :attachments,                                      as: :attachable, dependent: :delete_all
-  has_many :accessorisations,                                 dependent: :delete_all
+  has_many :taggings,                                         dependent: :destroy
+  has_many :tags,                                             through: :taggings, dependent: :destroy
+  has_many :attachments,                                      as: :attachable, dependent: :destroy
+  has_many :accessorisations,                                 dependent: :destroy
   has_many :accessories,                                      through: :accessorisations
   has_and_belongs_to_many :related,                           class_name: "Product", 
                                                               join_table: :related_products, 
                                                               foreign_key: :product_id, 
                                                               association_foreign_key: :related_id
   belongs_to :category
-  has_many :variants,                                         through: :skus, class_name: 'SkuVariant'
-  has_many :variant_types,                                    -> { uniq }, through: :variants
 
   validates :name, :sku, :part_number,                        presence: true
   validates :meta_description, :description, 

@@ -36,6 +36,8 @@ module Store
         # @return [String] redirect url
         def build
             provider.build(cart, order, ip_address)
+        rescue => e
+            Rails.logger.error "#{order.payment_type.titleize}: #{e.message}"
         end
 
         # Triggers the complete method, under the respective payment provider class
