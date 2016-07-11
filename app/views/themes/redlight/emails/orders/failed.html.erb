@@ -8,9 +8,9 @@ Hello,
 
 Unfortunately your order was unsuccessful. 
 
-<% unless @order.transactions.last.status_reason.nil? %>
+<% unless @order.latest_transaction.status_reason.nil? %>
 Your order was unsuccessful for the following reason(s): 
-<%= @order.transactions.last.status_reason %>
+<%= @order.latest_transaction.status_reason %>
 <% end %>
 
 Your delivery option

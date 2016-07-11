@@ -116,7 +116,7 @@ class Order < ActiveRecord::Base
   #
   # @return [Boolean]
   def completed?
-    transactions.last.completed? unless transactions.empty?
+    latest_transaction.completed? unless transactions.empty?
   end
 
   # Returns the payment type for a specific order
