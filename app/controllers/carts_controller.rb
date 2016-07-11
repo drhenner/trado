@@ -23,6 +23,7 @@ class CartsController < ApplicationController
     def confirm
         set_cart_details
         set_grouped_countries
+        set_browser_data
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
@@ -71,5 +72,9 @@ class CartsController < ApplicationController
 
     def validate_cart_items_presence
         redirect_to mycart_carts_url if current_cart.cart_items.empty?
+    end
+
+    def set_browser_data
+        @order.browser = [browser.device.name,browser.platform.name,browser.name,browser.version].join(' / ') if browser.known?
     end
 end

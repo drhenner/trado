@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160704111338) do
+ActiveRecord::Schema.define(version: 20160711080448) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -200,6 +200,7 @@ ActiveRecord::Schema.define(version: 20160704111338) do
     t.string   "consignment_number",   limit: 255
     t.integer  "legacy_order_id"
     t.integer  "invoice_id"
+    t.string   "browser"
   end
 
   create_table "pages", force: :cascade do |t|

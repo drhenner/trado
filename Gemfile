@@ -148,3 +148,5 @@ gem 'carmen'
 gem 'dalli'
 
 gem 'trado_googlemerchant_module', github: 'Jellyfishboy/trado-googlemerchant-module', ref: 'master'
+
+gem 'browser'
