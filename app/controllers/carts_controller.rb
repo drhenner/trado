@@ -1,3 +1,5 @@
+require 'order_logger'
+
 class CartsController < ApplicationController
     skip_before_action :authenticate_user!
     before_action :validate_cart_items_presence, only: [:checkout]
@@ -10,6 +12,7 @@ class CartsController < ApplicationController
     def checkout
         set_cart_details
         set_grouped_countries
+        send_checkout_logs
         if current_cart.order.nil?
             @delivery_id = current_cart.estimate_delivery_id
             @delivery_address = @order.build_delivery_address
@@ -27,12 +30,17 @@ class CartsController < ApplicationController
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
+            OrderLog.info("carts#confirm #{basic_order_log_info} Successful Order save with [#{session[:payment_type]}]")
             @order.calculate(current_cart, Store.tax_rate)
+            OrderLog.info("carts#confirm #{basic_order_log_info} #{(@order.net_amount.present? && @order.tax_amount.present? && @order.gross_amount.present? && @order.cart_id.present?) ? 'Successful' : 'Failed'} Order Calculation")
             redirect_to Store::PayProvider.new(cart: current_cart, order: @order, provider: session[:payment_type], ip_address: request.remote_ip).build
         else
+            OrderLog.error("carts#confirm #{basic_order_log_info} Current invalid order object state: #{@order.inspect}")
+            OrderLog.error("carts#confirm #{basic_order_log_info} List of Order errors: #{@order.errors.messages}")
             render theme_presenter.page_template_path('carts/checkout'), layout: theme_presenter.layout_template_path
         end
     rescue ActiveMerchant::ConnectionError
+        OrderLog.error("carts#confirm #{basic_order_log_info} #{session[:payment_type]}: This API is temporarily unavailable.")
         flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'  
         Rails.logger.error "#{session[:payment_type]}: This API is temporarily unavailable."
         redirect_to checkout_carts_url
@@ -76,5 +84,10 @@ class CartsController < ApplicationController
 
     def set_browser_data
         @order.browser = [browser.device.name,browser.platform.name,browser.name,browser.version].join(' / ') if browser.known?
+    end
+
+    def send_checkout_logs
+        OrderLog.info("carts#checkout #{basic_order_log_info} #{current_cart.skus.map{|s| s.product.name }.join(', ')}")
+        OrderLog.info("carts#checkout #{basic_order_log_info} Browser: #{[browser.device.name,browser.platform.name,browser.name,browser.version].join(' / ') if browser.known?}")
     end
 end

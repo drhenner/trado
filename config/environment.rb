@@ -8,6 +8,7 @@ require_dependency 'payatron_4000'
 require_dependency 'deep_struct'
 require_dependency 'store'
 require_dependency 'renderer'
+require_dependency 'order_logger'
 
 # begin
 #     ActiveRecord::Base.connection

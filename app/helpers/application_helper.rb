@@ -176,4 +176,8 @@ module ApplicationHelper
         end
         flash_array.join('').html_safe
     end
+
+    def basic_order_log_info
+        "Cart: [#{current_cart.id}], Order [#{current_cart.order.nil? ? 'unknown' : current_cart.order.try(:id)}]:"
+    end
 end
