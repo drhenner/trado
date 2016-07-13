@@ -30,13 +30,13 @@ class CartsController < ApplicationController
         @order.attributes = params[:order]
         session[:payment_type] = params[:payment_type]
         if @order.save
-            OrderLog.info("carts#confirm #{basic_order_log_info} Successful Order save with [#{session[:payment_type]}]")
+            OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} Successful Order save with [#{session[:payment_type]}]")
             @order.calculate(current_cart, Store.tax_rate)
-            OrderLog.info("carts#confirm #{basic_order_log_info} #{(@order.net_amount.present? && @order.tax_amount.present? && @order.gross_amount.present? && @order.cart_id.present?) ? 'Successful' : 'Failed'} Order Calculation")
+            OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} #{(@order.net_amount.present? && @order.tax_amount.present? && @order.gross_amount.present? && @order.cart_id.present?) ? 'Successful' : 'Failed'} Order Calculation")
             redirect_to Store::PayProvider.new(cart: current_cart, order: @order, provider: session[:payment_type], ip_address: request.remote_ip).build
         else
-            OrderLog.error("carts#confirm #{basic_order_log_info} Current invalid order object state: #{@order.inspect}")
-            OrderLog.error("carts#confirm #{basic_order_log_info} List of Order errors: #{@order.errors.messages}")
+            OrderLog.error("carts#confirm #{user_info_log} #{basic_order_log_info} Current invalid order object state: #{@order.inspect}")
+            OrderLog.error("carts#confirm #{user_info_log} #{basic_order_log_info} List of Order errors: #{@order.errors.messages}")
             render theme_presenter.page_template_path('carts/checkout'), layout: theme_presenter.layout_template_path
         end
     rescue ActiveMerchant::ConnectionError
@@ -89,5 +89,9 @@ class CartsController < ApplicationController
     def send_checkout_logs
         OrderLog.info("carts#checkout #{basic_order_log_info} #{current_cart.skus.map{|s| s.product.name }.join(', ')}")
         OrderLog.info("carts#checkout #{basic_order_log_info} Browser: #{[browser.device.name,browser.platform.name,browser.name,browser.version].join(' / ') if browser.known?}")
+    end
+
+    def user_info_log
+      "Name: #{@order.billing_address.full_name}, Email: #{@order.email}, "
     end
 end
