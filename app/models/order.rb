@@ -35,7 +35,7 @@ class Order < ActiveRecord::Base
   attr_accessible :shipping_status, :shipping_date, :actual_shipping_cost, 
   :email, :delivery_id, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
-  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id
+  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type
   
   has_many :order_items,                                                dependent: :destroy
   has_many :transactions,                                               -> { order(created_at: :desc) }, dependent: :destroy
@@ -52,6 +52,7 @@ class Order < ActiveRecord::Base
   validates :email,                                                     presence: { message: 'is required' }, format: { with: /\A([^@\s]+)@((?:[-a-z0-9]+\.)+[a-z]{2,})\z/i }
   validates :delivery_id,                                               presence: { message: 'Delivery option must be selected.'}                                                                                                                  
   validates :terms,                                                     inclusion: { :in => [true], message: 'Please confirm your acceptance of our terms and conditions to complete your order.' }
+  validates :payment_type,                                              presence: true
   validates :legacy_order_id,                                           uniqueness: true, allow_nil: true
 
   scope :active,                                                        -> { includes(:transactions).where.not(transactions: { order_id: nil } ) }
@@ -83,6 +84,7 @@ class Order < ActiveRecord::Base
   after_create :assign_legacy_order_id
 
   enum shipping_status: [:pending, :dispatched]
+  enum payment_type: [:paypal]
 
   # Upon completing the checkout process, transfer the cart item data to new order item records 
   #
