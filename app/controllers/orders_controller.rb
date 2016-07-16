@@ -72,6 +72,7 @@ class OrdersController < ApplicationController
     
     def validate_confirm_render
       if session[:payment_type].nil?
+        OrderLog.error("orders#confirm #{user_info_log} #{basic_order_log_info} Failed payment type session retrieval: [#{session[:payment_type]}]")
         redirect_to checkout_carts_url
       elsif session[:payment_type] == 'express-checkout'
         if params[:token] && params[:PayerID]
@@ -79,7 +80,7 @@ class OrdersController < ApplicationController
           render theme_presenter.page_template_path('orders/confirm'), layout: theme_presenter.layout_template_path
         else
           flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'
-          Rails.logger.warn "Missing PayPal verification variables for order ##{@order.id}."
+          OrderLog.error("orders#confirm #{user_info_log} #{basic_order_log_info} Missing PayPal verification variables")
           redirect_to checkout_carts_url
         end
       else
