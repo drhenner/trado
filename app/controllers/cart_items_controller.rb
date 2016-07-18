@@ -56,7 +56,6 @@ class CartItemsController < ApplicationController
 
   def void_session
     session[:delivery_service_prices] = nil
-    session[:payment_type] = nil
   end
 
   def set_delivery_services

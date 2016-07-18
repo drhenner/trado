@@ -141,7 +141,7 @@ module Payatron4000
                               :transaction_type         => 'Credit', 
                               :tax_amount               => response.params['PaymentInfo']['TaxAmount'], 
                               :paypal_id                => response.params['PaymentInfo']['TransactionID'], 
-                              :payment_type             => 'express-checkout',
+                              :payment_type             => 'paypal',
                               :net_amount               => response.params['PaymentInfo']['GrossAmount'].to_d - response.params['PaymentInfo']['TaxAmount'].to_d,
                               :gross_amount             => response.params['PaymentInfo']['GrossAmount'],
                               :status_reason            => response.params['PaymentInfo']['PendingReason']
@@ -164,7 +164,7 @@ module Payatron4000
                               :transaction_type           => 'Credit', 
                               :tax_amount                 => order.tax_amount, 
                               :paypal_id                  => nil, 
-                              :payment_type               => 'express-checkout',
+                              :payment_type               => 'paypal',
                               :net_amount                 => order.net_amount,
                               :status_reason              => response.message,
                               :error_code                 => response.params["error_codes"].to_i

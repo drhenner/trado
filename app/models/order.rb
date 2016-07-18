@@ -74,7 +74,7 @@ class Order < ActiveRecord::Base
 
   scope :tax_total,                                                     -> { completed_collection.sum('transactions.tax_amount') }
 
-  scope :paypal,                                                        -> { completed_collection.where(transactions: { payment_type: 'express-checkout' }) }
+  scope :paypal,                                                        -> { completed_collection.where(transactions: { payment_type: 'paypal' }) }
 
   scope :prev,                                                          ->(id) { where('id < ?', id).last }
 
@@ -84,7 +84,7 @@ class Order < ActiveRecord::Base
   after_create :assign_legacy_order_id
 
   enum shipping_status: [:pending, :dispatched]
-  enum payment_type: [:paypal]
+  enum payment_type: [:paypal, :cheque, :bank_transfer]
 
   # Upon completing the checkout process, transfer the cart item data to new order item records 
   #
@@ -121,33 +121,33 @@ class Order < ActiveRecord::Base
     latest_transaction.completed? unless transactions.empty?
   end
 
-  # Returns the payment type for a specific order
-  #
-  # @return [String]
-  def payment_type
-    transactions.order(created_at: :desc).first.payment_type
-  end
+  # # Returns the payment type for a specific order
+  # #
+  # # @return [String]
+  # def payment_type
+  #   transactions.order(created_at: :desc).first.payment_type
+  # end
 
-  # Returns true if order payment type is paypal
-  #
-  # @return [Boolean]
-  def paypal?
-    payment_type == 'express-checkout' ? true : false
-  end
+  # # Returns true if order payment type is paypal
+  # #
+  # # @return [Boolean]
+  # def paypal?
+  #   payment_type == 'express-checkout' ? true : false
+  # end
 
   # Returns true if order payment type is bank transfer
   #
   # @return [Boolean]
-  def bank_transfer?
-    payment_type == 'bank-transfer' ? true : false
-  end
+  # def bank_transfer?
+  #   payment_type == 'bank-transfer' ? true : false
+  # end
 
-  # Returns true if order payment type is cheque
-  #
-  # @return [Boolean]
-  def cheque?
-    payment_type == 'cheque' ? true : false
-  end
+  # # Returns true if order payment type is cheque
+  # #
+  # # @return [Boolean]
+  # def cheque?
+  #   payment_type == 'cheque' ? true : false
+  # end
 
   # Returns true if the order is completed, marked as dispatched, consignment is not nil and has changed
   #
