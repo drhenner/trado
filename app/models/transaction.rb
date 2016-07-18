@@ -35,11 +35,10 @@ class Transaction < ActiveRecord::Base
     #
     # @return [Boolean]
     def generic?
-        return payment_type == 'cheque' || payment_type == 'bank-transfer' ? true : false
+        return payment_type == 'cheque' || payment_type == 'bank_transfer' ? true : false
     end
 
     def insufficient_funds?
         error_code == 10486 ? true : false
     end
-  
 end

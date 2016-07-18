@@ -66,10 +66,10 @@
               .span4
                 %h3 Payment details
                 %hr
-                  - if session[:payment_type] == 'express-checkout'
+                  - if @order.paypal?
                     = image_tag 'paypal-icon.png'
                   - else
-                    = session[:payment_type].titleize
+                    = @order.payment_type.titleize
             %hr
             %h3 Order details
             %table.table.table-items

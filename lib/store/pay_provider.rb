@@ -24,9 +24,9 @@ module Store
         #
         # @return [Object] correct pay provider object
         def provider
-            if @provider == 'express-checkout'
+            if @provider == 'paypal'
                 return Payatron4000::Paypal
-            elsif @provider == 'cheque' || @provider == 'bank-transfer'
+            elsif @provider == 'cheque' || @provider == 'bank_transfer'
                 return Payatron4000::Generic
             end
         end

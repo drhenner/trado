@@ -1,5 +1,3 @@
-require 'order_logger'
-
 class CartsController < ApplicationController
     skip_before_action :authenticate_user!
     before_action :validate_cart_items_presence, only: [:checkout]
@@ -28,21 +26,20 @@ class CartsController < ApplicationController
         set_grouped_countries
         set_browser_data
         @order.attributes = params[:order]
-        session[:payment_type] = params[:payment_type]
         if @order.save
-            OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} Successful Order save with [#{session[:payment_type]}]")
+            OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} Successful Order save with [#{@order.payment_type}]")
             @order.calculate(current_cart, Store.tax_rate)
             OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} #{(@order.net_amount.present? && @order.tax_amount.present? && @order.gross_amount.present? && @order.cart_id.present?) ? 'Successful' : 'Failed'} Order Calculation")
-            redirect_to Store::PayProvider.new(cart: current_cart, order: @order, provider: session[:payment_type], ip_address: request.remote_ip).build
+            redirect_to Store::PayProvider.new(cart: current_cart, order: @order, provider: @order.payment_type, ip_address: request.remote_ip).build
         else
             OrderLog.error("carts#confirm #{user_info_log} #{basic_order_log_info} Current invalid order object state: #{@order.inspect}")
             OrderLog.error("carts#confirm #{user_info_log} #{basic_order_log_info} List of Order errors: #{@order.errors.messages}")
             render theme_presenter.page_template_path('carts/checkout'), layout: theme_presenter.layout_template_path
         end
     rescue ActiveMerchant::ConnectionError
-        OrderLog.error("carts#confirm #{basic_order_log_info} #{session[:payment_type]}: This API is temporarily unavailable.")
+        OrderLog.error("carts#confirm #{basic_order_log_info} #{@order.payment_type}: This API is temporarily unavailable.")
         flash_message :error, 'An error ocurred when trying to complete your order. Please try again.'  
-        Rails.logger.error "#{session[:payment_type]}: This API is temporarily unavailable."
+        Rails.logger.error "#{@order.payment_type}: This API is temporarily unavailable."
         redirect_to checkout_carts_url
     end
 

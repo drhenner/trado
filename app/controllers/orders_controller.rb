@@ -11,13 +11,13 @@ class OrdersController < ApplicationController
     def complete
       set_order
       @order.transfer(current_cart)
-      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} Triggering complete order with [#{session[:payment_type]}]")
-      redirect_to Store::PayProvider.new(order: @order, provider: session[:payment_type], session: session).complete
+      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} Triggering complete order with [#{@order.payment_type}]")
+      redirect_to Store::PayProvider.new(order: @order, provider: @order.payment_type, session: session).complete
     end
 
     def success
       @order = Order.includes(:delivery_address).find(params[:id])
-      OrderLog.info("orders#success #{user_info_log} #{basic_order_log_info} Succesful Order [#{session[:payment_type]}]")
+      OrderLog.info("orders#success #{user_info_log} #{basic_order_log_info} Succesful Order [#{@order.payment_type}]")
       if @order.latest_transaction.pending? || @order.latest_transaction.completed?
         render theme_presenter.page_template_path('orders/success'), layout: theme_presenter.layout_template_path
       else
@@ -27,7 +27,7 @@ class OrdersController < ApplicationController
 
     def failed
       @order = Order.includes(:transactions).find(params[:id])
-      OrderLog.info("orders#failed #{user_info_log} #{basic_order_log_info} Failed Order [#{session[:payment_type]}]")
+      OrderLog.info("orders#failed #{user_info_log} #{basic_order_log_info} Failed Order [#{@order.payment_type}]")
       if @order.latest_transaction.failed?
         render theme_presenter.page_template_path('orders/failed'), layout: theme_presenter.layout_template_path
       else
@@ -37,10 +37,10 @@ class OrdersController < ApplicationController
 
     def retry
       set_order
-      OrderLog.info("orders#retry #{user_info_log} #{basic_order_log_info} Retry Order [#{session[:payment_type]}]")
+      OrderLog.info("orders#retry #{user_info_log} #{basic_order_log_info} Retry Order [#{@order.payment_type}]")
       @error_code = @order.latest_transaction.error_code
       if Payatron4000.fatal_error_code?(@error_code)
-        OrderLog.error("orders#retry #{user_info_log} #{basic_order_log_info} Retry Order FATAL [#{session[:payment_type]}]")
+        OrderLog.error("orders#retry #{user_info_log} #{basic_order_log_info} Retry Order FATAL [#{@order.payment_type}]")
       else
         @order.update_column(:cart_id, current_cart.id)
       end 
@@ -49,7 +49,7 @@ class OrdersController < ApplicationController
 
     def destroy
       set_order
-      OrderLog.info("orders#destroy #{user_info_log} #{basic_order_log_info} Destroy Order [#{session[:payment_type]}]")
+      OrderLog.info("orders#destroy #{user_info_log} #{basic_order_log_info} Destroy Order [#{@order.payment_type}]")
       Payatron4000.decommission_order(@order)
       flash_message :success, "Your order has been cancelled."
       redirect_to root_url
@@ -71,10 +71,7 @@ class OrdersController < ApplicationController
     end
     
     def validate_confirm_render
-      if session[:payment_type].nil?
-        OrderLog.error("orders#confirm #{user_info_log} #{basic_order_log_info} Failed payment type session retrieval: [#{session[:payment_type]}]")
-        redirect_to checkout_carts_url
-      elsif session[:payment_type] == 'express-checkout'
+      if @order.paypal?
         if params[:token] && params[:PayerID]
           Payatron4000::Paypal.assign_paypal_token(params[:token], params[:PayerID], @order) 
           render theme_presenter.page_template_path('orders/confirm'), layout: theme_presenter.layout_template_path
