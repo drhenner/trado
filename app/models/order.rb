@@ -74,8 +74,6 @@ class Order < ActiveRecord::Base
 
   scope :tax_total,                                                     -> { completed_collection.sum('transactions.tax_amount') }
 
-  scope :paypal,                                                        -> { completed_collection.where(transactions: { payment_type: 'paypal' }) }
-
   scope :prev,                                                          ->(id) { where('id < ?', id).last }
 
   accepts_nested_attributes_for :delivery_address
