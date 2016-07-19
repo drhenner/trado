@@ -91,6 +91,7 @@ Trado::Application.routes.draw do
           get :dispatcher
           post :dispatched
           get :receipt
+          delete :cancel, to: 'orders#cancel'
         end
       end
       resources :transactions, only: [:edit, :update]

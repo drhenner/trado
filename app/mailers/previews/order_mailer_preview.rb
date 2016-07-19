@@ -23,6 +23,6 @@ class OrderMailerPreview < ActionMailer::Preview
     private
 
     def mock_order
-        Order.active.last
+        Order.complete.last
     end
 end

@@ -35,7 +35,7 @@ class Order < ActiveRecord::Base
   attr_accessible :shipping_status, :shipping_date, :actual_shipping_cost, 
   :email, :delivery_id, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
-  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type
+  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type, :status
   
   has_many :order_items,                                                dependent: :destroy
   has_many :transactions,                                               -> { order(created_at: :desc) }, dependent: :destroy
@@ -55,12 +55,12 @@ class Order < ActiveRecord::Base
   validates :payment_type,                                              presence: true
   validates :legacy_order_id,                                           uniqueness: true, allow_nil: true
 
-  scope :active,                                                        -> { includes(:transactions).where.not(transactions: { order_id: nil } ) }
+  scope :complete,                                                      -> { active.includes(:transactions).where.not(transactions: { order_id: nil } ) }
   scope :incomplete,                                                    ->{ includes(:transactions).where(transactions: { order_id: nil } ) }
 
-  scope :count_per_month,                                               -> { order("EXTRACT(month FROM transactions.updated_at)").group("EXTRACT(month FROM transactions.updated_at)").count }
+  scope :count_per_month,                                               -> { active.order("EXTRACT(month FROM transactions.updated_at)").group("EXTRACT(month FROM transactions.updated_at)").count }
 
-  scope :last_transaction_collection,                                   -> { select('DISTINCT orders.id').joins(:transactions).where("transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)") }
+  scope :last_transaction_collection,                                   -> { select('DISTINCT orders.id').joins(:transactions).active.where("transactions.created_at = (SELECT MAX(transactions.created_at) FROM transactions WHERE transactions.order_id = orders.id)") }
 
   scope :pending_collection,                                            -> { last_transaction_collection.where(transactions: { payment_status: 0 } ) }
 
@@ -83,6 +83,7 @@ class Order < ActiveRecord::Base
 
   enum shipping_status: [:pending, :dispatched]
   enum payment_type: [:paypal, :cheque, :bank_transfer]
+  enum status: [:active, :cancelled]
 
   # Upon completing the checkout process, transfer the cart item data to new order item records 
   #
@@ -119,34 +120,6 @@ class Order < ActiveRecord::Base
     latest_transaction.completed? unless transactions.empty?
   end
 
-  # # Returns the payment type for a specific order
-  # #
-  # # @return [String]
-  # def payment_type
-  #   transactions.order(created_at: :desc).first.payment_type
-  # end
-
-  # # Returns true if order payment type is paypal
-  # #
-  # # @return [Boolean]
-  # def paypal?
-  #   payment_type == 'express-checkout' ? true : false
-  # end
-
-  # Returns true if order payment type is bank transfer
-  #
-  # @return [Boolean]
-  # def bank_transfer?
-  #   payment_type == 'bank-transfer' ? true : false
-  # end
-
-  # # Returns true if order payment type is cheque
-  # #
-  # # @return [Boolean]
-  # def cheque?
-  #   payment_type == 'cheque' ? true : false
-  # end
-
   # Returns true if the order is completed, marked as dispatched, consignment is not nil and has changed
   #
   # @return [Boolean]
@@ -181,5 +154,16 @@ class Order < ActiveRecord::Base
 
   def latest_transaction
     transactions.first
+  end
+
+  def restore_stock!
+    if self.cancelled?
+      self.order_items.each do |item|
+        sku = Sku.find(item.sku_id)
+        description = "Cancelled Order ##{self.id}"
+        stock_adjustment = StockAdjustment.new(description: description, adjustment: item.quantity, sku_id: item.sku_id)
+        stock_adjustment.save!
+      end
+    end
   end
 end

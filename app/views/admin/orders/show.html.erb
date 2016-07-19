@@ -4,6 +4,11 @@
 
 <div class="twelvecol">
   <div class="page-header">
+    <% if @order.active? %>
+      <%= link_to cancel_admin_order_path(@order), :class => "btn btn-red btn-large", "data-placement" => "bottom", "data-toggle" => "tooltip", title: "Cancel Order", method: :delete, data: { confirm: 'Are you sure?' } do %>
+        <i class="icon-close"></i>
+      <% end %>
+    <% end %>
     <h2 class="widget widget-header">
       <%= "Order ##{@order.legacy_order_id}" %><span><%= " / Invoice ##{@order.invoice_id}" if @order.invoice_id.present? %></span>
     </h2>

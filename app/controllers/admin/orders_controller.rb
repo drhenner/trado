@@ -3,7 +3,7 @@ class Admin::OrdersController < ApplicationController
   layout 'admin'
 
   def index
-    @orders = Order.includes(:billing_address, :transactions).active.order(created_at: :desc)
+    @orders = Order.includes(:billing_address, :transactions).complete.order(created_at: :desc)
   end
 
   def show
@@ -50,9 +50,16 @@ class Admin::OrdersController < ApplicationController
     render theme_presenter.page_template_path('emails/orders/preview'), format: [:html], layout: "../themes/#{Store.settings.theme.name}/layout/email"
   end
 
+  def cancel
+    set_order
+    @order.cancelled!
+    @order.restore_stock!
+    redirect_to admin_orders_url
+  end
+
   private
 
   def set_order
-    @order ||= Order.find(params[:id])
+    @order ||= Order.active.find(params[:id])
   end
 end
