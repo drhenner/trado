@@ -4,11 +4,6 @@ gem 'rails', '4.2.6'
 
 gem 'pg'
 
-# Production gems
-group :production do
-  gem 'unicorn-worker-killer'
-end
-
 # Development gems
 group :development do
     gem 'better_errors'
@@ -17,12 +12,9 @@ group :development do
     gem 'quiet_assets'
     gem 'spring'
     # gem 'rack-mini-profiler'
-    gem 'capistrano', '~> 2.15'
     gem 'bullet'
     gem 'metric_fu'
-    gem 'capistrano-unicorn', :require => false, platforms: :ruby
     gem 'thin'
-    gem 'capistrano-sidekiq'
 end
 
 group :test do
@@ -55,9 +47,6 @@ gem 'jquery-rails'
 gem 'uglifier', '>= 1.0.3'
 gem 'asset_sync'
 gem 'sprockets', '2.11.0'
-
-# Web server
-gem 'unicorn', :platforms => :ruby
 
 # AJAX file upload
 gem 'remotipart', '~> 1.2'
@@ -150,3 +139,10 @@ gem 'dalli'
 gem 'trado_googlemerchant_module', github: 'Jellyfishboy/trado-googlemerchant-module', ref: 'master'
 
 gem 'browser'
+
+# deployment
+gem 'unicorn'
+gem 'capistrano'
+gem 'capistrano-bundler'
+gem 'capistrano-rails', '~> 1.1'
+gem 'capistrano-rbenv', "~> 2.0" 

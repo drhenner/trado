@@ -1,100 +1,114 @@
+# config valid only for current version of Capistrano
+lock '3.5.0'
+
 set :application, 'gimson_robotics'
-set :user, 'rails'
-set :scm, 'git'
-set :repository, 'git@bitbucket.org:Jellyfish_boy/gimson-robotics.git'
-set :scm_verbose, true
-set :domain, '188.166.73.108'
-set :deploy_to, '/home/rails'
-set :branch, 'gimsonrobotics'
+set :deploy_user, 'deploy'
 
-server domain, :app, :web, :db, :primary => true
+# setup repo details
+set :scm, :git
+set :repo_url, 'git@bitbucket.org:Jellyfish_boy/gimson-robotics.git'
 
-require 'capistrano-unicorn'
-require 'capistrano/sidekiq'
+# setup rbenv.
+set :rbenv_type, :system
+set :rbenv_ruby, '2.3.0'
+set :rbenv_path, '/home/deploy/.rbenv'
+set :rbenv_prefix, "RBENV_ROOT=#{fetch(:rbenv_path)} RBENV_VERSION=#{fetch(:rbenv_ruby)} #{fetch(:rbenv_path)}/bin/rbenv exec"
+set :rbenv_map_bins, %w{rake gem bundle ruby rails}
 
-# Cron jobs
-set :whenever_command, "whenever"
-require "whenever/capistrano"
+# how many old releases do we want to keep, not much
+set :keep_releases, 5
 
-# Bundler for remote gem installs
-require "bundler/capistrano"
+# files we want symlinking to specific entries in shared
+set :linked_files, %w{config/database.yml config/secrets.yml}
 
-# Only keep the latest 3 releases
-set :keep_releases, 3
-after "deploy:restart", "deploy:cleanup"
+# dirs we want symlinking to shared
+set :linked_dirs, %w{bin log tmp/pids tmp/cache tmp/sockets vendor/bundle public/system}
 
-set :normalize_asset_timestamps, false
+# what specs should be run before deployment is allowed to
+# continue, see lib/capistrano/tasks/run_tests.cap
+set :tests, []
 
-# deploy config
-set :deploy_via, :remote_cache
-set :copy_exclude, [".git", ".DS_Store", ".gitignore", ".gitmodules"]
-set :use_sudo, false
+# which config files should be copied by deploy:setup_config
+# see documentation in lib/capistrano/tasks/setup_config.cap
+# for details of operations
+set(:config_files, %w(
+  nginx.conf
+  log_rotation
+  monit
+  unicorn.rb
+  unicorn_init.sh
+  sidekiq_init.sh
+))
 
-# For RBENV
-set :default_environment, {
-  'PATH' => "$HOME/.rbenv/shims:$HOME/.rbenv/bin:$PATH"
-}
+# which config files should be made executable after copying
+# by deploy:setup_config
+set(:executable_config_files, %w(
+  unicorn_init.sh
+  sidekiq_init.sh
+))
 
-namespace :configure do
-  desc "Setup application configuration"
-  task :application, :roles => :app do
-      run "yes | cp /home/configs/secrets.yml #{deploy_to}/current/config"
-  end
-  desc "Setup database configuration"
-  task :database, :roles => :app do
-    run "yes | cp /home/configs/database.yml #{deploy_to}/current/config"
-  end
-  # desc "Update crontab configuration"
-  # task :crontab, :roles => :app do
-  #   run "cd #{deploy_to}/current && whenever --update-crontab gimson_robotics"
-  # end
+
+# files which need to be symlinked to other parts of the
+# filesystem. For example nginx virtualhosts, log rotation
+# init scripts etc. The full_app_name variable isn't
+# available at this point so we use a custom template {{}}
+# tag and then add it at run time.
+set(:symlinks, [
+  {
+    source: "nginx.conf",
+    link: "/etc/nginx/sites-enabled/{{full_app_name}}"
+  },
+  {
+    source: "unicorn_init.sh",
+    link: "/etc/init.d/unicorn_{{full_app_name}}"
+  },
+  {
+    source: "sidekiq_init.sh",
+    link: "/etc/init.d/sidekiq_{{full_app_name}}"
+  },
+  {
+    source: "log_rotation",
+   link: "/etc/logrotate.d/{{full_app_name}}"
+  },
+  {
+    source: "monit",
+    link: "/etc/monit/conf.d/{{full_app_name}}.conf"
+  }
+])
+
+# this:
+# http://www.capistranorb.com/documentation/getting-started/flow/
+# is worth reading for a quick overview of what tasks are called
+# and when for `cap stage deploy`
+
+namespace :deploy do
+  # make sure we're deploying what we think we're deploying
+  before :deploy, "deploy:check_revision"
+  # only allow a deploy with passing tests to deployed
+  before :deploy, "deploy:run_tests"
+  
+  after :finishing, 'deploy:cleanup'
+  
+  # compile assets to s3
+  before 'deploy:assets:precompile', 'deploy:bower_dependencies'
+
+  # scheduled jobs
+  after 'deploy:migrating', 'deploy:whenever_jobs'
+
+  # remove the default nginx configuration as it will tend
+  # to conflict with our configs.
+  before 'deploy:setup_config', 'nginx:remove_default_vhost'
+
+  # reload nginx to it will pick up any modified vhosts from
+  # setup_config
+  after 'deploy:setup_config', 'nginx:reload'
+
+  # Restart monit so it will pick up any monit configurations
+  # we've added
+  after 'deploy:setup_config', 'monit:restart'
+
+  # As of Capistrano 3.1, the `deploy:restart` task is not called
+  # automatically.
+  before 'deploy:restart', 'sidekiq:restart'
+  after 'deploy:publishing', 'deploy:restart'
 end
-namespace :database do
-    desc "Migrate the database"
-    task :migrate, :roles => :app do
-      run "cd #{deploy_to}/current && RAILS_ENV=#{rails_env} bundle exec rake db:migrate"
-    end
-end
-namespace :assets do
-    desc "Install Bower dependencies"
-    task :bower, :roles => :app do
-      run "cd #{deploy_to}/current && bower install"
-    end 
-    desc "Compile assets"
-    task :compile, :roles => :app do
-        run "cd #{deploy_to}/current && RAILS_ENV=#{rails_env} bundle exec rake assets:precompile"
-    end
-    desc "Generate sitemap"
-    task :refresh_sitemaps do
-      run "cd #{latest_release} && RAILS_ENV=#{rails_env} bundle exec rake sitemap:refresh"
-    end
-    desc "Symlink resources"
-    task :symlink_resources, :roles => :app do
-      run "ln -nfs #{shared_path}/resources #{release_path}/public/resources"
-    end
-end
-namespace :rollbar do
-  desc "Notify Rollbar of deployment"
-  task :notify, :roles => :app do
-    set :revision, `git log -n 1 --pretty=format:"%H"`
-    set :local_user, `whoami`
-    set :rollbar_token, ENV['ROLLBAR_ACCESS_TOKEN']
-    rails_env = fetch(:rails_env, 'production')
-    run "curl https://api.rollbar.com/api/1/deploy/ -F access_token=#{rollbar_token} -F environment=#{rails_env} -F revision=#{revision} -F local_username=#{local_user} >/dev/null 2>&1", :once => true
-  end
-end
-
-# additional settings
-default_run_options[:shell] = '/bin/bash --login'
-default_run_options[:pty] = false
-
-after :deploy, 'assets:symlink_resources'
-after 'assets:symlink_resources', 'configure:application'
-after 'configure:application', 'configure:database'
-after 'configure:database', 'database:migrate'
-# after 'configure:crontab', 'database:migrate'
-after 'database:migrate', 'assets:bower'
-after 'assets:bower', 'assets:compile'
-after 'assets:compile', 'assets:refresh_sitemaps'
-after 'assets:refresh_sitemaps', 'rollbar:notify'
-after 'rollbar:notify', 'unicorn:restart'

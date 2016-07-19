@@ -1,0 +1,8 @@
+namespace :deploy do
+  desc "installs bower dependencies"
+  task :bower_dependencies do
+    on roles(:app) do
+        execute "cd #{fetch(:release_path)} && bower install"
+    end
+  end
+end

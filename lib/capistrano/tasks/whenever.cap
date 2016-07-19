@@ -1,0 +1,8 @@
+namespace :deploy do
+  desc "setup whenever scheduled jobs"
+  task :whenever_jobs do
+    on roles(:app) do
+        execute "cd #{fetch(:release_path)} && #{fetch(:rbenv_prefix)} bundle exec whenever --update-crontab trado_production --set environment=production --roles=web,app,db"
+    end
+  end
+end
