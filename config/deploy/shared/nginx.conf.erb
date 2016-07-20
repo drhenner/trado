@@ -2,6 +2,22 @@ upstream unicorn {
   server unix:/tmp/unicorn.<%= fetch(:full_app_name) %>.sock fail_timeout=0;
 }
 
+<% if fetch(:enable_ssl) %>
+# for redirecting hhtp traffic to https version of the site
+server {
+  listen 80;
+  server_name <%= fetch(:server_name) %>;
+  return 301 https://$server_name$request_uri;
+}
+
+# for redirecting to non-www version of the site
+server {
+    listen  80;
+    server_name  www.<%= fetch(:server_name) %>;
+    return 301 https://<%= fetch(:server_name) %>$request_uri;
+}
+<% end %>
+
 server {
   server_name <%= fetch(:server_name) %>;
   listen 80;
