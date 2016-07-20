@@ -11,13 +11,14 @@ class OrdersController < ApplicationController
     def complete
       set_order
       @order.transfer(current_cart)
+      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{current_cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer")
       OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} Triggering complete order with [#{@order.payment_type}]")
       redirect_to Store::PayProvider.new(order: @order, provider: @order.payment_type, session: session).complete
     end
 
     def success
-      @order = Order.active.includes(:delivery_address).find(params[:id])
-      OrderLog.info("orders#success #{user_info_log} #{basic_order_log_info} Succesful Order [#{@order.payment_type}]")
+      @order = Order.includes(:delivery_address).find(params[:id])
+      OrderLog.info("orders#success #{user_info_log} #{basic_order_log_info} Successful Order [#{@order.payment_type}]")
       if @order.latest_transaction.pending? || @order.latest_transaction.completed?
         render theme_presenter.page_template_path('orders/success'), layout: theme_presenter.layout_template_path
       else
@@ -26,7 +27,7 @@ class OrdersController < ApplicationController
     end
 
     def failed
-      @order = Order.active.includes(:transactions).find(params[:id])
+      @order = Order.includes(:transactions).find(params[:id])
       OrderLog.info("orders#failed #{user_info_log} #{basic_order_log_info} Failed Order [#{@order.payment_type}]")
       if @order.latest_transaction.failed?
         render theme_presenter.page_template_path('orders/failed'), layout: theme_presenter.layout_template_path
@@ -58,11 +59,11 @@ class OrdersController < ApplicationController
     private
 
     def set_order
-      @order ||= Order.active.find(params[:id])
+      @order ||= Order.find(params[:id])
     end
 
     def set_eager_loading_order
-      @order ||= Order.active.includes(:delivery_address, :billing_address).find(params[:id])
+      @order ||= Order.includes(:delivery_address, :billing_address).find(params[:id])
     end
 
     def set_address_variables

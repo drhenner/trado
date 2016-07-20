@@ -178,6 +178,6 @@ module ApplicationHelper
     end
 
     def basic_order_log_info
-        "Cart: [#{current_cart.id}], Order [#{current_cart.order.nil? ? 'unknown' : current_cart.order.try(:id)}]:"
+        "Cart: [#{current_cart.id}], Order [#{@order.nil? && current_cart.order.nil? ? 'unknown' : current_cart.order.try(:id) || @order.try(:id)}]:"
     end
 end
