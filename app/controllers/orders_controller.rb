@@ -5,6 +5,8 @@ class OrdersController < ApplicationController
       set_eager_loading_order
       set_address_variables
       validate_confirm_render
+      @order.transfer(current_cart)
+      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{current_cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer")
       OrderLog.info("orders#confirm #{user_info_log} #{basic_order_log_info} Loaded confirm/review")
     end
 

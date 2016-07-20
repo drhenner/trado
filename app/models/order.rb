@@ -91,7 +91,7 @@ class Order < ActiveRecord::Base
   def transfer cart
     self.order_items.destroy_all
   	cart.cart_items.each do |item|
-      @order_item = order_items.build(price: item.price, quantity: item.quantity, sku_id: item.sku_id, weight: item.weight, order_id: id)
+      @order_item = self.order_items.build(price: item.price, quantity: item.quantity, sku_id: item.sku_id, weight: item.weight, order_id: self.id)
       @order_item.build_order_item_accessory(accessory_id: item.cart_item_accessory.accessory_id, price: item.cart_item_accessory.price, quantity: item.cart_item_accessory.quantity) unless item.cart_item_accessory.nil?
       @order_item.save!
   	end
