@@ -84,7 +84,7 @@ class CartsController < ApplicationController
     end
 
     def send_checkout_logs
-        OrderLog.info("carts#checkout #{basic_order_log_info} #{current_cart.skus.map{|s| s.product.name }.join(', ')}")
+        OrderLog.info("carts#checkout #{basic_order_log_info} #{current_cart.skus.map{|s| s.full_sku }.join(', ')}")
         OrderLog.info("carts#checkout #{basic_order_log_info} Browser: #{[browser.device.name,browser.platform.name,browser.name,browser.version].join(' / ') if browser.known?}")
     end
 
