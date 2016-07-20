@@ -89,6 +89,6 @@ class OrdersController < ApplicationController
     end
 
     def basic_order_log_info
-        "Cart: [#{@order.cart.id}], Order [#{@order.try(:id)}]:"
+        "Cart: [#{@order.cart.try(:id)}], Order [#{@order.try(:id)}]:"
     end
 end
