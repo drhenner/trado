@@ -85,10 +85,10 @@ class OrdersController < ApplicationController
     end
 
     def user_info_log
-      "Name: #{@order.billing_address.full_name}, Email: #{@order.email}, "
+      "Name: #{@order.billing_address.full_name}, Email: #{@order.email} |"
     end
 
     def basic_order_log_info
-        "Cart: [#{@order.cart.try(:id)}], Order [#{@order.try(:id)}]:"
+        "Cart: [#{@order.cart.try(:id)}], Order: [#{@order.try(:id)}], CurrentCart: [#{current_cart.id}] | "
     end
 end

@@ -31,10 +31,10 @@ class ApplicationController < ActionController::Base
   	def current_cart
         Cart.find(session[:cart_id])
     rescue ActiveRecord::RecordNotFound
-  		  cart = Cart.new 
+  		cart = Cart.new 
         cart.save(validate: false)
-  		  session[:cart_id] = cart.id
-  		  return cart
+  		session[:cart_id] = cart.id
+  		return cart
   	end
 
     def after_sign_out_path_for resource_or_scope
