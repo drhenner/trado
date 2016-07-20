@@ -10,8 +10,6 @@ class OrdersController < ApplicationController
 
     def complete
       set_order
-      @order.transfer(current_cart)
-      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{current_cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer")
       OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} Triggering complete order with [#{@order.payment_type}]")
       redirect_to Store::PayProvider.new(order: @order, provider: @order.payment_type, session: session).complete
     end

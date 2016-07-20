@@ -28,6 +28,8 @@ class CartsController < ApplicationController
         @order.attributes = params[:order]
         if @order.save
             OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} Successful Order save with [#{@order.payment_type}]")
+            @order.transfer(current_cart)
+            OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{current_cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer")
             @order.calculate(current_cart, Store.tax_rate)
             OrderLog.info("carts#confirm #{user_info_log} #{basic_order_log_info} #{(@order.net_amount.present? && @order.tax_amount.present? && @order.gross_amount.present? && @order.cart_id.present?) ? 'Successful' : 'Failed'} Order Calculation")
             redirect_to Store::PayProvider.new(cart: current_cart, order: @order, provider: @order.payment_type, ip_address: request.remote_ip).build
