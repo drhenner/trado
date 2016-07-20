@@ -31,5 +31,4 @@ class OrderItem < ActiveRecord::Base
   def total_price 
     price * quantity
   end
-
 end

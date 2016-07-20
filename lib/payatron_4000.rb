@@ -23,7 +23,7 @@ module Payatron4000
         # 
         # @param session [Object]
         def destroy_cart session
-            Cart.destroy(session[:cart_id])
+            # Cart.destroy(session[:cart_id])
             session[:cart_id] = nil
         end      
 

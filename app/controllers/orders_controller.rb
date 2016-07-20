@@ -5,8 +5,7 @@ class OrdersController < ApplicationController
       set_eager_loading_order
       set_address_variables
       validate_confirm_render
-      @order.transfer(current_cart)
-      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{current_cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer")
+      OrderLog.info("orders#complete #{user_info_log} #{basic_order_log_info} #{@order.cart.cart_items.count == @order.order_items.count ? 'Successful' : 'Failed'} Item Transfer -- CartItems: #{@order.cart.cart_items.map(&:sku_id)}")
       OrderLog.info("orders#confirm #{user_info_log} #{basic_order_log_info} Loaded confirm/review")
     end
 
@@ -42,8 +41,7 @@ class OrdersController < ApplicationController
       @error_code = @order.latest_transaction.error_code
       if Payatron4000.fatal_error_code?(@error_code)
         OrderLog.error("orders#retry #{user_info_log} #{basic_order_log_info} Retry Order FATAL [#{@order.payment_type}]")
-      else
-        @order.update_column(:cart_id, current_cart.id)
+        @order.update_column(:cart_id, nil)
       end 
       redirect_to mycart_carts_url
     end
