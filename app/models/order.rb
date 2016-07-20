@@ -89,12 +89,13 @@ class Order < ActiveRecord::Base
   #
   # @param cart [Object]
   def transfer cart
-    self.order_items.destroy_all
+    existing_order_item_ids = self.order_items.map(&:id)
   	cart.cart_items.each do |item|
-      @order_item = self.order_items.build(price: item.price, quantity: item.quantity, sku_id: item.sku_id, weight: item.weight, order_id: self.id)
-      @order_item.build_order_item_accessory(accessory_id: item.cart_item_accessory.accessory_id, price: item.cart_item_accessory.price, quantity: item.cart_item_accessory.quantity) unless item.cart_item_accessory.nil?
+      order_item = self.order_items.build(price: item.price, quantity: item.quantity, sku_id: item.sku_id, weight: item.weight, order_id: self.id)
+      order_item.build_order_item_accessory(accessory_id: item.cart_item_accessory.accessory_id, price: item.cart_item_accessory.price, quantity: item.cart_item_accessory.quantity) unless item.cart_item_accessory.nil?
       @order_item.save!
   	end
+    OrderItem.destroy(existing_order_item_ids)
   end
 
   # Update the current order's net_amount, tax_amount and gross_amount attribute values
