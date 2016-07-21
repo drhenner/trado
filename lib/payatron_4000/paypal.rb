@@ -113,22 +113,20 @@ module Payatron4000
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
                                               Payatron4000::Paypal.express_purchase_options(order)
           )
-          AdminMailer.service_notification('tom.alan.dallimore@gmail.com', "Order ##{order.id} recieved").deliver_later
           order.transfer(order.cart)
-          OrderLog.info("paypal OrderItems: #{order.order_items.map(&:sku_id)}")
           if response.success?
             Payatron4000::Paypal.successful(response, order)
             Payatron4000.destroy_cart(session)
             Payatron4000.decommission_order(order)
             order.reload
-            # Mailatron4000::Orders.confirmation_email(order)
-            # AdminMailer.order_notification(order).deliver_later
+            Mailatron4000::Orders.confirmation_email(order)
+            AdminMailer.order_notification(order).deliver_later
             return Rails.application.routes.url_helpers.success_order_url(order)
           else
             Payatron4000::Paypal.failed(response, order)
             order.reload
-            # Mailatron4000::Orders.confirmation_email(order)
-            # AdminMailer.order_notification(order).deliver_later
+            Mailatron4000::Orders.confirmation_email(order)
+            AdminMailer.order_notification(order).deliver_later
             return Rails.application.routes.url_helpers.failed_order_url(order)
           end
         end
