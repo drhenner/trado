@@ -12,7 +12,7 @@
     <% end %>
 </td>
 <td>
-    <%= status_label transaction, transaction.payment_status %>
+    <%= transaction_status_label transaction, transaction.payment_status %>
 </td>
 <td>
     <%= transaction.error_code.nil? ? "-" : transaction.error_code %>

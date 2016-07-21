@@ -38,7 +38,7 @@ class Order < ActiveRecord::Base
   :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type, :status
   
   has_many :order_items,                                                dependent: :destroy
-  has_many :transactions,                                               -> { order(created_at: :desc) }, dependent: :destroy
+  has_many :transactions,                                               -> { order('created_at DESC, id DESC') }, dependent: :destroy
   has_many :products,                                                   through: :order_items
   has_many :skus,                                                       through: :order_items
 
@@ -55,7 +55,7 @@ class Order < ActiveRecord::Base
   validates :payment_type,                                              presence: true
   validates :legacy_order_id,                                           uniqueness: true, allow_nil: true
 
-  scope :complete,                                                      -> { active.includes(:transactions).where.not(transactions: { order_id: nil } ) }
+  scope :complete,                                                      -> { active.includes(:transactions).where.not(transactions: { order_id: nil } ).order('transactions.created_at DESC, transactions.id DESC') }
   scope :incomplete,                                                    ->{ includes(:transactions).where(transactions: { order_id: nil } ) }
 
   scope :count_per_month,                                               -> { active.order("EXTRACT(month FROM transactions.updated_at)").group("EXTRACT(month FROM transactions.updated_at)").count }

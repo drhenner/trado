@@ -15,10 +15,10 @@
   <% end %>
 </td>
 <td>
-  <%= status_label order, order.shipping_status %>
+  <%= order_delivery_label order, order.shipping_status %>
 </td>
 <td>
-  <%= status_label order.latest_transaction, order.latest_transaction.payment_status %>
+  <%= transaction_status_label order.latest_transaction, order.latest_transaction.payment_status %>
 </td>
 <td>
   <%= Store::Price.new(price: order.gross_amount, tax_type: 'net').single %>
