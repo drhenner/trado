@@ -110,10 +110,10 @@ module Payatron4000
         # @param session [Object
         # @param payment_type [String]
         def self.complete order, session, payment_type
+          order.transfer(order.cart)
           response = EXPRESS_GATEWAY.purchase(Store::Price.new(price: order.gross_amount, tax_type: 'net').singularize, 
                                               Payatron4000::Paypal.express_purchase_options(order)
           )
-          order.transfer(order.cart)
           if response.success?
             Payatron4000::Paypal.successful(response, order)
             Payatron4000.destroy_cart(session)
