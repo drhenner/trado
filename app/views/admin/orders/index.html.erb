@@ -6,6 +6,14 @@
   <div class="page-header">
     <h2 class="widget widget-header">Orders</h2>
   </div>
+  <div class="widget-controls">
+    <select class="form-select" id="filter-order-delivery">
+      <option class="filter" data-filter="all">Show all</option>
+      <option class="filter" data-filter=".order-dispatched">Dispatched</option>
+      <option class="filter" data-filter=".order-pending">Pending</option>
+    </select>
+    <span>Delivery:</span>
+  </div>
   <% if @orders.empty? %>
     <div class="widget widget-content">
       <div class="helper-notification">
@@ -29,9 +37,9 @@
             <th></th>
           </tr>
         </thead>
-        <tbody>
+        <tbody class="mixitup">
           <% @orders.each do |order| %>
-            <tr id="order_<%= order.id %>">
+            <tr id="order_<%= order.id %>" class="<%= order_filter_classes(order) %> mix">
               <%= render partial: 'admin/orders/single', format: [:js], locals: { order: order } %>
             </tr>
           <% end %>

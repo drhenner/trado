@@ -14,7 +14,11 @@ module OrderHelper
         order_address.nil? ? cart.estimate_country_name : order_address
     end
 
-    def check_payment_type form_value, session
-        form_value == session ? true : false
+    def check_payment_type form_value, order_payment_type
+        form_value == order_payment_type ? true : false
+    end
+
+    def order_filter_classes order
+        return order.dispatched? ? "order-dispatched" : "order-pending"
     end
 end
