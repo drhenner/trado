@@ -1,7 +1,7 @@
 development:
   adapter: postgresql
   encoding: unicode
-  database: gmbackup
+  database: gimsonroboticsprod
   pool: 5
   username: tomdallimore
   password: 
@@ -18,7 +18,7 @@ development:
 test:
   adapter: postgresql
   encoding: unicode
-  database: gimson_robotics_test
+  database: gimson_test
   pool: 5
   username: tomdallimore
   password: 
@@ -31,13 +31,13 @@ test:
   # password:
 
 
-production:
-  adapter: postgresql
-  encoding: unicode
-  database: gimson_robotics
-  pool: 5
-  username: postgres
-  password: admin
+# production:
+#   adapter: postgresql
+#   encoding: unicode
+#   database: gimson_robotics
+#   pool: 5
+#   username: postgres
+#   password: admin
 
   # MySQL example production
   # adapter: mysql2

@@ -22,7 +22,9 @@ product_1 = Product.new({
     single: false,
     active: true,
     category_id: category.id,
-    status: 0
+    status: 0,
+    googlemerchant_brand: 'Gimson Robotics',
+    googlemerchant_category: 'Electronics'
 })
 product_1.send :set_slug
 product_1.save(validate: false)
@@ -39,7 +41,9 @@ product_2 = Product.new({
     single: true,
     active: true,
     category_id: category.id,
-    status: 0    
+    status: 0,
+    googlemerchant_brand: 'Gimson Robotics',
+    googlemerchant_category: 'Electronics'
 })
 product_2.send :set_slug
 product_2.save(validate: false)
