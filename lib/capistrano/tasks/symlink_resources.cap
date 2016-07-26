@@ -1,0 +1,8 @@
+namespace :deploy do
+  desc "symlinks resource folder"
+  task :symlink_resources do
+    on roles(:app) do
+        execute "ln -nfs #{shared_path}/resources #{fetch(:release_path)}/public/resources"
+    end
+  end
+end

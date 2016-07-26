@@ -86,6 +86,8 @@ namespace :deploy do
   before :deploy, "deploy:check_revision"
   # only allow a deploy with passing tests to deployed
   before :deploy, "deploy:run_tests"
+
+  after :deploy, 'deploy:symlink_resources'
   
   after :finishing, 'deploy:cleanup'
   
