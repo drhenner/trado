@@ -128,6 +128,6 @@ class Sku < ActiveRecord::Base
   #
   # @return [Boolean]
   def low_stock?
-    stock < stock_warning_level ? true : false
+    (stock.nil? || stock_warning_level.nil?) || (stock < stock_warning_level) ? true : false
   end
 end
