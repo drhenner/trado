@@ -38,6 +38,7 @@ module Payatron4000
         # @param session [Object]
         # @param payment_type [String]
         def self.complete order, session, payment_type
+            order.transfer(order.cart)
             Payatron4000::decommission_order(order)
             Payatron4000::Generic.successful(order, payment_type)
             Payatron4000::destroy_cart(session)
