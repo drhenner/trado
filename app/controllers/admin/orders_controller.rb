@@ -3,7 +3,7 @@ class Admin::OrdersController < ApplicationController
   layout 'admin'
 
   def index
-    @orders = Order.includes(:billing_address).complete.order(created_at: :desc)
+    @orders = Order.includes(:billing_address).complete.order('orders.created_at DESC, orders.shipping_status ASC')
   end
 
   def show
