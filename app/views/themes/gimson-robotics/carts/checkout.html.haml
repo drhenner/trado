@@ -270,7 +270,7 @@
                         %br
                         = errors_for @order, :terms, true
                   %p
-                    = f.submit 'Proceed to Payment', :class => 'btn btn-primary higher bold checkout_order', tabindex: 23
+                    = f.submit 'Proceed to Payment', :class => 'btn btn-primary higher bold checkout_order', tabindex: 23, data: { disable_with: 'Please wait...' }
 
     / /main content
 / /container

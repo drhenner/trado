@@ -131,8 +131,8 @@
                   %td.stronger
                     .size-16.align-right.total_price= Store::Price.new(price: @order.gross_amount, tax_type: 'net').single
             %p.right-align  
-              = link_to 'Edit Order', checkout_carts_path, :class => 'btn higher bold'
-              = link_to 'Confirm Order', complete_order_path(@order), method: :post, :class => 'btn btn-primary higher bold confirm_order'
+              = link_to 'Edit Order', checkout_carts_path, :class => 'btn higher bold', data: { disable_with: 'Please wait...' }
+              = link_to 'Confirm Order', complete_order_path(@order), method: :post, :class => 'btn btn-primary higher bold confirm_order', data: { disable_with: 'Please wait...' }
     / /main content
 / /container
 #confirmOrderModal.modal.fade{"aria-hidden" => "false", "aria-labelledby" => "confirmOrderModal", role: "dialog", tabindex: "-1"}

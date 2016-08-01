@@ -44,7 +44,7 @@
             - unless current_cart.cart_items.empty?
               %p.right-align
                 %a.btn.higher.bold.estimate-delivery-service-price Select Delivery Method
-                = link_to "Checkout", checkout_carts_path, :class => 'btn btn-primary higher bold'
+                = link_to "Checkout", checkout_carts_path, :class => 'btn btn-primary higher bold', data: { disable_with: 'Please wait...' }
     / /main content
 / /container
 = render partial: theme_presenter.page_template_path('carts/delivery_service_prices/estimate/modal'), format: [:html]
