@@ -9,8 +9,13 @@ Your Gimson Robotics order ID <%= @order.legacy_order_id %> delivery has been up
 
 Delivery Method:
 ---------------------
-<%= @order.delivery.full_name %>
+<%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_nam %>
 
+<% if @order.override_delivery_tracking.present? %>
+Tracking
+---------------------
+<%= @order.override_delivery_tracking %>
+<% else %>
 Tracking Number
 ---------------------
 <%= @order.tracking? ? @order.consignment_number : 'Not Available' %>
@@ -18,6 +23,7 @@ Tracking Number
 Tracking Website
 ---------------------
 <%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %>
+<% end %>
 
 The delivery details used are as below (unless we have separately discussed a change of details with you)
 ---------------------

@@ -25,9 +25,17 @@
               <%= f.label :consignment_number %>
               <%= f.text_field :consignment_number, :class => 'form-control' %>
             </div>
-            <div class="form-group form-last">
+            <div class="form-group">
               <%= f.label 'Invoice Id' %>
               <%= f.text_field :invoice_id, :class => 'form-control' %>
+            </div>
+            <div class="form-group">
+              <%= f.label :override_delivery_name %>
+              <%= f.text_field :override_delivery_name, :class => 'form-control' %>
+            </div>
+            <div class="form-group form-last">
+              <%= f.label :override_delivery_tracking %>
+              <%= f.text_field :override_delivery_tracking, :class => 'form-control' %>
             </div>
           </fieldset>
         </div>

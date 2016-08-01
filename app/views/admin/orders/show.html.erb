@@ -17,7 +17,7 @@
 <div class="row">
   <div class="fourcol">
     <div class="widget-sub-heading">
-      <h3>Shipping details</h3>
+      <h3>Delivery details</h3>
     </div>
     <div class="widget widget-content">
       <ul>
@@ -44,13 +44,21 @@
         <li>
           <i class="icon-airplane"></i>
           <b>Delivery option:</b>
-          <%= @order.delivery.full_name %>
+          <% if @order.override_delivery_name.present? %>
+            <%= @order.override_delivery_name %> (<%= @order.delivery.full_name %>) 
+          <% else %>
+            <%= @order.delivery.full_name %>
+          <% end %>
         </li>
-        <% unless @order.consignment_number.nil? || @order.delivery_service.tracking_url.nil? %>
+        <% if @order.tracking? %>
           <li>
             <i class="icon-target"></i>
             <b>Tracking:</b>
-            <%= link_to @order.consignment_number, Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank' %>
+            <% if @order.override_delivery_tracking.present? %>
+              <%= link_to @order.override_delivery_tracking, @order.override_delivery_tracking, target: '_blank' %>
+            <% else %>
+              <%= link_to @order.consignment_number, Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank' %>
+            <% end %>
           </li>
         <% end %>
       </ul>

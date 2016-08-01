@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20160719105256) do
+ActiveRecord::Schema.define(version: 20160801160731) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -181,28 +181,30 @@ ActiveRecord::Schema.define(version: 20160719105256) do
   end
 
   create_table "orders", force: :cascade do |t|
-    t.string   "email",                limit: 255
+    t.string   "email",                      limit: 255
     t.datetime "shipping_date"
-    t.datetime "created_at",                                                           null: false
-    t.datetime "updated_at",                                                           null: false
-    t.decimal  "actual_shipping_cost",             precision: 8, scale: 2
-    t.string   "express_token",        limit: 255
-    t.string   "express_payer_id",     limit: 255
+    t.datetime "created_at",                                                                 null: false
+    t.datetime "updated_at",                                                                 null: false
+    t.decimal  "actual_shipping_cost",                   precision: 8, scale: 2
+    t.string   "express_token",              limit: 255
+    t.string   "express_payer_id",           limit: 255
     t.integer  "delivery_id"
-    t.string   "ip_address",           limit: 255
+    t.string   "ip_address",                 limit: 255
     t.integer  "user_id"
-    t.decimal  "net_amount",                       precision: 8, scale: 2
-    t.decimal  "gross_amount",                     precision: 8, scale: 2
-    t.decimal  "tax_amount",                       precision: 8, scale: 2
+    t.decimal  "net_amount",                             precision: 8, scale: 2
+    t.decimal  "gross_amount",                           precision: 8, scale: 2
+    t.decimal  "tax_amount",                             precision: 8, scale: 2
     t.boolean  "terms"
     t.integer  "cart_id"
-    t.integer  "shipping_status",                                          default: 0
-    t.string   "consignment_number",   limit: 255
+    t.integer  "shipping_status",                                                default: 0
+    t.string   "consignment_number",         limit: 255
     t.integer  "legacy_order_id"
     t.integer  "invoice_id"
     t.string   "browser"
     t.integer  "payment_type"
-    t.integer  "status",                                                   default: 0
+    t.integer  "status",                                                         default: 0
+    t.string   "override_delivery_name"
+    t.string   "override_delivery_tracking"
   end
 
   create_table "pages", force: :cascade do |t|

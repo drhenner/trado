@@ -35,7 +35,7 @@ class Order < ActiveRecord::Base
   attr_accessible :shipping_status, :shipping_date, :actual_shipping_cost, 
   :email, :delivery_id, :ip_address, :user_id, :cart_id, :express_token, :express_payer_id,
   :net_amount, :tax_amount, :gross_amount, :terms, :delivery_service_prices, 
-  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type, :status
+  :delivery_address_attributes, :billing_address_attributes, :created_at, :consignment_number, :invoice_id, :payment_type, :status, :override_delivery_name, :override_delivery_tracking
   
   has_many :order_items,                                                dependent: :destroy
   has_many :transactions,                                               -> { order('created_at DESC, id DESC') }, dependent: :destroy
@@ -145,7 +145,7 @@ class Order < ActiveRecord::Base
   end
 
   def tracking?
-    self.consignment_number.nil? || self.delivery_service.tracking_url.nil? ? false : true
+    (consignment_number.present? && delivery_service.tracking_url.present?) || override_delivery_tracking.present? ? true : false
   end
 
   def assign_legacy_order_id
