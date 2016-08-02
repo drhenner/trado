@@ -37,11 +37,13 @@
               <td><%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_name %><br>
               </td>
             </tr>
-            <tr>
-              <td><b>Service information:<br>
-                </b></td>
-              <td><%= @order.delivery.full_description %></td>
-            </tr>
+            <% unless @order.override_delivery_tracking.present? %>
+              <tr>
+                <td><b>Service information:<br>
+                  </b></td>
+                <td><%= @order.delivery.full_description %></td>
+              </tr>
+            <% end %>
             <% if @order.override_delivery_tracking.present? %>
             <tr>
               <td><b>Tracking:</b></td>
