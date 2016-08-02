@@ -74,7 +74,7 @@ describe OrderMailer do
 
     describe 'tracking' do
         let!(:order) { create(:addresses_complete_order) }
-        let(:mail) { OrderMailer.tracking(order) }
+        let(:mail) { OrderMailer.update_dispatched(order) }
 
         it 'should render the subject' do
             expect(mail.subject).to eq "#{Store.settings.name} Order ##{order.id} delivery tracking updated"

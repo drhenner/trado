@@ -62,7 +62,7 @@ class OrderMailer < ActionMailer::Base
         end
     end
 
-    def tracking order
+    def update_dispatched order
         @order = order
 
         mail(to: order.email,

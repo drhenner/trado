@@ -16,8 +16,8 @@ class OrderMailerPreview < ActionMailer::Preview
         OrderMailer.dispatched(mock_order)
     end
 
-    def tracking
-        OrderMailer.tracking(mock_order)
+    def update_dispatched
+        OrderMailer.update_dispatched(mock_order)
     end
 
     private

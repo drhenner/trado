@@ -76,6 +76,8 @@ class Order < ActiveRecord::Base
 
   scope :prev,                                                          ->(id) { where('id < ?', id).last }
 
+  scope :dispatch_today,                                                -> { active.where('EXTRACT(day from shipping_date) = :day AND EXTRACT(month from shipping_date) = :month AND EXTRACT(year from shipping_date) = :year', day: Date.today.day, month: Date.today.month, year: Date.today.year) }
+
   accepts_nested_attributes_for :delivery_address
   accepts_nested_attributes_for :billing_address
 
@@ -126,6 +128,10 @@ class Order < ActiveRecord::Base
   # @return [Boolean]
   def new_order_tracking_mailer?
     completed? && dispatched? && tracking? ? true : false
+  end
+
+  def changed_shipping_date?
+    completed? && dispatched? && shipping_date_changed? ? true : false
   end
 
   def self.dashboard_data

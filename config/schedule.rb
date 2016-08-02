@@ -21,3 +21,7 @@ every 1.day, at: '8:30 am' do
     rbenv_runner "StockWarningEmailJob.perform_later"
 end
 
+every 1.hour do
+    rbenv_runner "SendDispatchedOrderEmails.perform_later"
+end
+

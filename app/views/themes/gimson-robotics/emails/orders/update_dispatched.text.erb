@@ -9,7 +9,7 @@ Your Gimson Robotics order ID <%= @order.legacy_order_id %> delivery has been up
 
 Delivery Method:
 ---------------------
-<%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_nam %>
+<%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_name %>
 
 <% if @order.override_delivery_tracking.present? %>
 Tracking
