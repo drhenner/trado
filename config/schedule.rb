@@ -1,7 +1,7 @@
-set :output, "/home/deploy/apps/gimson_robotics_production/current/log/schedule.log"
+set :output, "log/schedule.log"
 
-job_type :rbenv_rake, %Q{cd :path && RAILS_ENV=production RBENV_ROOT=/home/deploy/.rbenv RBENV_VERSION=2.3.0 /home/deploy/.rbenv/bin/rbenv exec bundle exec rake :task --silent :output }
-job_type :rbenv_runner, %Q{cd :path && RAILS_ENV=production RBENV_ROOT=/home/deploy/.rbenv RBENV_VERSION=2.3.0 /home/deploy/.rbenv/bin/rbenv exec bundle exec rails runner :task --silent :output }
+job_type :rbenv_rake, %Q{cd :path && RAILS_ENV=development bundle exec rake :task --silent :output }
+job_type :rbenv_runner, %Q{cd :path && RAILS_ENV=development bundle exec rails runner :task --silent :output }
 
 every 1.day, at: '4:00am' do
     rbenv_runner "Cart.clear_carts"
