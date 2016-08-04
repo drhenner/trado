@@ -22,6 +22,6 @@ every 1.day, at: '8:30 am' do
 end
 
 every 1.hour do
-    rbenv_runner "SendDispatchedOrderEmails.perform_later"
+    rbenv_runner "SendDispatchedOrderEmailsJob.perform_later"
 end
 

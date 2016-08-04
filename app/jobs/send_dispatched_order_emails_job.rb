@@ -1,4 +1,4 @@
-class SendDispatchedOrderEmails < ActiveJob::Base
+class SendDispatchedOrderEmailsJob < ActiveJob::Base
     queue_as :mailers
 
     def perform
