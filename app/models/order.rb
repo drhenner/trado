@@ -174,4 +174,8 @@ class Order < ActiveRecord::Base
       end
     end
   end
+
+  def shipping_current_hour_or_past?
+    shipping_date.hour == Time.now.hour || shipping_date.hour < Time.now.hour
+  end
 end

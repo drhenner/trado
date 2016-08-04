@@ -3,7 +3,7 @@ class SendDispatchedOrderEmails < ActiveJob::Base
 
     def perform
         Order.dispatch_today.pending.each do |order|
-            if order.shipping_date.hour == Time.now.hour
+            if order.shipping_current_hour_or_past?
                 OrderMailer.dispatched(order).deliver_later
                 order.dispatched!
             end
