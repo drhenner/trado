@@ -62,6 +62,7 @@ gem 'newrelic_rpm'
 # Background processing
 gem 'sidekiq'
 gem 'sidekiq-failures'
+gem 'sidekiq-status'
 gem 'sinatra', :require => nil
 
 # Misc

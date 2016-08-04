@@ -682,6 +682,8 @@ GEM
       sinatra (>= 1.4.7)
     sidekiq-failures (0.4.5)
       sidekiq (>= 2.16.0)
+    sidekiq-status (0.6.0)
+      sidekiq (>= 2.7)
     signet (0.7.3)
       addressable (~> 2.3)
       faraday (~> 0.9)
@@ -832,6 +834,7 @@ DEPENDENCIES
   shoulda-matchers (= 2.8.0)
   sidekiq
   sidekiq-failures
+  sidekiq-status
   sinatra
   sitemap_generator
   spring
