@@ -68,7 +68,7 @@ Trado::Application.routes.draw do
       root to: "admin#dashboard"
       post '/paypal/ipn' => 'transactions#paypal_ipn'
       # authenticate :user, lambda { |u| u.role?(:admin) } do
-        mount Sidekiq::Web => '/sidekiq'
+        mount Sidekiq::Web => '/wtfitssidekiq'
       # end
       resources :accessories, :categories, except: :show
       resources :news_items, path: 'news', except: :show
