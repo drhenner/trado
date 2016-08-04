@@ -88,8 +88,6 @@ Trado::Application.routes.draw do
       end
       resources :orders, only: [:index, :show, :update, :edit] do
         member do
-          get :dispatcher
-          post :dispatched
           get :receipt
           delete :cancel, to: 'orders#cancel'
         end

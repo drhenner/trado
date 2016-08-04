@@ -97,13 +97,14 @@ trado.admin =
     updateOrder: function()
     {
         $("body").on("submit", '.edit_order', function() 
-        {
-            var orderId = $(this).attr('id');
+        {   
+            var $this = $(this),
+                orderId = $this.attr('id');
             $.ajax(
             {
                 url: '/admin/orders/' + orderId,
                 type: 'PATCH',
-                data: $(this).serialize(),
+                data: $this.serialize(),
                 dataType: 'json',
                 success: function (data)
                 {
@@ -116,6 +117,11 @@ trado.admin =
                         '<i class="icon-checkmark-circle"></i>Successfully updated Order #' + data.order_id + ' as being dispatched on ' + data.date + '.',
                         5000
                     )  
+                },
+                error: function(xhr, evt, status)
+                {
+
+                    trado.admin.jsonErrors(xhr, evt, status, $this);
                 }
             });
             return false;

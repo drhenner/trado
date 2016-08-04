@@ -7,6 +7,10 @@
 
 Your Gimson Robotics order ID <%= @order.legacy_order_id %> delivery has been updated
 
+Dispatch Date:
+---------------------
+<%= @order.shipping_date.strftime("%d/%m/%Y %R") %>
+
 Delivery Method:
 ---------------------
 <%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_name %>

@@ -20,9 +20,6 @@
     </a>
   <% end %>
   <% if order_record && object.last.latest_transaction.completed? && object.last.pending? %>
-    <a href="#" data-order-id="<%= object.last.id %>" id="dispatcher">
-      <i class="icon-airplane"></i>
-    </a>
     <%= link_to receipt_admin_order_path(object.last) do %>
       <i class="icon-file"></i>
     <% end %>

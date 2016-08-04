@@ -33,6 +33,10 @@
         <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
           <tbody>
             <tr>
+              <td><b>Dispatch Date:</b></td>
+              <td><%= @order.shipping_date.strftime("%d/%m/%Y %R") %></td>
+            </tr>
+            <tr>
               <td style="width: 155px;"><b>Delivery method:</b></td>
               <td><%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_name %><br>
               </td>
