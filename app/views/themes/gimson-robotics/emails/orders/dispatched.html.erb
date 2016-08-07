@@ -33,6 +33,10 @@
         <table style="width: 700px; font-family: Helvetica,Arial,sans-serif; font-size: 15px;">
           <tbody>
             <tr>
+              <td><b>Dispatch Date:</b></td>
+              <td><%= @order.shipping_date.strftime("%d/%m/%Y %R") %></td>
+            </tr>
+            <tr>
               <td style="width: 155px;"><b>Delivery method:</b></td>
               <td><%= @order.override_delivery_name.present? ? @order.override_delivery_name : @order.delivery.full_name %><br>
               </td>
@@ -44,24 +48,20 @@
                 <td><%= @order.delivery.full_description %></td>
               </tr>
             <% end %>
-            <% if @order.override_delivery_tracking.present? %>
             <tr>
-              <td><b>Tracking:</b></td>
-              <td><%= link_to @order.override_delivery_tracking, @order.override_delivery_tracking %><br>
+              <td><b>Tracking number:</b></td>
+              <td><%= @order.tracking? ? @order.consignment_number : "Not Available" %><br>
               </td>
             </tr>
-            <% else %>
-              <tr>
-                <td><b>Tracking number:</b></td>
-                <td><%= @order.tracking? ? @order.consignment_number : "Not Available" %><br>
-                </td>
-              </tr>
-              <tr>
-                <td><b>Tracking website:</b></td>
+            <tr>
+              <td><b>Tracking website:</b></td>
+              <% if @order.override_delivery_tracking.present? %>
+                <td><%= link_to @order.override_delivery_tracking, @order.override_delivery_tracking %><br>
+              <% else %>
                 <td><%= @order.tracking? ? link_to(Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), Store.tracking_url(@order.delivery_service.tracking_url, @order.consignment_number), target: '_blank') : 'Not Available' %><br>
                 </td>
-              </tr>
-            <% end %>
+              <% end %>
+            </tr>
           </tbody>
         </table>
         <br>
