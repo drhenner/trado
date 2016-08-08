@@ -130,7 +130,7 @@
                           .controls
                             .checkbox
                               = check_box_tag :use_billing_address
-                              Use the billing address
+                              %label Use the billing address
                       .span3
                         .control-group
                           = ff.label :first_name, :class => 'control-label' do
@@ -266,7 +266,7 @@
                       .checkbox
                         = f.check_box :terms, checked: false, tabindex: 22
                         
-                        = "Please tick this box to confirm that you have read and accept our #{link_to 'Terms and Conditions', p_path('terms-and-conditions')}.".html_safe
+                        %label="Please tick this box to confirm that you have read and accept our #{link_to 'Terms and Conditions', p_path('terms-and-conditions')}.".html_safe
                         %br
                         = errors_for @order, :terms, true
                   %p
