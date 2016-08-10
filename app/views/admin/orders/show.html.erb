@@ -34,7 +34,7 @@
         <li>
           <i class="icon-calendar"></i>
           <b>Dispatch date</b>:
-          <%= @order.shipping_date.strftime(" #{@order.shipping_date.day.ordinalize} %b %Y") unless @order.shipping_date.nil?  %>
+          <%= @order.shipping_date.strftime(" #{@order.shipping_date.day.ordinalize} %b %Y %R") unless @order.shipping_date.nil?  %>
         </li>
         <li>
           <i class="icon-coin"></i>
