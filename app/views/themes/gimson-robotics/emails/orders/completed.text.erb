@@ -16,7 +16,7 @@ United Kingdom
 
 Order ID:   <%= @order.legacy_order_id %>
 Invoice number: <%= @order.invoice_id %>
-Date:   <%= @order.created_at.strftime(" #{@order.created_at.day.ordinalize} %b %Y %R") %>
+Date, Time:   <%= @order.latest_transaction.updated_at.strftime(" #{@order.latest_transaction.updated_at.day.ordinalize} %b %Y %R") %>
 Payment by: <%= @order.paypal? ? "PayPal Express Checkout" : @order.payment_type.titleize %>
 Payment status: <%= @order.latest_transaction.payment_status.titleize %>
 <% if @order.paypal? %>

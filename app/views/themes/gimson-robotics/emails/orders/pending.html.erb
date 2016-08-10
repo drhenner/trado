@@ -47,7 +47,7 @@
                     </tr>
                     <tr>
                       <td><b>Date, time:</b></td>
-                      <td><%= @order.updated_at.strftime("#{@order.updated_at.day.ordinalize} %b %Y %R") %><br>
+                      <td><%= @order.latest_transaction.updated_at.strftime("#{@order.latest_transaction.updated_at.day.ordinalize} %b %Y %R") %><br>
                       </td>
                     </tr>
                     <tr>
