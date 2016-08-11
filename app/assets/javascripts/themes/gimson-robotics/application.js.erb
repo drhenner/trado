@@ -81,6 +81,19 @@ ready = function()
     {
         var $checkbox = $(this).parent().find('input');
         $checkbox.prop('checked', !$checkbox[0].checked);
+        if ($checkbox[0].checked) 
+        {
+            $('.copy-billing').each(function() 
+            {
+                fieldValue = $(this).val();
+                fieldAttribute = $(this).attr('data-field-name');
+                $('[data-field-name="delivery-' + fieldAttribute + '"]').val(fieldValue).trigger('change');
+            });
+        } 
+        else 
+        {
+            return $('[data-field-name*="delivery-"').val('');
+        }
     });
 };
 $(document).ready(ready);
