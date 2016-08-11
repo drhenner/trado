@@ -77,7 +77,12 @@ ready = function()
     // Initialise tooltips
     $('[data-toggle=tooltip]').tooltip();
 
-    $('body').on('click', '.checkbox label', function()
+    $('body').on('click', '.checkbox #order_terms + label', function()
+    {
+        var $checkbox = $(this).parent().find('input');
+        $checkbox.prop('checked', !$checkbox[0].checked);
+    });
+    $('body').on('click', '.checkbox #use_billing_address + label', function()
     {
         var $checkbox = $(this).parent().find('input');
         $checkbox.prop('checked', !$checkbox[0].checked);
