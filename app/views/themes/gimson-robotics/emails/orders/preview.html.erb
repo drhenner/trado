@@ -39,11 +39,13 @@
                         </td>
                       </tr>
                     <% end %>
-                    <tr>
-                      <td><b>Dispatch date, time:</b></td>
-                      <td><%= @order.shipping_date.strftime("#{@order.shipping_date.day.ordinalize} %b %Y %R") %><br>
-                      </td>
-                    </tr>
+                    <% if @order.dispatched? %>
+                      <tr>
+                        <td><b>Dispatch date, time:</b></td>
+                        <td><%= @order.shipping_date.strftime("#{@order.shipping_date.day.ordinalize} %b %Y %R") %><br>
+                        </td>
+                      </tr>
+                    <% end %>
                     <tr>
                       <td><b>Payment date, time:</b></td>
                       <td><%= @order.latest_transaction.updated_at.strftime("#{@order.latest_transaction.updated_at.day.ordinalize} %b %Y %R") %><br>
