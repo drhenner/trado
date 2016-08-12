@@ -37,71 +37,60 @@
                           = fff.label :first_name, :class => 'control-label' do
                             First name
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :first_name, :id => 'billing_first_name', tabindex: 1, :class => 'copy-billing', 'data-field-name' => 'first-name', autocomplete: "fname"
-                            = errors_for @order, 'billing_address.first_name'
+                          = fff.text_field :first_name, :id => 'billing_first_name', tabindex: 1, :class => 'copy-billing', 'data-field-name' => 'first-name'
+                          = errors_for @order, 'billing_address.first_name'
                         .control-group
                           = f.label :email, :class => 'control-label' do
                             Email
                             %span.red-clr.bold *
-                          .controls
-                            = f.text_field :email, id: 'email', tabindex: 3, autocomplete: "email"
-                            = errors_for @order, :email
+                          = f.text_field :email, id: 'email', tabindex: 3
+                          = errors_for @order, :email
                         .control-group
                           = fff.label :telephone, :class => 'control-label' do
                             Telephone
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :telephone, :id => 'billing_telephone', tabindex: 5, :class => 'copy-billing', 'data-field-name' => 'telephone', autocomplete: "tel"
-                            = errors_for @order, 'billing_address.telephone'
+                          = fff.text_field :telephone, :id => 'billing_telephone', tabindex: 5, :class => 'copy-billing', 'data-field-name' => 'telephone'
+                          = errors_for @order, 'billing_address.telephone'
                         .control-group
                           = fff.label :city, :class => 'control-label' do
                             City
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :city, :id => 'billing_city', tabindex: 7, :class => 'copy-billing', 'data-field-name' => 'city', autocomplete: "billing city"
-                            = errors_for @order, 'billing_address.city'
+                          = fff.text_field :city, :id => 'billing_city', tabindex: 7, :class => 'copy-billing', 'data-field-name' => 'city'
+                          = errors_for @order, 'billing_address.city'
                         .control-group
                           = fff.label :county, :class => 'control-label' do
                             County or Province
-                          .controls
-                            = fff.text_field :county, :id => 'billing_county', tabindex: 9, :class => 'copy-billing', 'data-field-name' => 'county', autocomplete: "billing region"
-                            = errors_for @order, 'billing_address.county'
-                      .span3
+                          = fff.text_field :county, :id => 'billing_county', tabindex: 9, :class => 'copy-billing', 'data-field-name' => 'county'
+                          = errors_for @order, 'billing_address.county'
                         .control-group
                           = fff.label :last_name, :class => 'control-label' do
                             Last name
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :last_name, :id => 'billing_last_name', tabindex: 2, :class => 'copy-billing', 'data-field-name' => 'last-name', autocomplete: "lname"
-                            = errors_for @order, 'billing_address.last_name'
+                          = fff.text_field :last_name, :id => 'billing_last_name', tabindex: 2, :class => 'copy-billing', 'data-field-name' => 'last-name'
+                          = errors_for @order, 'billing_address.last_name'
                         .control-group
                           = fff.label :company, :class => 'control-label' do
                             Company
-                          .controls
-                            = fff.text_field :company, :id => 'billing_company', tabindex: 4, :class => 'copy-billing', 'data-field-name' => 'company'
-                            = errors_for @order, 'billing_address.company'
+                          = fff.text_field :company, :id => 'billing_company', tabindex: 4, :class => 'copy-billing', 'data-field-name' => 'company'
+                          = errors_for @order, 'billing_address.company'
                         .control-group
                           = fff.label :address, :class => 'control-label' do
                             Street address
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :address, :id => 'billing_address', tabindex: 6, :class => 'copy-billing', 'data-field-name' => 'address', autocomplete: "billing address"
-                            = errors_for @order, 'billing_address.address'
+                          = fff.text_field :address, :id => 'billing_address', tabindex: 6, :class => 'copy-billing', 'data-field-name' => 'address'
+                          = errors_for @order, 'billing_address.address'
                         .control-group
                           = fff.label :postcode, :class => 'control-label' do
                             Postcode
                             %span.red-clr.bold *
-                          .controls
-                            = fff.text_field :postcode, :id => 'billing_postcode', tabindex: 8, :class => 'copy-billing', 'data-field-name' => 'postcode', autocomplete: "billing postal-code"
-                            = errors_for @order, 'billing_address.postcode'
+                          = fff.text_field :postcode, :id => 'billing_postcode', tabindex: 8, :class => 'copy-billing', 'data-field-name' => 'postcode'
+                          = errors_for @order, 'billing_address.postcode'
                         .control-group
                           = fff.label :country, :class => 'control-label' do
                             Country
                             %span.red-clr.bold *
-                          .controls
-                            = fff.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...'}, :class => 'copy-billing', 'data-field-name' => 'country', tabindex: 10, autocomplete: "billing country")
-                            = errors_for @order, 'billing_address.country'
+                          = fff.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...'}, :class => 'copy-billing', 'data-field-name' => 'country', tabindex: 10)
+                          = errors_for @order, 'billing_address.country'
                   %h3 Payment details
                   %hr
                   .control-group.payment-options

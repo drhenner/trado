@@ -1,0 +1,391 @@
+<% content_for :title, 'Checkout' %>
+<div class="span12"></div>
+<div class="container">
+  <div class="row">
+    <!-- ==========
+    -->
+    <!-- = Main content =
+    -->
+    <!-- ==========
+    -->
+    <section class="span12">
+      <div class="checkout-container">
+        <div class="row">
+          <div class="span10 offset1">
+            <%= render partial: theme_presenter.page_template_path('shared/flash'), format: [:html], locals: { visible_alert: true } %>
+            <!-- ==========
+            -->
+            <!-- = Header =
+            -->
+            <!-- ==========
+            -->
+            <header>
+              <div class="row">
+                <div class="span6 offset2">
+                  <div class="center-align">
+                    <h1>
+                      <span class="light">Checkout</span>
+                    </h1>
+                  </div>
+                </div>
+                <div class="span2"></div>
+              </div>
+            </header>
+            <!-- ==========
+            -->
+            <!-- = Checkout form
+            -->
+            <!-- ==========
+            -->
+            <%= form_for @order, url: confirm_carts_path, html: { method: :post, :class => 'row form-checkout', autocomplete: 'on' } do |f| %>
+              <div class="span6 content">
+                <div class="theiaStickySidebar">
+                  <h3>Purchase details</h3>
+                  <hr/>
+                  <%= f.fields_for :billing_address do |billing| %>
+                    <div class="row">
+                      <div class="span3">
+                        <div class="control-group">
+                          <%= billing.label :first_name, :class => 'control-label' do %>
+                            First name
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :first_name, tabindex: 1, :class => 'copy-billing', 'data-field-name' => 'first-name' %>
+                          <%= errors_for @order, 'billing_address.first_name' %>
+                        </div>
+                        <div class="control-group">
+                          <%= f.label :email, :class => 'control-label' do %>
+                            Email
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= f.text_field :email, tabindex: 3 %>
+                          <%= errors_for @order, :email %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :telephone, :class => 'control-label' do %>
+                            Telephone
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :telephone, tabindex: 5, :class => 'copy-billing', 'data-field-name' => 'telephone' %>
+                          <%= errors_for @order, 'billing_address.telephone' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :city, :class => 'control-label' do %>
+                            City
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :city, tabindex: 7, :class => 'copy-billing', 'data-field-name' => 'city' %>
+                          <%= errors_for @order, 'billing_address.city' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :county, :class => 'control-label' do %>
+                            County or Province
+                          <% end %>
+                          <%= billing.text_field :county, tabindex: 9, :class => 'copy-billing', 'data-field-name' => 'county' %>
+                          <%= errors_for @order, 'billing_address.county' %>
+                        </div>
+                      </div>
+                      <div class="span3">
+                        <div class="control-group">
+                          <%= billing.label :last_name, :class => 'control-label' do %>
+                            Last name
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :last_name, tabindex: 2, :class => 'copy-billing', 'data-field-name' => 'last-name', autocomplete: 'last-name' %>
+                          <%= errors_for @order, 'billing_address.last_name' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :company, :class => 'control-label' do %>
+                            Company
+                          <% end %>
+                          <%= billing.text_field :company, tabindex: 4, :class => 'copy-billing', 'data-field-name' => 'company' %>
+                          <%= errors_for @order, 'billing_address.company' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :address, :class => 'control-label' do %>
+                            Street address
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :address, tabindex: 6, :class => 'copy-billing', 'data-field-name' => 'address' %>
+                          <%= errors_for @order, 'billing_address.address' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :postcode, :class => 'control-label' do %>
+                            Postcode
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.text_field :postcode, tabindex: 8, :class => 'copy-billing', 'data-field-name' => 'postcode' %>
+                          <%= errors_for @order, 'billing_address.postcode' %>
+                        </div>
+                        <div class="control-group">
+                          <%= billing.label :country, :class => 'control-label' do %>
+                            Country
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= billing.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...'}, :class => 'copy-billing', 'data-field-name' => 'country', tabindex: 10) %>
+                          <%= errors_for @order, 'billing_address.country' %>
+                        </div>
+                      </div>
+                    </div>
+                  <% end %>
+                  <h3>Payment details</h3>
+                  <hr/>
+                  <div class="control-group payment-options">
+                    <div class="controls">
+                      <div class="checkbox">
+                        <%= f.radio_button :payment_type, 'paypal', checked: (@order.payment_type.nil? || check_payment_type('paypal', @order.payment_type)), tabindex: 11 %>
+                        <%= image_tag 'paypal-icon.png' %>
+                        <p>
+                          Payment by Debit or Credit Card (PayPal account not required)
+                        </p>
+                      </div>
+                    </div>
+                    <% if Store::settings.cheque %>
+                      <div class="controls">
+                        <div class="checkbox">
+                          <%= f.radio_button :payment_type, 'cheque', checked: check_payment_type('cheque', @order.payment_type) %>
+                          Cheque
+                        </div>
+                      </div>
+                    <% end %>
+                    <% if Store::settings.bank_transfer %>
+                      <div class="controls">
+                        <div class="checkbox">
+                          <%= f.radio_button :payment_type, 'bank_transfer', checked: check_payment_type('bank_transfer', @order.payment_type) %>
+                          Bank transfer
+                        </div>
+                      </div>
+                    <% end %>
+                  </div>
+                  <h3>Delivery address</h3>
+                  <hr/>
+                  <%= f.fields_for :delivery_address do |delivery| %>
+                    <div class="row">
+                      <div class="span6">
+                        <div class="control-group">
+                          <div class="controls">
+                            <div class="checkbox">
+                              <%= check_box_tag :use_billing_address %>
+                              <label>Use the billing address</label>
+                            </div>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="span3">
+                        <div class="control-group">
+                          <%= delivery.label :first_name, :class => 'control-label' do %>
+                            First name
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :first_name, id: 'delivery_first_name', tabindex: 12, 'data-field-name' => 'delivery-first-name' %>
+                          <%= errors_for @order, 'delivery_address.first_name' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :company, :class => 'control-label' do %>
+                            Company
+                          <% end %>
+                          <%= delivery.text_field :company, id: 'delivery_company', tabindex: 14, 'data-field-name' => 'delivery-company' %>
+                          <%= errors_for @order, 'delivery_address.company' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :city, :class => 'control-label' do %>
+                            City
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :city, id: 'delivery_city', tabindex: 16, 'data-field-name' => 'delivery-city' %>
+                          <%= errors_for @order, 'delivery_address.city' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :county, :class => 'control-label' do %>
+                            County or Province
+                          <% end %>
+                          <%= delivery.text_field :county, id: 'delivery_county', tabindex: 18, 'data-field-name' => 'delivery-county' %>
+                          <%= errors_for @order, 'delivery_address.county' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :country, :class => 'control-label' do %>
+                            Country
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <div class="update-delivery-service-price">
+                            <%= delivery.select(:country, grouped_options_for_select(@grouped_countries, selected_country(current_cart, @order.billing_address.country), divider: '-----------------'), { include_blank: 'Please select...' }, 'data-field-name' => 'delivery-country', tabindex: 20) %>
+                            <%= errors_for @order, 'delivery_address.country' %>
+                          </div>
+                        </div>
+                      </div>
+                      <div class="span3">
+                        <div class="control-group">
+                          <%= delivery.label :last_name, :class => 'control-label' do %>
+                            Last name
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :last_name, id: 'delivery_last_name', tabindex: 13, 'data-field-name' => 'delivery-last-name' %>
+                          <%= errors_for @order, 'delivery_address.last_name' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :telephone, :class => 'control-label' do %>
+                            Telephone
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :telephone, id: 'delivery_telephone', tabindex: 15, 'data-field-name' => 'delivery-telephone' %>
+                          <%= errors_for @order, 'delivery_address.telephone' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :address, :class => 'control-label' do %>
+                            Street address
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :address, id: 'delivery_address', tabindex: 17, 'data-field-name' => 'delivery-address' %>
+                          <%= errors_for @order, 'delivery_address.address' %>
+                        </div>
+                        <div class="control-group">
+                          <%= delivery.label :postcode, :class => 'control-label' do %>
+                            Postcode
+                            <span class="red-clr bold">*</span>
+                          <% end %>
+                          <%= delivery.text_field :postcode, id: 'delivery_postcode', tabindex: 19, 'data-field-name' => 'delivery-postcode' %>
+                          <%= errors_for @order, 'delivery_address.postcode' %>
+                        </div>
+                      </div>
+                    </div>
+                    <div class="delivery-service-prices">
+                      <div class="control-group">
+                        <%= f.label :delivery_id, :class => 'control-label' do %>
+                          Delivery options
+                          <span class="red-clr bold">*</span>
+                        <% end %>
+                        <% unless @delivery_id.nil? %>
+                          <%= render partial: theme_presenter.page_template_path("carts/delivery_service_prices/fields"), format: [:html], locals: { delivery_service_prices: @delivery_service_prices, delivery_id: @delivery_id, field_target: 'order[delivery_id]' } %>
+                        <% else %>
+                          <p class="delivery_service_price_notice">Select a country to view the available delivery services.</p>
+                          <div class="control-group">
+                            <div class="controls">
+                              <%= errors_for @order, :delivery_id %>
+                            </div>
+                          </div>
+                        <% end %>
+                      </div>
+                    </div>
+                  <% end %>
+                </div>
+              </div>
+              <div class="span4 sidebar">
+                <div class="theiaStickySidebar">
+                  <h3>Order summary</h3>
+                  <hr/>
+                  <table class="table table-items order-summary">
+                    <thead>
+                      <tr>
+                        <th colspan="2">Item</th>
+                        <th>
+                          <div class="align-center">Quantity</div>
+                        </th>
+                        <th>
+                          <div class="align-right">Price</div>
+                        </th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <% current_cart.cart_items.each do |item| %>
+                        <tr>
+                          <td class="image">
+                            <%= image_tag item.sku.product.attachments.first.file.medium, :alt => item.sku.product.name, :height => 75, :width => 75 %>
+                          </td>
+                          <td class="desc">
+                            <%= item.sku.product.name %>
+                            <div>
+                              <%= render_variants(item.sku) unless item.sku.product.single? %>
+                            </div>
+                          </td>
+                          <td class="qty">
+                            <%= item.quantity %>
+                          </td>
+                          <td class="price">
+                            <%= Store::Price.new(price: item.price).single %>
+                          </td>
+                        </tr>
+                        <% unless item.cart_item_accessory.blank? %>
+                          <tr class="accessory_row">
+                            <td>
+                              <div>
+                                <%= image_tag 'gimson-robotics/including-accessory.jpg' %>
+                              </div>
+                            </td>
+                            <td class="desc">
+                              <%= item.cart_item_accessory.accessory.name %>
+                            </td>
+                            <td class="qty"></td>
+                          </tr>
+                        <% end %>
+                      <% end %>
+                      <% if Store::settings.tax_breakdown %>
+                        <tr>
+                          <td class="stronger light" colspan="2">Subtotal:</td>
+                          <td class="stronger light" colspan="2">
+                            <div class="align-right">
+                              <%= Store::Price.new(price: @cart_total[:net_amount]).single %>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <tr id="delivery-summary" class="<%= 'no-border' if Store::settings.tax_breakdown %>">
+                        <td class="stronger light" colspan="2">
+                          Delivery:
+                          <div class="normal">
+                            <%= current_cart.estimate_delivery.full_name unless current_cart.estimate_delivery.nil? %>
+                          </div>
+                        </td>
+                        <td class="stronger light" colspan="2">
+                          <% if current_cart.estimate_delivery.nil? %>
+                            No method selected
+                          <% else %>
+                            <%= Store::Price.new(price: current_cart.estimate_delivery.price).single %>
+                          <% end %>
+                        </td>
+                      </tr>
+                      <% if Store::settings.tax_breakdown %>
+                        <tr class="no-border" id="tax-summary">
+                          <td class="stronger light" colspan="2">
+                            <%= "#{Store::settings.tax_name} (#{Store::settings.tax_rate}%):" %>
+                          </td>
+                          <td class="stronger light" colspan="2">
+                            <div class="align-right">
+                              <%= Store::Price.new(price: @cart_total[:tax_amount]).single %>
+                            </div>
+                          </td>
+                        </tr>
+                      <% end %>
+                      <tr id="total-summary">
+                        <td class="stronger size-16" colspan="2">Order Total:</td>
+                        <td class="stronger" colspan="2">
+                          <div class="size-16 align-right total_price">
+                            <%= Store::Price.new(price: @cart_total[:gross_amount], tax_type: 'net').single %>
+                          </div>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                  <div class="control-group">
+                    <div class="controls">
+                      <div class="checkbox">
+                        <%= f.check_box :terms, checked: false, tabindex: 22 %>
+                        <label>
+                          <%= "Please tick this box to confirm that you have read and accept our #{link_to 'Terms and Conditions', p_path('terms-and-conditions')}.".html_safe %>
+                        </label>
+                        <br/>
+                        <%= errors_for @order, :terms, true %>
+                      </div>
+                    </div>
+                  </div>
+                  <p>
+                    <%= f.submit 'Proceed to Payment', :class => 'btn btn-primary higher bold checkout_order', tabindex: 23, data: { disable_with: 'Please wait...' } %>
+                  </p>
+                </div>
+              </div>
+            <% end %>
+          </div>
+        </div>
+      </div>
+    </section>
+  </div>
+</div>
